@@ -26,6 +26,12 @@ export const siteConfig = {
       enabled: true, // 设为false可禁用RSS订阅按钮
       title: "RSS 订阅",
     },
+    // 旧版主页链接
+    oldSite: {
+      enabled: false,
+      url: "https://old.homepage.com",
+      title: "旧版主页",
+    },
   },
 
   // 关于我页面配置

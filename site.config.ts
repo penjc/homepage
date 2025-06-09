@@ -2,7 +2,7 @@ export const siteConfig = {
   // 基本信息
   name: "penjc",
   title: "無限進步",
-  description: "彭健程的主页",
+  description: "彭健程",
   url: "https://pengjiancheng.com",
   
   // 个人信息
@@ -25,6 +25,12 @@ export const siteConfig = {
     rss: {
       enabled: true,
       title: "RSS 订阅",
+    },
+    // 旧版主页链接
+    oldSite: {
+      enabled: true,
+      url: "https://old.pengjiancheng.com",
+      title: "旧版主页",
     },
   },
 
@@ -179,24 +185,22 @@ export const siteConfig = {
   // SEO配置
   seo: {
     keywords: [
-      "个人主页",
-      "后端开发",
-      "React",
-      "Next.js",
-      "TypeScript",
-      "前端开发",
+        "彭健程",
+        "pengjiancheng",
+        "个人主页",
+        "后端开发",
+        "React",
+        "Next.js",
+        "TypeScript",
     ],
     openGraph: {
       type: "website",
       locale: "zh_CN",
-      siteName: "彭健程的个人主页",
+      siteName: "彭健程",
     },
     // 图标配置
     icons: {
       favicon: "/favicon.ico",
-      icon192: "/icon-192.png",
-      icon512: "/icon-512.png",
-      appleTouchIcon: "/apple-touch-icon.png",
     },
   },
 
