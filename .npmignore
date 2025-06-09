@@ -1,0 +1,47 @@
+# 开发和构建文件
+.next/
+node_modules/
+.git/
+.gitignore
+.env*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 测试和覆盖率报告
+coverage/
+.nyc_output/
+test/
+tests/
+__tests__/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+
+# 开发工具配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.temp
+backup*/
+
+# 特定的项目文件（这些是示例，用户项目不需要）
+content/
+public/images/
+site.config.ts
+
+# 保留示例配置
+!site.config.example.ts
+
+# 文档源文件（保留编译后的文档）
+*.md.backup 

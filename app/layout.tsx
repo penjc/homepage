@@ -1,0 +1,114 @@
+import './globals.css';
+import '../styles/prism-theme.css';
+import { Metadata } from 'next';
+import { siteConfig } from '../site.config';
+import GoogleAnalytics from '../components/GoogleAnalytics';
+import AnalyticsProvider from '../components/AnalyticsProvider';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NODE_ENV === 'development' 
+      ? 'http://localhost:3000' 
+      : siteConfig.url
+  ),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.title}`,
+  },
+  description: siteConfig.description,
+  keywords: siteConfig.seo.keywords,
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  
+  // Icons configuration
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/favicon.svg',
+        color: '#3b82f6',
+      },
+    ],
+  },
+  
+  // Manifest
+  manifest: '/manifest.json',
+  
+  // Open Graph
+  openGraph: {
+    type: 'website',
+    locale: 'zh_CN',
+    url: siteConfig.url,
+    siteName: siteConfig.title,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [
+      {
+        url: '/favicon.svg',
+        width: 512,
+        height: 512,
+        alt: siteConfig.title,
+      },
+    ],
+  },
+  
+  // Twitter Card
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.title,
+    description: siteConfig.description,
+    creator: `@${siteConfig.name}`,
+    images: ['/favicon.svg'],
+  },
+  
+  // Additional meta tags
+  other: {
+    'msapplication-TileColor': '#3b82f6',
+    'msapplication-config': '/browserconfig.xml',
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        {/* Favicon and icons */}
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        
+        {/* Web App Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Theme and viewport */}
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        
+        {/* RSS and Atom feeds */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${siteConfig.title} RSS Feed`}
+          href="/rss.xml"
+        />
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          title={`${siteConfig.title} Atom Feed`}
+          href="/atom.xml"
+        />
+      </head>
+      <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+        <GoogleAnalytics />
+        <AnalyticsProvider>
+          {children}
+        </AnalyticsProvider>
+      </body>
+    </html>
+  );
+} 

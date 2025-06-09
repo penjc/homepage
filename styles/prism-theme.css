@@ -1,0 +1,444 @@
+/* Prism.js 代码高亮主题 - 支持浅色和深色模式 */
+
+/* 基础样式 */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #e2e8f0;
+  background: none;
+  text-shadow: none;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 14px;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.6;
+  tab-size: 4;
+  hyphens: none;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  code[class*="language-"],
+  pre[class*="language-"] {
+    color: #e2e8f0;
+  }
+}
+
+.dark code[class*="language-"],
+.dark pre[class*="language-"] {
+  color: #e2e8f0;
+}
+
+/* 代码块样式 */
+pre[class*="language-"] {
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  pre[class*="language-"] {
+    background: transparent;
+    border: none;
+  }
+}
+
+.dark pre[class*="language-"] {
+  background: transparent;
+  border: none;
+}
+
+/* 行内代码 */
+:not(pre) > code[class*="language-"] {
+  padding: 0.1em 0.3em;
+  border-radius: 0.3em;
+  white-space: normal;
+  background: #374151;
+  color: #e5e7eb;
+  border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :not(pre) > code[class*="language-"] {
+    background: #374151;
+    color: #e5e7eb;
+    border: none;
+  }
+}
+
+.dark :not(pre) > code[class*="language-"] {
+  background: #374151;
+  color: #e5e7eb;
+  border: none;
+}
+
+/* 语法高亮颜色 - 浅色模式 */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #24292e;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #005cc5;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #032f62;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #d73a49;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #d73a49;
+}
+
+.token.function,
+.token.class-name {
+  color: #6f42c1;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #e36209;
+}
+
+/* 语法高亮颜色 - 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #666666;
+  }
+
+  .token.punctuation {
+    color: #333333;
+  }
+
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: #0066cc;
+  }
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: #006600;
+  }
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    color: #cc3333;
+  }
+
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    color: #cc3333;
+  }
+
+  .token.function,
+  .token.class-name {
+    color: #6600cc;
+  }
+
+  .token.regex,
+  .token.important,
+  .token.variable {
+    color: #cc6600;
+  }
+}
+
+.dark .token.comment,
+.dark .token.prolog,
+.dark .token.doctype,
+.dark .token.cdata {
+  color: #666666;
+}
+
+.dark .token.punctuation {
+  color: #333333;
+}
+
+.dark .token.property,
+.dark .token.tag,
+.dark .token.boolean,
+.dark .token.number,
+.dark .token.constant,
+.dark .token.symbol,
+.dark .token.deleted {
+  color: #0066cc;
+}
+
+.dark .token.selector,
+.dark .token.attr-name,
+.dark .token.string,
+.dark .token.char,
+.dark .token.builtin,
+.dark .token.inserted {
+  color: #006600;
+}
+
+.dark .token.operator,
+.dark .token.entity,
+.dark .token.url,
+.dark .language-css .token.string,
+.dark .style .token.string {
+  color: #cc3333;
+}
+
+.dark .token.atrule,
+.dark .token.attr-value,
+.dark .token.keyword {
+  color: #cc3333;
+}
+
+.dark .token.function,
+.dark .token.class-name {
+  color: #6600cc;
+}
+
+.dark .token.regex,
+.dark .token.important,
+.dark .token.variable {
+  color: #cc6600;
+}
+
+/* 行号样式 */
+.line-numbers .line-numbers-rows {
+  border-right: 1px solid #d5d5c5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .line-numbers .line-numbers-rows {
+    border-right-color: #d5d5c5;
+  }
+}
+
+.dark .line-numbers .line-numbers-rows {
+  border-right-color: #d5d5c5;
+}
+
+.line-numbers-rows > span:before {
+  color: #999999;
+}
+
+@media (prefers-color-scheme: dark) {
+  .line-numbers-rows > span:before {
+    color: #999999;
+  }
+}
+
+.dark .line-numbers-rows > span:before {
+  color: #999999;
+}
+
+/* 高亮行样式 */
+.highlight-line {
+  background-color: rgba(255, 255, 0, 0.2);
+  display: block;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .highlight-line {
+    background-color: rgba(255, 255, 0, 0.15);
+  }
+}
+
+.dark .highlight-line {
+  background-color: rgba(255, 255, 0, 0.15);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  pre[class*="language-"] {
+    padding: 0.75rem;
+    font-size: 13px;
+    overflow-x: auto;
+  }
+  
+  code[class*="language-"],
+  pre[class*="language-"] {
+    font-size: 13px;
+  }
+}
+
+/* 强制移除所有可能的外边框 */
+.custom-code-block-container {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+.custom-code-block {
+  border: none !important;
+  background: #1a202c !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  outline: none !important;
+  margin: 0 !important;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
+}
+
+.custom-code-block-collapsed {
+  background: #2d3748 !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  outline: none !important;
+  margin: 0 !important;
+}
+
+/* 确保代码块容器没有边框 */
+div[class*="relative"] {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 移除任何可能的外层容器样式 */
+div > div > pre[class*="language-"] {
+  margin: 0 !important;
+}
+
+div > pre[class*="language-"] {
+  margin: 0 !important;
+}
+
+/* 全局重置 - 移除所有可能影响代码块的样式 */
+* > .custom-code-block-container,
+*:has(.custom-code-block-container) {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 确保文章内容区域不会给代码块添加样式 */
+article .custom-code-block-container,
+main .custom-code-block-container,
+div .custom-code-block-container {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 强制覆盖任何 prose 或其他可能的样式 */
+.prose .custom-code-block-container,
+.prose pre,
+.prose code {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.prose .custom-code-block {
+  background: #1e293b !important;
+  border: none !important;
+}
+
+/* 强制深色主题的语法高亮 - macOS风格 */
+.custom-code-block .token.comment,
+.custom-code-block .token.prolog,
+.custom-code-block .token.doctype,
+.custom-code-block .token.cdata {
+  color: #718096 !important;
+  font-style: italic;
+}
+
+.custom-code-block .token.punctuation {
+  color: #e2e8f0 !important;
+}
+
+.custom-code-block .token.property,
+.custom-code-block .token.tag,
+.custom-code-block .token.boolean,
+.custom-code-block .token.number,
+.custom-code-block .token.constant,
+.custom-code-block .token.symbol,
+.custom-code-block .token.deleted {
+  color: #63b3ed !important;
+}
+
+.custom-code-block .token.selector,
+.custom-code-block .token.attr-name,
+.custom-code-block .token.string,
+.custom-code-block .token.char,
+.custom-code-block .token.builtin,
+.custom-code-block .token.inserted {
+  color: #68d391 !important;
+}
+
+.custom-code-block .token.operator,
+.custom-code-block .token.entity,
+.custom-code-block .token.url,
+.custom-code-block .language-css .token.string,
+.custom-code-block .style .token.string {
+  color: #fc8181 !important;
+}
+
+.custom-code-block .token.atrule,
+.custom-code-block .token.attr-value,
+.custom-code-block .token.keyword {
+  color: #fc8181 !important;
+}
+
+.custom-code-block .token.function,
+.custom-code-block .token.class-name {
+  color: #b794f6 !important;
+}
+
+.custom-code-block .token.regex,
+.custom-code-block .token.important,
+.custom-code-block .token.variable {
+  color: #f6e05e !important;
+}

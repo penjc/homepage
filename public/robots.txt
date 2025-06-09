@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://yourwebsite.com/sitemap.xml
+
+# Block access to admin or private areas (if any)
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow access to important files
+Allow: /favicon.ico
+Allow: /icon-*.png
+Allow: /apple-touch-icon.png
+Allow: /manifest.json 

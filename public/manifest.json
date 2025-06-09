@@ -1,0 +1,20 @@
+{
+  "name": "YourName的个人主页",
+  "short_name": "YourName",
+  "description": "后端开发工程师的个人主页",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["developer", "portfolio", "blog"],
+  "lang": "zh-CN"
+} 
