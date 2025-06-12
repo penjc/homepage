@@ -8,7 +8,7 @@ export const siteConfig = {
   // 个人信息
   profile: {
     avatar: "/images/avatar.jpg",
-    bio: "个人主页",
+    bio: "無限進步",
     location: "上海, 中国",
     email: "penjc204@gmail.com",
     github: "https://github.com/penjc",
@@ -67,33 +67,33 @@ export const siteConfig = {
     },
     
     // 工作经历
-    experience: {
-      title: "工作经历",
-      items: [
-        {
-          year: "2025 - 现在",
-          title: "后端实习生",
-          company: "哔哩哔哩",
-          description: "负责微服务架构设计与实现，团队技术架构优化，提升系统性能和稳定性。",
-          highlights: [
-            "设计并实现了高并发的分布式系统架构",
-            "优化数据库性能，提升查询效率50%",
-            "带领团队完成多个核心业务模块开发"
-          ]
-        },
-        {
-          year: "2023 - 2024",
-          title: "开发实习生",
-          company: "心动",
-          description: "开始职业生涯，学习后端开发技术，参与多个项目的开发与维护。",
-          highlights: [
-            "快速掌握Java Spring生态技术栈",
-            "参与敏捷开发流程，提升团队协作能力",
-            "完成多个模块的独立开发任务"
-          ]
-        }
-      ]
-    },
+    // experience: {
+    //   title: "工作经历",
+    //   items: [
+    //     {
+    //       year: "2025 - 现在",
+    //       title: "后端实习生",
+    //       company: "哔哩哔哩",
+    //       description: "负责微服务架构设计与实现，团队技术架构优化，提升系统性能和稳定性。",
+    //       highlights: [
+    //         "设计并实现了高并发的分布式系统架构",
+    //         "优化数据库性能，提升查询效率50%",
+    //         "带领团队完成多个核心业务模块开发"
+    //       ]
+    //     },
+    //     {
+    //       year: "2023 - 2024",
+    //       title: "开发实习生",
+    //       company: "心动",
+    //       description: "开始职业生涯，学习后端开发技术，参与多个项目的开发与维护。",
+    //       highlights: [
+    //         "快速掌握Java Spring生态技术栈",
+    //         "参与敏捷开发流程，提升团队协作能力",
+    //         "完成多个模块的独立开发任务"
+    //       ]
+    //     }
+    //   ]
+    // },
     
     // 技能专长
     skills: {
