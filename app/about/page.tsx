@@ -312,11 +312,11 @@ export default function AboutPage() {
         )}
 
         {/* Experience - 只有当 experience 存在且有项目时才显示 */}
-        {about.experience && about.experience.items && about.experience.items.length > 0 && (
+        {(about as any).experience?.items && (about as any).experience.items.length > 0 && (
           <section className="mb-20">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4">
-                {about.experience.title || '工作经历'}
+                {(about as any).experience.title || '工作经历'}
               </h2>
               <div className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"></div>
             </div>
@@ -325,7 +325,7 @@ export default function AboutPage() {
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 hidden md:block"></div>
               
               <div className="space-y-12">
-                {about.experience.items.map((exp, index) => (
+                {(about as any).experience.items.map((exp: any, index: number) => (
                   <div key={index} className="relative flex gap-8">
                     {/* Timeline dot */}
                     <div className="hidden md:flex w-16 h-16 bg-gray-800 dark:bg-gray-200 rounded-full items-center justify-center text-white dark:text-gray-900 font-bold text-sm shadow-lg">
@@ -359,7 +359,7 @@ export default function AboutPage() {
                       )}
                       {exp.highlights && exp.highlights.length > 0 && (
                         <div className="space-y-3">
-                          {exp.highlights.map((highlight, idx) => (
+                          {exp.highlights.map((highlight: string, idx: number) => (
                             <div key={idx} className="flex items-start gap-3">
                               <CheckCircleIcon className="w-5 h-5 text-gray-500 dark:text-gray-400 mt-0.5 flex-shrink-0" />
                               <span className="text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif">{highlight}</span>
