@@ -2,7 +2,7 @@ export const siteConfig = {
   // 基本信息
   name: "penjc",
   title: "無限進步",
-  description: "彭健程",
+  description: "个人主页",
   url: "https://pengjiancheng.com",
   
   // 个人信息
@@ -14,12 +14,12 @@ export const siteConfig = {
     github: "https://github.com/penjc",
     // 社交媒体链接（可选配置）
     social: {
-      // linkedin: "https://linkedin.com/in/username",
-      // twitter: "https://twitter.com/username",
-      // bilibili: "https://space.bilibili.com/12345678",
-      // youtube: "https://youtube.com/c/username",
-      // telegram: "https://t.me/username",
-      // instagram: "https://instagram.com/username",
+      linkedin: "https://linkedin.com/in/username",
+      twitter: "https://twitter.com/username",
+      bilibili: "https://space.bilibili.com/12345678",
+      youtube: "https://youtube.com/c/username",
+      telegram: "https://t.me/username",
+      instagram: "https://instagram.com/username",
     },
     // RSS 订阅配置
     rss: {
@@ -51,49 +51,45 @@ export const siteConfig = {
       items: [
         {
           year: "2020 - 2024",
-          // degree: "计算机科学与技术 硕士",
-          school: "香港城市大学",
+          degree: "计算机科学与技术 硕士",
+          school: "上海交通大学",
           description: "主修计算机科学与技术，专业课程包括数据结构、算法设计、数据库系统、软件工程等。",
-          // gpa: "3.8/4.0"
+          gpa: "3.8/4.0"
         },
         {
           year: "2018 - 2022",
-          // degree: "计算机科学与技术 学士",
+          degree: "计算机科学与技术 学士",
           school: "上海大学",
           description: "主修计算机科学与技术，专业课程包括数据结构、算法设计、数据库系统、软件工程等。",
-          // gpa: "3.8/4.0"
+          gpa: "3.8/4.0"
         }
       ]
     },
     
     // 工作经历
-    // experience: {
-    //   title: "工作经历",
-    //   items: [
-    //     {
-    //       year: "2025 - 现在",
-    //       title: "后端实习生",
-    //       company: "哔哩哔哩",
-    //       description: "负责微服务架构设计与实现，团队技术架构优化，提升系统性能和稳定性。",
-    //       highlights: [
-    //         "设计并实现了高并发的分布式系统架构",
-    //         "优化数据库性能，提升查询效率50%",
-    //         "带领团队完成多个核心业务模块开发"
-    //       ]
-    //     },
-    //     {
-    //       year: "2023 - 2024",
-    //       title: "开发实习生",
-    //       company: "心动",
-    //       description: "开始职业生涯，学习后端开发技术，参与多个项目的开发与维护。",
-    //       highlights: [
-    //         "快速掌握Java Spring生态技术栈",
-    //         "参与敏捷开发流程，提升团队协作能力",
-    //         "完成多个模块的独立开发任务"
-    //       ]
-    //     }
-    //   ]
-    // },
+    experience: {
+      title: "工作经历",
+      items: [
+        {
+          year: "2023 - 现在",
+          title: "你的职位", // 可选字段
+          company: "公司名称", // 可选字段
+          description: "工作描述。", // 可选字段
+          highlights: [ // 可选字段，可以设为空数组
+            "工作亮点1",
+            "工作亮点2",
+            "工作亮点3"
+          ]
+        },
+        {
+          year: "2022 - 2023",
+          title: "另一个职位",
+          company: "另一家公司",
+          description: "工作描述。",
+          // highlights可以省略
+        }
+      ]
+    },
     
     // 技能专长
     skills: {
@@ -185,8 +181,6 @@ export const siteConfig = {
   // SEO配置
   seo: {
     keywords: [
-        "彭健程",
-        "pengjiancheng",
         "个人主页",
         "后端开发",
         "React",
@@ -196,7 +190,7 @@ export const siteConfig = {
     openGraph: {
       type: "website",
       locale: "zh_CN",
-      siteName: "彭健程",
+      siteName: "个人主页",
     },
     // 图标配置
     icons: {
@@ -206,7 +200,7 @@ export const siteConfig = {
 
   // 分析工具
   analytics: {
-    googleAnalyticsId: "G-XZ75JQC00S", // Google Analytics ID
+    googleAnalyticsId: "G-XXXXXXX", // Google Analytics ID
   },
 
   // 主题配置
@@ -229,8 +223,8 @@ export const siteConfig = {
       showCurrentYear: true, // 是否显示当前年份
     },
     beian: { // 没有可不填
-      police: "沪公网安备31011502403067号", // ICP备案号
-      icp: "沪ICP备2025112622号", // 公安备案号
+      police: "沪公网安备31011500000000号", // ICP备案号
+      icp: "沪ICP备2025000000号", // 公安备案号
     },
   },
 }; 

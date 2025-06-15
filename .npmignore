@@ -36,7 +36,6 @@ Thumbs.db
 backup*/
 
 # 特定的项目文件（这些是示例，用户项目不需要）
-content/
 public/images/
 site.config.ts
 
