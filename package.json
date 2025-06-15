@@ -1,13 +1,13 @@
 {
   "name": "@penjc/homepage",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "个人主页模板，支持博客、随笔等功能",
   "bin": {
-    "homepage": "./bin/homepage.js",
     "create-homepage": "./bin/create-homepage.js"
   },
   "files": [
     "app/**/*",
+    "assets/**/*",
     "components/**/*",
     "lib/**/*",
     "styles/**/*",
