@@ -14,12 +14,12 @@ export const siteConfig = {
     github: "https://github.com/penjc",
     // 社交媒体链接（可选配置）
     social: {
-      linkedin: "https://linkedin.com/in/username",
-      twitter: "https://twitter.com/username",
-      bilibili: "https://space.bilibili.com/12345678",
-      youtube: "https://youtube.com/c/username",
-      telegram: "https://t.me/username",
-      instagram: "https://instagram.com/username",
+      // linkedin: "https://linkedin.com/in/username",
+      // twitter: "https://twitter.com/username",
+      // bilibili: "https://space.bilibili.com/12345678",
+      // youtube: "https://youtube.com/c/username",
+      // telegram: "https://t.me/username",
+      // instagram: "https://instagram.com/username",
     },
     // RSS 订阅配置
     rss: {
@@ -51,45 +51,45 @@ export const siteConfig = {
       items: [
         {
           year: "2020 - 2024",
-          degree: "计算机科学与技术 硕士",
-          school: "上海交通大学",
+          // degree: "计算机科学与技术 硕士",
+          school: "香港城市大学",
           description: "主修计算机科学与技术，专业课程包括数据结构、算法设计、数据库系统、软件工程等。",
-          gpa: "3.8/4.0"
+          // gpa: "3.8/4.0"
         },
         {
           year: "2018 - 2022",
-          degree: "计算机科学与技术 学士",
+          // degree: "计算机科学与技术 学士",
           school: "上海大学",
           description: "主修计算机科学与技术，专业课程包括数据结构、算法设计、数据库系统、软件工程等。",
-          gpa: "3.8/4.0"
+          // gpa: "3.8/4.0"
         }
       ]
     },
     
     // 工作经历
-    experience: {
-      title: "工作经历",
-      items: [
-        {
-          year: "2023 - 现在",
-          title: "你的职位", // 可选字段
-          company: "公司名称", // 可选字段
-          description: "工作描述。", // 可选字段
-          highlights: [ // 可选字段，可以设为空数组
-            "工作亮点1",
-            "工作亮点2",
-            "工作亮点3"
-          ]
-        },
-        {
-          year: "2022 - 2023",
-          title: "另一个职位",
-          company: "另一家公司",
-          description: "工作描述。",
-          // highlights可以省略
-        }
-      ]
-    },
+    // experience: {
+    //   title: "工作经历",
+    //   items: [
+    //     {
+    //       year: "2023 - 现在",
+    //       title: "你的职位", // 可选字段
+    //       company: "公司名称", // 可选字段
+    //       description: "工作描述。", // 可选字段
+    //       highlights: [ // 可选字段，可以设为空数组
+    //         "工作亮点1",
+    //         "工作亮点2",
+    //         "工作亮点3"
+    //       ]
+    //     },
+    //     {
+    //       year: "2022 - 2023",
+    //       title: "另一个职位",
+    //       company: "另一家公司",
+    //       description: "工作描述。",
+    //       // highlights可以省略
+    //     }
+    //   ]
+    // },
     
     // 技能专长
     skills: {
@@ -190,7 +190,7 @@ export const siteConfig = {
     openGraph: {
       type: "website",
       locale: "zh_CN",
-      siteName: "个人主页",
+      siteName: "彭健程的主页",
     },
     // 图标配置
     icons: {
@@ -200,7 +200,7 @@ export const siteConfig = {
 
   // 分析工具
   analytics: {
-    googleAnalyticsId: "G-XXXXXXX", // Google Analytics ID
+    googleAnalyticsId: "G-XZ75JQC00S", // Google Analytics ID
   },
 
   // 主题配置
@@ -218,13 +218,13 @@ export const siteConfig = {
   // 底部栏配置
   footer: {
     copyright: {
-      owner: "yourName", // 版权所有者
+      owner: "penjc", // 版权所有者
       startYear: "2025", // 开始年份
       showCurrentYear: true, // 是否显示当前年份
     },
     beian: { // 没有可不填
-      police: "沪公网安备31011500000000号", // ICP备案号
-      icp: "沪ICP备2025000000号", // 公安备案号
+      police: "沪公网安备31011502403067号", // 公安备案号
+      icp: "沪ICP备2025112622号", // ICP备案号
     },
   },
 }; 
