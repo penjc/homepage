@@ -80,6 +80,7 @@ npm run lint     # 代码检查
 
 ### ⚙️ 配置网站
 
+修改 `site.config.example.ts` 为`ste.config.ts`。
 编辑 `site.config.ts` 文件来配置你的网站：
 
 ```typescript

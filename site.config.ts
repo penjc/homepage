@@ -28,7 +28,7 @@ export const siteConfig = {
     },
     // 旧版主页链接
     oldSite: {
-      enabled: true,
+      enabled: false,
       url: "https://old.pengjiancheng.com",
       title: "旧版主页",
     },
@@ -156,7 +156,7 @@ export const siteConfig = {
 
   // 博客配置
   blog: {
-    postsPerPage: 10,
+    // postsPerPage: 10,
     // 分页配置
     pagination: {
       postsPerPage: 6, // 每页显示的博客文章数量
@@ -223,8 +223,8 @@ export const siteConfig = {
       showCurrentYear: true, // 是否显示当前年份
     },
     beian: { // 没有可不填
-      police: "沪公网安备31011500000000号", // ICP备案号
-      icp: "沪ICP备2025000000号", // 公安备案号
+      police: "沪公网安备31011500000000号", // 公安备案号
+      icp: "沪ICP备2025000000号", // ICP备案号
     },
   },
 }; 
