@@ -7,6 +7,8 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
+tsconfig.tsbuildinfo
 
 # 测试和覆盖率报告
 coverage/
@@ -35,12 +37,14 @@ Thumbs.db
 *.temp
 backup*/
 
-# 特定的项目文件（这些是示例，用户项目不需要）
-public/images/
+# 用户特定的配置文件（保留示例配置）
 site.config.ts
 
-# 保留示例配置
+# 保留示例配置和bin目录
 !site.config.example.ts
+!bin/
 
 # 文档源文件（保留编译后的文档）
-*.md.backup 
+*.md.backup
+
+docs/PUBLISH.md

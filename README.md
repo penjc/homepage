@@ -4,17 +4,39 @@
 
 ## 快速开始
 
-### 创建项目
+### 方式一：使用 npm create（推荐）
 
 ```bash
 # 创建新项目
-npx @penjc/homepage my-homepage
+npm create homepage my-homepage
 
 # 进入项目目录
 cd my-homepage
 
 # 启动开发服务器
 npm run dev
+```
+
+### 方式二：使用 npx
+
+```bash
+# 创建新项目
+npx create-homepage my-homepage
+
+# 进入项目目录
+cd my-homepage
+
+# 启动开发服务器
+npm run dev
+```
+
+### 开发命令
+
+```bash
+npm run dev      # 启动开发服务器 (http://localhost:4000)
+npm run build    # 构建生产版本
+npm run start    # 启动生产服务器
+npm run lint     # 代码检查
 ```
 
 ### 配置网站
@@ -42,21 +64,6 @@ export const siteConfig = {
 - **博客文章**: 在 `content/blog/` 目录添加 `.md` 文件
 - **随笔**: 在 `content/thoughts/` 目录添加 `.md` 文件  
 - **图片**: 放在 `public/images/` 目录
-
-### 更新项目
-
-```bash
-# 安装依赖
-npm i @penjc/homepage
-
-# 在项目根目录运行（更新框架文件，保护用户内容）
-npx @penjc/homepage update
-
-# 如需更新依赖包，单独运行
-npm update
-```
-
-**说明：** 创建项目时已自动安装更新工具，无需额外安装步骤。
 
 ## 部署
 

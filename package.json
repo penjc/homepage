@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "个人主页模板，支持博客、随笔等功能",
   "bin": {
-    "homepage": "./bin/homepage.js"
+    "homepage": "./bin/homepage.js",
+    "create-homepage": "./bin/create-homepage.js"
   },
   "files": [
     "app/**/*",
@@ -27,7 +28,8 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "prepublishOnly": "npm run type-check"
+    "prepublishOnly": "npm run type-check",
+    "create": "node ./bin/create-homepage.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
