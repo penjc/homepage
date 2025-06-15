@@ -138,7 +138,7 @@ export const siteConfig = {
 
   // 博客配置
   blog: {
-    postsPerPage: 10,
+    // postsPerPage: 10,
     pagination: {
       postsPerPage: 6,
       maxVisiblePages: 5,

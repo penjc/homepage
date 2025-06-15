@@ -48,3 +48,5 @@ site.config.ts
 *.md.backup
 
 docs/PUBLISH.md
+
+site.config.ts
