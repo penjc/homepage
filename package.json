@@ -1,6 +1,6 @@
 {
   "name": "@penjc/homepage",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "个人主页模板，支持博客、随笔等功能",
   "bin": {
     "create-homepage": "./bin/create-homepage.js"
