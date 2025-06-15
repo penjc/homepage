@@ -109,7 +109,6 @@ async function createProject(projectName) {
     currentStep++;
     logStep(currentStep, totalSteps, '安装项目依赖');
     await installDependenciesWithProgress();
-    console.log('✅ 依赖安装完成');
 
     // 步骤 5: 完成设置
     currentStep++;
@@ -147,125 +146,122 @@ function installDependenciesWithProgress() {
   return new Promise((resolve, reject) => {
     console.log('📦 正在安装依赖包...');
     
-    let spinner = showSpinner('正在初始化安装...');
+    let startTime = Date.now();
+    let currentStep = '初始化';
+    let progress = 0;
+    
+    // 显示初始进度
+    showProgress(0, 100, '正在初始化安装...');
     
     // 使用 spawn 来实时显示安装进度
     const npmProcess = spawn('npm', ['install'], {
-      stdio: ['inherit', 'pipe', 'pipe']
+      stdio: ['inherit', 'pipe', 'inherit'], // 让stderr直接输出到终端
+      env: { ...process.env }
     });
 
     let output = '';
-    let errorOutput = '';
-    let packageCount = 0;
-    let installedCount = 0;
-    let currentPackage = '';
-    let progressStarted = false;
+    let hasOutput = false;
+    
+    // 定时更新进度（模拟进度）
+    const progressTimer = setInterval(() => {
+      if (progress < 90) {
+        progress += Math.random() * 10;
+        progress = Math.min(progress, 90);
+        
+        let message = currentStep;
+        if (progress < 20) {
+          message = '正在解析依赖关系...';
+          currentStep = '解析依赖';
+        } else if (progress < 40) {
+          message = '正在下载依赖包...';
+          currentStep = '下载包';
+        } else if (progress < 70) {
+          message = '正在安装依赖包...';
+          currentStep = '安装包';
+        } else {
+          message = '正在构建项目...';
+          currentStep = '构建项目';
+        }
+        
+        showProgress(Math.round(progress), 100, message);
+      }
+    }, 800);
 
     npmProcess.stdout.on('data', (data) => {
       const text = data.toString();
       output += text;
+      hasOutput = true;
       
-      // 检测包安装进度
-      const addedMatch = text.match(/added (\d+) packages/);
-      if (addedMatch) {
-        installedCount = parseInt(addedMatch[1]);
-        if (!progressStarted) {
-          clearInterval(spinner);
-          progressStarted = true;
-        }
-        showProgress(90, 100, `已安装 ${installedCount} 个包`);
-      }
-      
-      // 检测总包数
-      const auditMatch = text.match(/audited (\d+) packages/);
-      if (auditMatch) {
-        packageCount = parseInt(auditMatch[1]);
-        if (!progressStarted) {
-          clearInterval(spinner);
-          progressStarted = true;
-        }
-        showProgress(95, 100, `正在审计 ${packageCount} 个包...`);
-      }
-      
-      // 检测当前正在安装的包
-      const packageNameMatch = text.match(/npm http fetch GET 200 https:\/\/registry\.npmjs\.org\/([^\/\s]+)/);
-      if (packageNameMatch) {
-        currentPackage = packageNameMatch[1];
-        if (!progressStarted) {
-          clearInterval(spinner);
-          progressStarted = true;
-        }
-        showProgress(30, 100, `正在下载 ${currentPackage}...`);
-      }
-      
-      // 检测安装阶段
-      if (text.includes('npm WARN') && !progressStarted) {
-        clearInterval(spinner);
-        progressStarted = true;
-        showProgress(60, 100, '处理依赖关系...');
-      }
-      
-      // 检测构建阶段
-      if (text.includes('postinstall') && !progressStarted) {
-        clearInterval(spinner);
-        progressStarted = true;
-        showProgress(80, 100, '运行安装后脚本...');
-      }
-    });
-
-    npmProcess.stderr.on('data', (data) => {
-      errorOutput += data.toString();
-      const text = data.toString();
-      
-      // npm 的警告信息通常输出到 stderr，但不是错误
-      if (text.includes('npm WARN')) {
-        if (!progressStarted) {
-          clearInterval(spinner);
-          progressStarted = true;
-        }
+      // 根据npm输出更新进度
+      if (text.includes('added') && text.includes('packages')) {
+        clearInterval(progressTimer);
+        progress = 95;
+        showProgress(95, 100, '正在完成安装...');
         
-        // 提取警告的包名
-        const warnMatch = text.match(/npm WARN ([^\s]+)/);
-        const packageName = warnMatch ? warnMatch[1] : '';
-        showProgress(70, 100, `处理 ${packageName} 的依赖警告...`);
+        // 提取安装的包数量
+        const match = text.match(/added (\d+) packages/);
+        if (match) {
+          const count = match[1];
+          showProgress(98, 100, `已安装 ${count} 个包`);
+        }
       }
       
-      // 检测下载进度
-      if (text.includes('http fetch')) {
-        if (!progressStarted) {
-          clearInterval(spinner);
-          progressStarted = true;
+      if (text.includes('audited') && text.includes('packages')) {
+        clearInterval(progressTimer);
+        progress = 99;
+        const match = text.match(/audited (\d+) packages/);
+        if (match) {
+          const count = match[1];
+          showProgress(99, 100, `正在审计 ${count} 个包...`);
         }
-        showProgress(40, 100, '下载依赖包中...');
       }
     });
 
     npmProcess.on('close', (code) => {
-      if (!progressStarted) {
-        clearInterval(spinner);
-      }
+      clearInterval(progressTimer);
       clearProgress();
       
+      const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+      
       if (code === 0) {
-        console.log('\x1b[32m✅ 依赖安装完成\x1b[0m');
+        console.log(`\x1b[32m✅ 依赖安装完成\x1b[0m \x1b[90m(耗时 ${duration}s)\x1b[0m`);
         resolve();
       } else {
         console.error('\n❌ 依赖安装失败');
-        if (errorOutput) {
-          console.error('错误信息:', errorOutput);
+        console.error(`退出码: ${code}`);
+        if (output) {
+          console.error('输出信息:', output);
         }
         reject(new Error(`npm install 失败，退出码: ${code}`));
       }
     });
 
     npmProcess.on('error', (error) => {
-      if (!progressStarted) {
-        clearInterval(spinner);
-      }
+      clearInterval(progressTimer);
       clearProgress();
       console.error('\n❌ 启动 npm install 失败:', error.message);
       reject(error);
     });
+
+    // 超时保护（如果npm没有输出，显示通用进度）
+    setTimeout(() => {
+      if (!hasOutput) {
+        clearInterval(progressTimer);
+        showProgress(50, 100, '安装进行中，请稍候...');
+        
+        // 继续显示通用进度
+        const fallbackTimer = setInterval(() => {
+          if (progress < 85) {
+            progress += 2;
+            showProgress(Math.round(progress), 100, '安装进行中，请稍候...');
+          }
+        }, 1000);
+        
+        npmProcess.on('close', () => {
+          clearInterval(fallbackTimer);
+        });
+      }
+    }, 5000);
   });
 }
 
