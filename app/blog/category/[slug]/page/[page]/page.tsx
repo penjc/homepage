@@ -91,19 +91,23 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
             >
               全部
             </Link>
-            {categories.map((cat: string) => (
-              <Link
-                key={cat}
-                href={`/blog/category/${encodeURIComponent(cat)}`}
-                className={`inline-flex items-center px-4 py-2 text-sm rounded-full transition-colors font-thin tracking-wide font-serif ${
-                  cat === category
-                    ? 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
-                    : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              >
-                {cat}
-              </Link>
-            ))}
+            {categories.map((cat: string) => {
+              const allPosts = getAllPosts();
+              const count = allPosts.filter((post: BlogPost) => post.category === cat).length;
+              return (
+                <Link
+                  key={cat}
+                  href={`/blog/category/${encodeURIComponent(cat)}`}
+                  className={`inline-flex items-center px-4 py-2 text-sm rounded-full transition-colors font-thin tracking-wide font-serif ${
+                    cat === category
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                      : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  {cat} ({count})
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -133,7 +137,11 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
                       <div className="flex items-center gap-2 mb-2">
                         <Link
                           href={`/blog/category/${encodeURIComponent(post.category)}`}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-thin tracking-wide font-serif"
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium transition-colors font-thin tracking-wide font-serif ${
+                            post.category === category
+                              ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
+                              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                          }`}
                         >
                           {post.category}
                         </Link>

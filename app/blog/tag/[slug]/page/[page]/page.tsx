@@ -68,20 +68,18 @@ export default function TagPageWithPagination({ params }: TagPageProps) {
 
   return (
     <PageLayout>
-      {/* Header */}
-      <header className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">标签：{tag}</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
-              浏览标签为 {tag} 的所有文章
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 font-thin tracking-wide font-serif">
-              共 {totalPosts} 篇文章，第 {currentPage} 页，共 {totalPages} 页
-            </p>
-          </div>
+      {/* Hero Section */}
+      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{tag}</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
+            标签下的文章
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 font-thin tracking-wide font-serif">
+            共 {totalPosts} 篇文章，第 {currentPage} 页，共 {totalPages} 页
+          </p>
         </div>
-      </header>
+      </section>
 
       {/* Tag Filter */}
       <section className="bg-white dark:bg-gray-800 py-8 border-b border-gray-200 dark:border-gray-700">
@@ -102,7 +100,7 @@ export default function TagPageWithPagination({ params }: TagPageProps) {
                   href={`/blog/tag/${encodeURIComponent(t)}`}
                   className={`inline-flex items-center px-4 py-2 text-sm rounded-full transition-colors font-thin tracking-wide font-serif ${
                     t === tag
-                      ? 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                       : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
                 >

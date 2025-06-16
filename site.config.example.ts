@@ -164,7 +164,7 @@ export const siteConfig = {
     
     // 首页配置
     homepage: {
-      recentPostsCount: 6, // 首页显示的最新文章数量
+      recentPostsCount: 5, // 首页显示的最新文章数量
     },
     
     // 其他博客相关配置
