@@ -18,6 +18,7 @@ import {
   BriefcaseIcon as BriefcaseSolidIcon,
   UserIcon as UserSolidIcon
 } from '@heroicons/react/24/solid';
+import { getAssetPath } from '../../lib/utils';
 
 export const metadata = {
   title: '关于我',
@@ -43,7 +44,7 @@ export default function AboutPage() {
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="w-64 h-64 relative">
               <Image
-                src={profile.avatar}
+                src={getAssetPath(profile.avatar)}
                 alt={name}
                 width={256}
                 height={256}

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { siteConfig } from '../site.config';
 import { getRecentPosts } from '../lib/blog';
 import Footer from '../components/Footer';
+import { getAssetPath } from '../lib/utils';
 
 export default function HomePage() {
   const recentPosts = getRecentPosts(siteConfig.blog.homepage.recentPostsCount);
@@ -18,7 +19,7 @@ export default function HomePage() {
             <div className="relative group">
               <div className="w-40 h-40 relative">
                 <Image
-                  src={siteConfig.profile.avatar}
+                  src={getAssetPath(siteConfig.profile.avatar)}
                   alt={siteConfig.name}
                   width={160}
                   height={160}

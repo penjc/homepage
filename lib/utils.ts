@@ -1,3 +1,5 @@
+import { siteConfig } from '../site.config';
+
 /**
  * 获取静态资源的完整路径
  * 在 GitHub Pages 部署时自动添加 basePath 前缀
@@ -16,7 +18,8 @@ export function getAssetPath(path: string): string {
   const isGithubPages = process.env.GITHUB_PAGES === 'true';
   
   if (isProd && isGithubPages) {
-    return `/homepage${normalizedPath}`;
+    const baseUrl = siteConfig.deployment?.baseUrl || '';
+    return `${baseUrl}${normalizedPath}`;
   }
   
   return normalizedPath;
@@ -30,7 +33,8 @@ export function getBaseUrl(): string {
   const isGithubPages = process.env.GITHUB_PAGES === 'true';
   
   if (isProd && isGithubPages) {
-    return 'https://penjc.github.io/homepage';
+    const baseUrl = siteConfig.deployment?.baseUrl || '';
+    return `https://penjc.github.io${baseUrl}`;
   }
   
   return 'http://localhost:4000';

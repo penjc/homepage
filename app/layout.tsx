@@ -6,6 +6,19 @@ import GoogleAnalytics from '../components/GoogleAnalytics';
 import AnalyticsProvider from '../components/AnalyticsProvider';
 import DynamicHead from '../components/DynamicHead';
 
+// 获取资源路径的服务端函数
+function getServerAssetPath(path: string): string {
+  const isProd = process.env.NODE_ENV === 'production';
+  const isGithubPages = process.env.GITHUB_PAGES === 'true';
+  
+  if (isProd && isGithubPages) {
+    const baseUrl = siteConfig.deployment?.baseUrl || '';
+    return `${baseUrl}${path}`;
+  }
+  
+  return path;
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NODE_ENV === 'development' 
@@ -24,12 +37,12 @@ export const metadata: Metadata = {
   // Icons configuration
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: getServerAssetPath('/favicon.svg'), type: 'image/svg+xml' },
     ],
     other: [
       {
         rel: 'mask-icon',
-        url: '/favicon.svg',
+        url: getServerAssetPath('/favicon.svg'),
         color: '#3b82f6',
       },
     ],
@@ -47,7 +60,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: '/favicon.svg',
+        url: getServerAssetPath('/favicon.svg'),
         width: 512,
         height: 512,
         alt: siteConfig.title,
@@ -61,13 +74,13 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     creator: `@${siteConfig.name}`,
-    images: ['/favicon.svg'],
+    images: [getServerAssetPath('/favicon.svg')],
   },
   
   // Additional meta tags
   other: {
     'msapplication-TileColor': '#3b82f6',
-    'msapplication-config': '/browserconfig.xml',
+    'msapplication-config': getServerAssetPath('/browserconfig.xml'),
   },
 };
 
@@ -80,7 +93,7 @@ export default function RootLayout({
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
         {/* Favicon and icons */}
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href={getServerAssetPath('/favicon.svg')} type="image/svg+xml" />
         
 
         
@@ -93,13 +106,13 @@ export default function RootLayout({
           rel="alternate"
           type="application/rss+xml"
           title={`${siteConfig.title} RSS Feed`}
-          href="/rss.xml"
+          href={getServerAssetPath('/rss.xml')}
         />
         <link
           rel="alternate"
           type="application/atom+xml"
           title={`${siteConfig.title} Atom Feed`}
-          href="/atom.xml"
+          href={getServerAssetPath('/atom.xml')}
         />
       </head>
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
