@@ -24,7 +24,7 @@
     "dev": "next dev --port 4000",
     "build": "next build",
     "start": "npx serve out -p 4000",
-    "build:github": "GITHUB_PAGES=true node scripts/update-manifest.js && NODE_ENV=production GITHUB_PAGES=true npm run build",
+    "build:github": "NODE_ENV=production GITHUB_PAGES=true npm run build",
     "preview": "npm run build && npm run start",
     "preview:github": "npm run build:github && npm run start",
     "lint": "next lint",

@@ -11,11 +11,7 @@ export default function DynamicHead() {
       favicon.href = getAssetPath('/favicon.svg');
     }
 
-    // 更新 manifest 路径
-    const manifest = document.querySelector('link[rel="manifest"]') as HTMLLinkElement;
-    if (manifest) {
-      manifest.href = getAssetPath('/manifest.json');
-    }
+
 
     // 更新 RSS feed 路径
     const rss = document.querySelector('link[type="application/rss+xml"]') as HTMLLinkElement;

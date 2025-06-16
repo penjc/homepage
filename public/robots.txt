@@ -13,4 +13,4 @@ Disallow: /admin/
 Allow: /favicon.ico
 Allow: /icon-*.png
 Allow: /apple-touch-icon.png
-Allow: /manifest.json 
+ 

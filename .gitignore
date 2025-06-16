@@ -93,4 +93,4 @@ temp/
 
 content/**/*
 
-site.config.ts
+#site.config.ts

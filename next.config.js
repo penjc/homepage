@@ -2,20 +2,31 @@
 const isProd = process.env.NODE_ENV === 'production';
 const isGithubPages = process.env.GITHUB_PAGES === 'true';
 
+// 尝试读取站点配置
+let baseUrl = '';
+try {
+  const { siteConfig } = require('./site.config.ts');
+  baseUrl = siteConfig.deployment?.baseUrl || '';
+} catch (error) {
+  // 如果 site.config.ts 不存在，使用默认配置
+  console.warn('Warning: site.config.ts not found, using empty baseUrl');
+  baseUrl = '';
+}
+
 const nextConfig = {
   // 启用静态导出
   output: 'export',
   
-  // 禁用图片优化（GitHub Pages 不支持）
+  // 禁用图片优化（静态导出不支持）
   images: {
     unoptimized: true,
   },
   
-  // 配置基础路径（仅在 GitHub Pages 部署时使用）
-  basePath: isProd && isGithubPages ? '/homepage' : '',
+  // 配置基础路径（只有在 GitHub Pages 部署时才使用 baseUrl）
+  basePath: isProd && isGithubPages ? baseUrl : '',
   
-  // 配置静态资源前缀（仅在 GitHub Pages 部署时使用）
-  assetPrefix: isProd && isGithubPages ? '/homepage/' : '',
+  // 配置静态资源前缀（只有在 GitHub Pages 部署时才使用 baseUrl）
+  assetPrefix: isProd && isGithubPages && baseUrl ? `${baseUrl}/` : '',
   
   // 禁用服务端功能
   trailingSlash: true,

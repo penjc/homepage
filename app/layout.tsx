@@ -35,8 +35,7 @@ export const metadata: Metadata = {
     ],
   },
   
-  // Manifest
-  manifest: '/manifest.json',
+
   
   // Open Graph
   openGraph: {
@@ -83,8 +82,7 @@ export default function RootLayout({
         {/* Favicon and icons */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         
-        {/* Web App Manifest */}
-        <link rel="manifest" href="/manifest.json" />
+
         
         {/* Theme and viewport */}
         <meta name="theme-color" content="#3b82f6" />
