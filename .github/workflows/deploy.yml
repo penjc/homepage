@@ -42,7 +42,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: .next/server/app/
+        path: ./out
 
     - name: Deploy to GitHub Pages
       id: deployment

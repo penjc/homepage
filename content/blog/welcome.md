@@ -14,10 +14,10 @@ readTime: "3分钟"
 
 ## 🖥️ 技术栈
 
-- **Next.js 14** — 现代 React 应用框架，支持 SSR / SSG
+- **Next.js 14** — 现代 React 应用框架，支持 SSR / SSG
 - **TypeScript** — 静态类型让开发更安心
-- **Tailwind CSS** — 原子化 CSS 高效构建响应式 UI
-- **Framer Motion** — 顺滑的动画与微交互
+- **Tailwind CSS** — 原子化 CSS 高效构建响应式 UI
+- **Framer Motion** — 顺滑的动画与微交互
 
 ---
 
@@ -30,7 +30,7 @@ readTime: "3分钟"
 
 ### 🔭 未来计划
 
-1. 每周更新 ≥ 1 篇技术博客  
+1. 每周更新 ≥ 1 篇技术博客  
 2. 发布 学习路线图与书单`
 3. 开放评论区，欢迎互动交流  
 

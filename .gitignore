@@ -91,6 +91,6 @@ out
 tmp/
 temp/
 
-#content/**/*
+content/**/*
 
 site.config.ts
