@@ -9,16 +9,12 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/homepage/favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable any"
     }
   ],
-  "categories": [
-    "developer",
-    "portfolio",
-    "blog"
-  ],
+  "categories": ["developer", "portfolio", "blog"],
   "lang": "zh-CN"
-}
+} 

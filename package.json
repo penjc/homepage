@@ -23,7 +23,10 @@
   "scripts": {
     "dev": "next dev --port 4000",
     "build": "next build",
-    "start": "next start",
+    "start": "npx serve out -p 4000",
+    "build:github": "GITHUB_PAGES=true node scripts/update-manifest.js && NODE_ENV=production GITHUB_PAGES=true npm run build",
+    "preview": "npm run build && npm run start",
+    "preview:github": "npm run build:github && npm run start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "prepublishOnly": "npm run type-check",
@@ -40,15 +43,16 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.294.0",
     "marked": "^4.3.0",
-    "next": "^13.5.0",
+    "next": ">=13.0.0",
     "prismjs": "^1.30.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
     "react-markdown": "^8.0.7",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.0",
     "remark-html": "^16.0.1",
-    "rss": "^1.2.2"
+    "rss": "^1.2.2",
+    "serve": "^14.2.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

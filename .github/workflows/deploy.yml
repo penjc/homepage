@@ -36,8 +36,8 @@ jobs:
       with:
         static_site_generator: next
 
-    - name: Build with Next.js
-      run: npm run build
+    - name: Build for GitHub Pages
+      run: npm run build:github
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3

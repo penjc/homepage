@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { siteConfig } from '../site.config';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import AnalyticsProvider from '../components/AnalyticsProvider';
+import DynamicHead from '../components/DynamicHead';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -104,6 +105,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+        <DynamicHead />
         <GoogleAnalytics />
         <AnalyticsProvider>
           {children}

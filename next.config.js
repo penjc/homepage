@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+const isGithubPages = process.env.GITHUB_PAGES === 'true';
+
 const nextConfig = {
   // 启用静态导出
   output: 'export',
@@ -8,14 +11,14 @@ const nextConfig = {
     unoptimized: true,
   },
   
-  // 配置基础路径（如果需要的话）
-  // basePath: '/homepage',
+  // 配置基础路径（仅在 GitHub Pages 部署时使用）
+  basePath: isProd && isGithubPages ? '/homepage' : '',
+  
+  // 配置静态资源前缀（仅在 GitHub Pages 部署时使用）
+  assetPrefix: isProd && isGithubPages ? '/homepage/' : '',
   
   // 禁用服务端功能
   trailingSlash: true,
-  
-  // 确保静态文件正确处理
-  assetPrefix: '',
   
   // 配置构建输出
   distDir: '.next',

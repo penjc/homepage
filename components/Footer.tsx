@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { siteConfig } from '../site.config';
+import { getAssetPath } from '../lib/utils';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,7 +37,7 @@ export default function Footer() {
             {footer.beian.police && (
               <div className="flex items-center space-x-1">
                 <Image
-                  src="/images/gawb.webp"
+                  src={getAssetPath("/images/gawb.webp")}
                   alt="公安备案"
                   width={16}
                   height={16}
