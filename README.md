@@ -127,10 +127,9 @@ export const siteConfig = {
 title: 标题
 date: "2025-06-04"
 category: "生活"
-tags: ["个人主页"]
+tags: ["个人主页", "Next.js"]
 excerpt: "这是我的第一篇博客文章，欢迎来到我的个人主页！"
 readTime: "3分钟"
-slug: "welcome-to-my-homepage"
 ---
 
 # 文章内容

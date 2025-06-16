@@ -156,7 +156,6 @@ export const siteConfig = {
 
   // 博客配置
   blog: {
-    // postsPerPage: 10,
     // 分页配置
     pagination: {
       postsPerPage: 6, // 每页显示的博客文章数量

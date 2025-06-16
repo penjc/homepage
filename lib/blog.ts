@@ -159,13 +159,7 @@ function calculateReadTime(content: string): string {
   return `${minutes} 分钟`;
 }
 
-// 生成slug的辅助函数
-function generateSlugFromTitle(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+
 
 // 获取所有博客文章
 export function getAllPosts(): BlogPost[] {
@@ -193,16 +187,8 @@ export function getAllPosts(): BlogPost[] {
               // 从文件路径中提取文件名
               const filename = path.basename(filePath);
               
-              // 生成slug，优先使用frontmatter中的slug，否则从标题生成，最后使用文件名
-              let slug = frontmatter.slug;
-              if (!slug) {
-                if (frontmatter.title) {
-                  slug = generateSlugFromTitle(frontmatter.title);
-                } else {
-                  // 使用相对路径作为slug，移除.md扩展名并替换路径分隔符
-                  slug = relativePath.replace(/\.md$/, '').replace(/[\\\/]/g, '-');
-                }
-              }
+              // 使用文件的相对路径作为slug，移除.md扩展名
+              const slug = relativePath.replace(/\.md$/, '').replace(/\\/g, '/');
               
               const post: BlogPost = {
                 title: frontmatter.title || filename.replace('.md', ''),
