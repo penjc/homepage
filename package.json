@@ -1,6 +1,6 @@
 {
   "name": "@penjc/homepage",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "个人主页模板，支持博客、随笔等功能",
   "bin": {
     "create-homepage": "./bin/create-homepage.js"
@@ -9,6 +9,7 @@
     ".github/workflows/**/*",
     "app/**/*",
     "components/**/*",
+    "content/**/*",
     "lib/**/*",
     "styles/**/*",
     "public/**/*",

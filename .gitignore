@@ -90,7 +90,3 @@ out
 # Temporary folders
 tmp/
 temp/
-
-content/**/*
-
-#site.config.ts
