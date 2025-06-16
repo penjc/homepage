@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { siteConfig } from '../site.config';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import AnalyticsProvider from '../components/AnalyticsProvider';
+import DynamicHead from '../components/DynamicHead';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -34,8 +35,7 @@ export const metadata: Metadata = {
     ],
   },
   
-  // Manifest
-  manifest: '/manifest.json',
+
   
   // Open Graph
   openGraph: {
@@ -82,8 +82,7 @@ export default function RootLayout({
         {/* Favicon and icons */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         
-        {/* Web App Manifest */}
-        <link rel="manifest" href="/manifest.json" />
+
         
         {/* Theme and viewport */}
         <meta name="theme-color" content="#3b82f6" />
@@ -104,6 +103,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+        <DynamicHead />
         <GoogleAnalytics />
         <AnalyticsProvider>
           {children}

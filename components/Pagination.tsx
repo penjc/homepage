@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { siteConfig } from '../site.config';
 
@@ -18,24 +18,16 @@ export default function Pagination({
   totalPages,
   hasNextPage,
   hasPrevPage,
-  basePath = '/blog'
+  basePath = '/blog/page'
 }: PaginationProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [jumpPage, setJumpPage] = useState('');
 
   const maxVisiblePages = siteConfig.blog.pagination.maxVisiblePages;
 
   // 构建页面URL的辅助函数
   const buildPageUrl = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (page === 1) {
-      params.delete('page');
-    } else {
-      params.set('page', page.toString());
-    }
-    const queryString = params.toString();
-    return queryString ? `${basePath}?${queryString}` : basePath;
+    return `${basePath}/${page}`;
   };
 
   // 处理页码跳转

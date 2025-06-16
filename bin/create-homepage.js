@@ -120,11 +120,12 @@ async function createProject(projectName) {
 
 接下来的步骤:
   1. cd ${projectName}
-  2. 编辑 site.config.ts 配置你的网站信息
-  3. 在 content/blog/ 目录添加你的博客文章
-  4. 在 content/thoughts/ 目录添加你的随笔
-  5. npm run dev 启动开发服务器 (http://localhost:4000)
-  6. npm run build 构建生产版本
+  2. 复制 site.config.example.ts 为 site.config.ts
+  3. 编辑 site.config.ts 配置你的网站信息
+  4. 在 content/blog/ 目录添加你的博客文章
+  5. 在 content/thoughts/ 目录添加你的随笔
+  6. npm run dev 启动开发服务器 (http://localhost:4000)
+  7. npm run build 构建生产版本
 
 更多信息请查看 README.md 文件
 

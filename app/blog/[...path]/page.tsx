@@ -1,29 +1,27 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import ReactMarkdown from 'react-markdown';
 import { siteConfig } from '../../../site.config';
 import { getPostBySlug, getAllPosts } from '../../../lib/blog';
-import CodeBlock from '../../../components/CodeBlock';
-import TableOfContents from '../../../components/TableOfContents';
 import PageLayout from '../../../components/PageLayout';
 import BlogPostContent from '../../../components/BlogPostContent';
 
 interface BlogPostPageProps {
   params: {
-    slug: string;
+    path: string[];
   };
 }
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
   return posts.map((post) => ({
-    slug: post.slug,
+    path: post.slug.split('/'),
   }));
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = getPostBySlug(params.slug);
+  const slug = params.path.join('/');
+  const post = getPostBySlug(slug);
   
   if (!post) {
     return {
@@ -53,7 +51,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 }
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = getPostBySlug(params.slug);
+  const slug = params.path.join('/');
+  const post = getPostBySlug(slug);
   
   if (!post) {
     notFound();
