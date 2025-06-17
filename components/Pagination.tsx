@@ -156,26 +156,30 @@ export default function Pagination({
 
       {/* 页码跳转 - 只在页数较多时显示 */}
       {totalPages > siteConfig.blog.pagination.maxVisiblePages && (
-        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-          <span className="font-thin tracking-wide font-serif">到第</span>
-          <input
-            type="number"
-            min={1}
-            max={totalPages}
-            value={jumpPage}
-            onChange={(e) => setJumpPage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className="w-12 px-2 py-1 text-center border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-transparent"
-          />
-          <span className="font-thin tracking-wide font-serif">页</span>
-          <button
-            onClick={handleJumpToPage}
-            disabled={!jumpPage || parseInt(jumpPage, 10) < 1 || parseInt(jumpPage, 10) > totalPages}
-            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-sm hover:bg-gray-300 dark:hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-thin tracking-wide font-serif"
-          >
-            确定
-          </button>
-        </div>
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+            <span className="font-thin tracking-wide font-serif">到第</span>
+            <input
+                type="number"
+                min={1}
+                max={totalPages}
+                value={jumpPage}
+                onChange={(e) => setJumpPage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="w-12 h-8 px-2 text-center text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-thin tracking-wide font-serif
+                  focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:border-gray-400 dark:focus:border-gray-500
+                  hover:border-gray-400 dark:hover:border-gray-500
+                  transition-all duration-200
+                  [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span className="font-thin tracking-wide font-serif">页</span>
+            <button
+                onClick={handleJumpToPage}
+                disabled={!jumpPage || parseInt(jumpPage, 10) < 1 || parseInt(jumpPage, 10) > totalPages}
+                className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-sm hover:bg-gray-300 dark:hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-thin tracking-wide font-serif"
+            >
+              确定
+            </button>
+          </div>
       )}
     </nav>
   );

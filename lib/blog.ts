@@ -100,26 +100,8 @@ const fallbackThoughts: Thought[] = [
   },
 ];
 
-// 检查是否在服务端环境
-const isServer = typeof window === 'undefined';
-
-// 动态导入fs模块（仅在服务端）
-let fs: any = null;
-let path: any = null;
-let matter: any = null;
-
-if (isServer) {
-  try {
-    fs = require('fs');
-    path = require('path');
-    matter = require('gray-matter');
-  } catch (error) {
-    console.warn('Failed to load server-side modules:', error);
-  }
-}
-
 // 递归扫描目录下的所有.md文件
-function scanDirectoryRecursively(dirPath: string, baseDir: string): { filePath: string; relativePath: string }[] {
+function scanDirectoryRecursively(dirPath: string, baseDir: string, fs: any, path: any): { filePath: string; relativePath: string }[] {
   if (!fs || !fs.existsSync(dirPath)) {
     return [];
   }
@@ -134,7 +116,7 @@ function scanDirectoryRecursively(dirPath: string, baseDir: string): { filePath:
       
       if (item.isDirectory()) {
         // 递归扫描子目录
-        files.push(...scanDirectoryRecursively(fullPath, baseDir));
+        files.push(...scanDirectoryRecursively(fullPath, baseDir, fs, path));
       } else if (item.isFile() && item.name.endsWith('.md')) {
         // 计算相对于基础目录的路径
         const relativePath = path.relative(baseDir, fullPath);
@@ -176,7 +158,7 @@ export function getAllPosts(): BlogPost[] {
       // 检查目录是否存在
       if (fs.existsSync(blogDir)) {
         // 使用递归扫描函数获取所有.md文件
-        const mdFiles = scanDirectoryRecursively(blogDir, blogDir);
+        const mdFiles = scanDirectoryRecursively(blogDir, blogDir, fs, path);
         
         const posts = mdFiles
           .map(({ filePath, relativePath }) => {
@@ -334,38 +316,36 @@ function generateThoughtId(thought: Thought): string {
 
 // 获取所有随笔
 export function getAllThoughts(): Thought[] {
-  // 如果不在服务端或者无法访问fs模块，返回fallback数据
-  if (!isServer || !fs || !path || !matter) {
-    const thoughts = fallbackThoughts.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    return thoughts.map(thought => ({
-      ...thought,
-      id: generateThoughtId(thought)
-    }));
-  }
+  // 检查是否在服务端环境
+  if (typeof window === 'undefined') {
+    try {
+      // 动态导入 Node.js 模块
+      const fs = require('fs');
+      const path = require('path');
+      const matter = require('gray-matter');
+      
+      const thoughtsDirectory = path.join(process.cwd(), 'content/thoughts');
+      
+      // 如果目录不存在，返回fallback数据
+      if (!fs.existsSync(thoughtsDirectory)) {
+        const thoughts = fallbackThoughts.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        return thoughts.map(thought => ({
+          ...thought,
+          id: generateThoughtId(thought)
+        }));
+      }
 
-  try {
-    const thoughtsDirectory = path.join(process.cwd(), 'content/thoughts');
-    
-    // 如果目录不存在，返回fallback数据
-    if (!fs.existsSync(thoughtsDirectory)) {
-      const thoughts = fallbackThoughts.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      return thoughts.map(thought => ({
-        ...thought,
-        id: generateThoughtId(thought)
-      }));
-    }
-
-    // 使用递归扫描函数获取所有.md文件
-    const mdFiles = scanDirectoryRecursively(thoughtsDirectory, thoughtsDirectory);
-    
-    const allThoughtsData = mdFiles
-      .map(({ filePath, relativePath }) => {
-        try {
-          const fileContents = fs.readFileSync(filePath, 'utf8');
-          const matterResult = matter(fileContents);
-          
-          // 从文件路径中提取文件名
-          const filename = path.basename(filePath);
+      // 使用递归扫描函数获取所有.md文件
+      const mdFiles = scanDirectoryRecursively(thoughtsDirectory, thoughtsDirectory, fs, path);
+      
+      const allThoughtsData = mdFiles
+        .map(({ filePath, relativePath }) => {
+          try {
+            const fileContents = fs.readFileSync(filePath, 'utf8');
+            const matterResult = matter(fileContents);
+            
+            // 从文件路径中提取文件名
+            const filename = path.basename(filePath);
 
           const thoughtBase = {
             filename: filename,
@@ -389,16 +369,24 @@ export function getAllThoughts(): Thought[] {
       })
       .filter((thought): thought is Thought => thought !== null);
 
-    // 按日期排序（最新的在前）
-    return allThoughtsData.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  } catch (error) {
-    console.error('Error reading thoughts:', error);
-    const thoughts = fallbackThoughts.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    return thoughts.map(thought => ({
-      ...thought,
-      id: generateThoughtId(thought)
-    }));
+      // 按日期排序（最新的在前）
+      return allThoughtsData.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    } catch (error) {
+      console.error('Error reading thoughts:', error);
+      const thoughts = fallbackThoughts.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      return thoughts.map(thought => ({
+        ...thought,
+        id: generateThoughtId(thought)
+      }));
+    }
   }
+  
+  // 如果不在服务端环境，返回fallback数据
+  const thoughts = fallbackThoughts.sort((a: Thought, b: Thought) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return thoughts.map(thought => ({
+    ...thought,
+    id: generateThoughtId(thought)
+  }));
 }
 
 // 获取最新的随笔
