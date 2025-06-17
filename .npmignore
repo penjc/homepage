@@ -36,9 +36,6 @@ Thumbs.db
 *.temp
 backup*/
 
-# 用户特定的配置文件（保留示例配置）
-site.config.ts
-
 # 保留示例配置和bin目录
 !site.config.example.ts
 !bin/

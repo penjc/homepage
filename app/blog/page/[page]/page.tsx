@@ -47,7 +47,7 @@ export default function BlogPageWithPagination({ params }: BlogPageProps) {
   return (
     <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-20">
+      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">博客</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
@@ -72,7 +72,7 @@ export default function BlogPageWithPagination({ params }: BlogPageProps) {
             {categories.map((category: string) => (
               <Link
                 key={category}
-                href={`/blog/category/${encodeURIComponent(category)}`}
+                href={`/blog/category/${category}/page/1`}
                 className="inline-flex items-center px-4 py-2 text-sm rounded-full transition-colors font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
               >
                 {category}
@@ -106,8 +106,8 @@ export default function BlogPageWithPagination({ params }: BlogPageProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <Link
-                          href={`/blog/category/${encodeURIComponent(post.category)}`}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-thin tracking-wide font-serif"
+                          href={`/blog/category/${post.category}/page/1`}
+                          className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 transition-all duration-200 font-thin tracking-wide font-serif"
                         >
                           {post.category}
                         </Link>
@@ -136,8 +136,8 @@ export default function BlogPageWithPagination({ params }: BlogPageProps) {
                             {post.tags.slice(0, siteConfig.blog.display.maxTagsToShow).map((tag: string) => (
                               <Link
                                 key={tag}
-                                href={`/blog/tag/${encodeURIComponent(tag)}`}
-                                className="inline-flex items-center px-2 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-thin tracking-wide font-serif"
+                                href={`/blog/tag/${tag}/page/1`}
+                                className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/60 dark:bg-gray-700/60 rounded-full hover:bg-gray-200/60 dark:hover:bg-gray-600/60 transition-all duration-200 font-thin tracking-wide font-serif"
                               >
                                 #{tag}
                               </Link>

@@ -123,7 +123,8 @@ export default function HomePage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-3">
                       <Link
-                        href={`/blog/category/${encodeURIComponent(post.category)}`}
+                        key={index}
+                        href={`/blog/category/${post.category}/page/1`}
                         className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 transition-all duration-200 font-thin tracking-wide font-serif"
                       >
                         {post.category}
@@ -153,7 +154,7 @@ export default function HomePage() {
                           {post.tags.slice(0, siteConfig.blog.display.maxTagsToShow).map((tag) => (
                             <Link
                               key={tag}
-                              href={`/blog/tag/${encodeURIComponent(tag)}`}
+                              href={`/blog/tag/${tag}/page/1`}
                               className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/60 dark:bg-gray-700/60 rounded-full hover:bg-gray-200/60 dark:hover:bg-gray-600/60 transition-all duration-200 font-thin tracking-wide font-serif"
                             >
                               #{tag}

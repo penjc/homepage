@@ -18,6 +18,7 @@
     "*.config.js",
     "tsconfig.json",
     "site.config.example.ts",
+    "site.config.ts",
     "README.md",
     "LICENSE"
   ],

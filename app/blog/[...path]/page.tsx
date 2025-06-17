@@ -79,8 +79,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           
           <div className="flex items-center gap-2 mb-4">
             <Link
-              href={`/blog/category/${encodeURIComponent(post.category)}`}
-              className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-thin tracking-wide font-serif"
+              href={`/blog/category/${post.category}/page/1`}
+              className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium transition-colors font-thin tracking-wide font-serif bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               {post.category}
             </Link>
@@ -105,8 +105,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               {post.tags.map((tag) => (
                 <Link
                   key={tag}
-                  href={`/blog/tag/${encodeURIComponent(tag)}`}
-                  className="inline-flex items-center px-2 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-thin tracking-wide font-serif"
+                  href={`/blog/tag/${tag}/page/1`}
+                  className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/60 dark:bg-gray-700/60 rounded-full hover:bg-gray-200/60 dark:hover:bg-gray-600/60 transition-all duration-200 font-thin tracking-wide font-serif"
                 >
                   #{tag}
                 </Link>
