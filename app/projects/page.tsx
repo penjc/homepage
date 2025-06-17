@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Github, ExternalLink, Star, GitFork, Code2, Zap, Clock } from 'lucide-react';
@@ -21,11 +21,6 @@ const statusConfig: Record<ProjectStatus, { label: string; color: string }> = {
 
 export default function ProjectsPage() {
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // 如果项目功能未启用，返回 404
   if (!siteConfig.projects?.enabled) {
@@ -71,10 +66,7 @@ export default function ProjectsPage() {
                 {featuredProjects.map((project, index) => (
                   <div
                     key={project.id}
-                    className={`group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300 ${
-                      mounted ? 'animate-fade-in-up' : ''
-                    }`}
-                    style={{ animationDelay: `${index * 150}ms` }}
+                    className="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
                     onMouseEnter={() => setHoveredProject(project.id)}
                     onMouseLeave={() => setHoveredProject(null)}
                   >
@@ -124,7 +116,6 @@ export default function ProjectsPage() {
                           <span
                             key={tag}
                             className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif transition-all duration-200 hover:scale-105 hover:bg-gray-200/80 dark:hover:bg-gray-600/60"
-                            style={{ animationDelay: `${(index * 150) + (tagIndex * 50)}ms` }}
                           >
                             {tag}
                           </span>
@@ -194,10 +185,7 @@ export default function ProjectsPage() {
                 {otherProjects.map((project, index) => (
                   <div
                     key={project.id}
-                    className={`group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/60 dark:border-gray-700/60 p-6 hover:shadow-lg dark:hover:shadow-xl transition-all duration-300 ${
-                      mounted ? 'animate-fade-in-up' : ''
-                    }`}
-                    style={{ animationDelay: `${(featuredProjects.length + index) * 100}ms` }}
+                    className="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/60 dark:border-gray-700/60 p-6 hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-gray-700 dark:to-gray-600 rounded-lg flex items-center justify-center">
@@ -287,16 +275,7 @@ export default function ProjectsPage() {
       <Footer />
       
       <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
+
 
         @keyframes scan-horizontal {
           0% {
@@ -316,9 +295,7 @@ export default function ProjectsPage() {
           }
         }
 
-        .animate-fade-in-up {
-          animation: fade-in-up 0.6s ease-out forwards;
-        }
+
 
         .animate-scan-horizontal {
           animation: scan-horizontal 2s ease-in-out infinite;
