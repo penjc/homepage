@@ -149,7 +149,7 @@ export const siteConfig = {
   projects: {
     enabled: true, // 是否启用项目页面
     title: "项目",
-    description: "探索我的技术作品与创新项目",
+    description: "探索技术作品与创新项目",
     items: [
       {
         id: "homepage",
