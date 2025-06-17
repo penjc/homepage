@@ -5,13 +5,18 @@ import { siteConfig } from '@/site.config';
 export async function GET() {
   const posts = getAllPosts();
   
+  // 构建完整的 avatar URL
+  const avatarUrl = siteConfig.profile.avatar.startsWith('http') 
+    ? siteConfig.profile.avatar 
+    : `${siteConfig.url}${siteConfig.profile.avatar}`;
+  
   const feed = new Feed({
     title: siteConfig.title,
     description: siteConfig.description,
     id: siteConfig.url,
     link: siteConfig.url,
     language: 'zh-cn',
-    image: `${siteConfig.url}/images/avatar.jpg`,
+    image: avatarUrl,
     favicon: `${siteConfig.url}/favicon.ico`,
     copyright: `版权所有 © ${new Date().getFullYear()} ${siteConfig.footer.copyright.owner}`,
     updated: new Date(posts[0]?.date || new Date()),

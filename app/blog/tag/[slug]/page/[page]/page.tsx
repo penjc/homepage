@@ -26,10 +26,20 @@ export async function generateStaticParams() {
     const totalPages = Math.ceil(allTagPosts.length / postsPerPage);
     
     for (let page = 1; page <= totalPages; page++) {
+      // 添加原始字符串参数（用于生产构建）
       params.push({
-        slug: encodeURIComponent(tag),
+        slug: tag,
         page: page.toString(),
       });
+      
+      // 如果标签包含非ASCII字符，也添加编码版本（用于开发模式）
+      const encoded = encodeURIComponent(tag);
+      if (encoded !== tag) {
+        params.push({
+          slug: encoded,
+          page: page.toString(),
+        });
+      }
     }
   }
   
@@ -37,7 +47,23 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: TagPageProps) {
-  const tag = decodeURIComponent(params.slug);
+  // 更智能的参数解码处理
+  let tag: string = params.slug;
+  
+  // 检查是否是编码的URL
+  if (params.slug.includes('%')) {
+    try {
+      tag = decodeURIComponent(params.slug);
+    } catch {
+      // 如果解码失败，尝试查找匹配的标签
+      const allTags = getAllTags();
+      const found = allTags.find(t => encodeURIComponent(t) === params.slug);
+      if (found) {
+        tag = found;
+      }
+    }
+  }
+  
   const currentPage = parseInt(params.page, 10);
   const allTagPosts = getAllPosts().filter(post => post.tags.includes(tag));
   
@@ -54,7 +80,23 @@ export async function generateMetadata({ params }: TagPageProps) {
 }
 
 export default function TagPageWithPagination({ params }: TagPageProps) {
-  const tag = decodeURIComponent(params.slug);
+  // 更智能的参数解码处理
+  let tag: string = params.slug;
+  
+  // 检查是否是编码的URL
+  if (params.slug.includes('%')) {
+    try {
+      tag = decodeURIComponent(params.slug);
+    } catch {
+      // 如果解码失败，尝试查找匹配的标签
+      const allTags = getAllTags();
+      const found = allTags.find(t => encodeURIComponent(t) === params.slug);
+      if (found) {
+        tag = found;
+      }
+    }
+  }
+  
   const currentPage = parseInt(params.page, 10);
   const postsPerPage = siteConfig.blog.pagination.postsPerPage;
   
@@ -69,7 +111,7 @@ export default function TagPageWithPagination({ params }: TagPageProps) {
   return (
     <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-20">
+      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{tag}</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
@@ -97,11 +139,11 @@ export default function TagPageWithPagination({ params }: TagPageProps) {
               return (
                 <Link
                   key={t}
-                  href={`/blog/tag/${encodeURIComponent(t)}`}
-                  className={`inline-flex items-center px-4 py-2 text-sm rounded-full transition-colors font-thin tracking-wide font-serif ${
+                  href={`/blog/tag/${t}/page/1`}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors font-thin tracking-wide font-serif ${
                     t === tag
-                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
-                      : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
                 >
                   #{t} ({count})
@@ -137,7 +179,7 @@ export default function TagPageWithPagination({ params }: TagPageProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <Link
-                          href={`/blog/category/${encodeURIComponent(post.category)}`}
+                          href={`/blog/category/${post.category}/page/1`}
                           className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-thin tracking-wide font-serif"
                         >
                           {post.category}
@@ -167,12 +209,12 @@ export default function TagPageWithPagination({ params }: TagPageProps) {
                             {post.tags.slice(0, siteConfig.blog.display.maxTagsToShow).map((postTag: string) => (
                               <Link
                                 key={postTag}
-                                href={`/blog/tag/${encodeURIComponent(postTag)}`}
-                                className={`inline-flex items-center px-2 py-1 text-xs rounded transition-colors font-thin tracking-wide font-serif ${
+                                href={`/blog/tag/${postTag}/page/1`}
+                                className={`inline-flex items-center px-2.5 py-1 text-xs font-medium transition-colors font-thin tracking-wide font-serif ${
                                   postTag === tag
-                                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
-                                    : 'text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
-                                }`}
+                                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
+                                    : 'bg-gray-100/60 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-200/60 dark:hover:bg-gray-600/60'
+                                } rounded-full transition-all duration-200`}
                               >
                                 #{postTag}
                               </Link>
@@ -211,7 +253,7 @@ export default function TagPageWithPagination({ params }: TagPageProps) {
                 totalPages={totalPages}
                 hasNextPage={hasNextPage}
                 hasPrevPage={hasPrevPage}
-                basePath={`/blog/tag/${encodeURIComponent(tag)}/page`}
+                basePath={`/blog/tag/${tag}/page`}
               />
             </div>
           )}

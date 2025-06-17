@@ -245,7 +245,7 @@ export default function ThoughtsClient({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-thin tracking-wide font-serif italic text-gray-900 dark:text-white mb-3">
+            <h3 className="text-xl font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-3">
               {initialThoughts.length === 0 ? '还没有随笔' : '没有找到匹配的随笔'}
             </h3>
             <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto font-thin tracking-wide font-serif">
@@ -257,7 +257,7 @@ export default function ThoughtsClient({
             {(selectedMood || selectedTags.length > 0) && (
               <button
                 onClick={resetFilters}
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900 dark:bg-gray-200 dark:text-gray-900 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors font-thin tracking-wide font-serif"
+                className="inline-flex items-center gap-2 font-medium py-3 px-6 rounded-md transition-colors duration-200 shadow-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 font-thin tracking-wide font-serif no-underline"
               >
                 查看所有随笔
               </button>

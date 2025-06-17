@@ -19,6 +19,8 @@ export async function generateStaticParams() {
   const categories = getAllCategories();
   const postsPerPage = siteConfig.blog.pagination.postsPerPage;
   
+  console.log('Categories found:', categories);
+  
   const params = [];
   
   for (const category of categories) {
@@ -26,18 +28,49 @@ export async function generateStaticParams() {
     const totalPages = Math.ceil(allCategoryPosts.length / postsPerPage);
     
     for (let page = 1; page <= totalPages; page++) {
+      // 添加原始字符串参数（用于生产构建）
       params.push({
-        slug: encodeURIComponent(category),
+        slug: category,
         page: page.toString(),
       });
+      
+      // 如果分类包含非ASCII字符，也添加编码版本（用于开发模式）
+      const encoded = encodeURIComponent(category);
+      if (encoded !== category) {
+        params.push({
+          slug: encoded,
+          page: page.toString(),
+        });
+      }
     }
   }
   
+  console.log('Generated static params:', params);
   return params;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps) {
-  const category = decodeURIComponent(params.slug);
+  console.log('generateMetadata called with params:', params);
+  
+  // 更智能的参数解码处理
+  let category: string = params.slug;
+  
+  // 检查是否是编码的URL
+  if (params.slug.includes('%')) {
+    try {
+      category = decodeURIComponent(params.slug);
+    } catch {
+      // 如果解码失败，尝试查找匹配的分类
+      const allCategories = getAllCategories();
+      const found = allCategories.find(cat => encodeURIComponent(cat) === params.slug);
+      if (found) {
+        category = found;
+      }
+    }
+  }
+  
+  console.log('Resolved category:', category);
+  
   const currentPage = parseInt(params.page, 10);
   const allCategoryPosts = getAllPosts().filter(post => post.category === category);
   
@@ -54,7 +87,27 @@ export async function generateMetadata({ params }: CategoryPageProps) {
 }
 
 export default function CategoryPageWithPagination({ params }: CategoryPageProps) {
-  const category = decodeURIComponent(params.slug);
+  console.log('Component called with params:', params);
+  
+  // 更智能的参数解码处理
+  let category: string = params.slug;
+  
+  // 检查是否是编码的URL
+  if (params.slug.includes('%')) {
+    try {
+      category = decodeURIComponent(params.slug);
+    } catch {
+      // 如果解码失败，尝试查找匹配的分类
+      const allCategories = getAllCategories();
+      const found = allCategories.find(cat => encodeURIComponent(cat) === params.slug);
+      if (found) {
+        category = found;
+      }
+    }
+  }
+  
+  console.log('Component resolved category:', category);
+  
   const currentPage = parseInt(params.page, 10);
   const postsPerPage = siteConfig.blog.pagination.postsPerPage;
   
@@ -69,7 +122,7 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
   return (
     <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-20">
+      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{category}</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
@@ -97,11 +150,11 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
               return (
                 <Link
                   key={cat}
-                  href={`/blog/category/${encodeURIComponent(cat)}`}
-                  className={`inline-flex items-center px-4 py-2 text-sm rounded-full transition-colors font-thin tracking-wide font-serif ${
+                  href={`/blog/category/${cat}/page/1`}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors font-thin tracking-wide font-serif ${
                     cat === category
-                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
-                      : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
                 >
                   {cat} ({count})
@@ -136,7 +189,7 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <Link
-                          href={`/blog/category/${encodeURIComponent(post.category)}`}
+                          href={`/blog/category/${post.category}/page/1`}
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium transition-colors font-thin tracking-wide font-serif ${
                             post.category === category
                               ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
@@ -170,8 +223,8 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
                             {post.tags.slice(0, siteConfig.blog.display.maxTagsToShow).map((tag: string) => (
                               <Link
                                 key={tag}
-                                href={`/blog/tag/${encodeURIComponent(tag)}`}
-                                className="inline-flex items-center px-2 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-thin tracking-wide font-serif"
+                                href={`/blog/tag/${tag}/page/1`}
+                                className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/60 dark:bg-gray-700/60 rounded-full hover:bg-gray-200/60 dark:hover:bg-gray-600/60 transition-all duration-200 font-thin tracking-wide font-serif"
                               >
                                 #{tag}
                               </Link>
@@ -210,7 +263,7 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
                 totalPages={totalPages}
                 hasNextPage={hasNextPage}
                 hasPrevPage={hasPrevPage}
-                basePath={`/blog/category/${encodeURIComponent(category)}/page`}
+                basePath={`/blog/category/${category}/page`}
               />
             </div>
           )}

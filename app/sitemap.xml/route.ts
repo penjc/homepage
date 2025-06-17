@@ -20,11 +20,11 @@ export async function GET() {
   
   // 生成所有分类页面的URL
   const categories = Array.from(new Set(posts.map(post => post.category)));
-  const categoryUrls = categories.map(category => `/blog/category/${encodeURIComponent(category)}`);
+  const categoryUrls = categories.map(category => `/blog/category/${category}/page/1`);
   
   // 生成所有标签页面的URL
   const allTags = Array.from(new Set(posts.flatMap(post => post.tags)));
-  const tagUrls = allTags.map(tag => `/blog/tag/${encodeURIComponent(tag)}`);
+  const tagUrls = allTags.map(tag => `/blog/tag/${tag}/page/1`);
   
   // 构建sitemap XML
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

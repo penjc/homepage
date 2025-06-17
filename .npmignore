@@ -2,7 +2,6 @@
 .next/
 node_modules/
 .git/
-.gitignore
 .env*
 npm-debug.log*
 yarn-debug.log*
@@ -37,9 +36,6 @@ Thumbs.db
 *.temp
 backup*/
 
-# 用户特定的配置文件（保留示例配置）
-site.config.ts
-
 # 保留示例配置和bin目录
 !site.config.example.ts
 !bin/
@@ -48,5 +44,3 @@ site.config.ts
 *.md.backup
 
 docs/PUBLISH.md
-
-# site.config.ts
