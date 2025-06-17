@@ -4,6 +4,8 @@ import { siteConfig } from '../site.config';
 import { getRecentPosts } from '../lib/blog';
 import Footer from '../components/Footer';
 import { getAssetPath } from '../lib/utils';
+import ImageWithLoading from '../components/ImageWithLoading';
+import SuspenseWrapper from '../components/SuspenseWrapper';
 
 export default function HomePage() {
   const recentPosts = getRecentPosts(siteConfig.blog.homepage.recentPostsCount);
@@ -18,13 +20,14 @@ export default function HomePage() {
             {/* Avatar */}
             <div className="relative group">
               <div className="w-40 h-40 relative">
-                <Image
+                <ImageWithLoading
                   src={getAssetPath(siteConfig.profile.avatar)}
                   alt={siteConfig.name}
                   width={160}
                   height={160}
                   className="w-40 h-40 rounded-full object-cover border-2 border-gray-200/50 dark:border-gray-700/50 shadow-sm transition-all duration-300 group-hover:shadow-lg group-hover:scale-105"
                   priority
+                  objectFit="cover"
                 />
               </div>
             </div>
@@ -116,8 +119,9 @@ export default function HomePage() {
           </div>
 
           {/* Recent Posts List */}
-          <div className="space-y-8">
-            {recentPosts.map((post, index) => (
+          <SuspenseWrapper skeleton="post" skeletonCount={3}>
+            <div className="space-y-8">
+              {recentPosts.map((post, index) => (
               <article key={post.slug} className="border-b border-gray-200/60 dark:border-gray-700/60 pb-8 last:border-b-0">
                 <div className="flex items-start gap-6">
                   {/* Date */}
@@ -185,8 +189,9 @@ export default function HomePage() {
                   </div>
                 </div>
               </article>
-            ))}
-          </div>
+              ))}
+            </div>
+          </SuspenseWrapper>
         </div>
       </section>
 
