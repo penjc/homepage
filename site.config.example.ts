@@ -4,7 +4,7 @@ export const siteConfig = {
   title: "無限進步",
   description: "个人主页",
   url: "https://pengjiancheng.com",
-  
+
   // 个人信息
   profile: {
     avatar: "/images/avatar.jpg",
@@ -44,7 +44,7 @@ export const siteConfig = {
         "在工作之余，我喜欢分享技术文章，参与开源项目，以及探索新的技术领域。相信技术可以改变世界，希望通过自己的努力为这个目标贡献一份力量。"
       ]
     },
-    
+
     // 教育背景
     education: {
       title: "教育背景",
@@ -65,7 +65,7 @@ export const siteConfig = {
         }
       ]
     },
-    
+
     // 工作经历
     experience: {
       title: "工作经历",
@@ -90,7 +90,7 @@ export const siteConfig = {
         }
       ]
     },
-    
+
     // 技能专长
     skills: {
       title: "技能专长",
@@ -140,8 +140,59 @@ export const siteConfig = {
       { name: "首页", href: "/" },
       { name: "博客", href: "/blog" },
       { name: "随笔", href: "/thoughts" },
+      { name: "项目", href: "/projects" },
       { name: "关于", href: "/about" },
     ],
+  },
+
+  // 项目配置
+  projects: {
+    enabled: true, // 是否启用项目页面
+    title: "项目",
+    description: "探索我的技术作品与创新项目",
+    items: [
+      {
+        id: "homepage",
+        title: "个人主页",
+        description: "基于 Next.js 的个人主页模版，支持博客、随笔等功能",
+        image: "/images/projects/homepage.jpg",
+        tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+        github: "https://github.com/penjc/homepage",
+        demo: "https://pengjiancheng.com",
+        status: "active", // active | completed | archived
+        featured: true
+      },
+      {
+        id: "api-gateway",
+        title: "Spring",
+        description: "Spring Framework 的核心框架，提供全面的企业级应用开发支持",
+        image: "/images/projects/spring.jpg",
+        tags: ["Java", "FrameWork", "Spring FrameWork"],
+        github: "https://github.com/spring-projects/spring-framework",
+        status: "active",
+        featured: true
+      },
+      {
+        id: "apache-nifi",
+        title: "Apache NiFi 数据流处理",
+        description: "可视化数据流编排平台，支持大规模数据采集、转换与路由，适用于实时和批量数据处理场景",
+        image: "/images/projects/apache-nifi.jpg",
+        tags: ["Java", "Apache NiFi", "Kafka"],
+        github: "https://github.com/apache/nifi",
+        status: "completed",
+        featured: false
+      },
+      {
+        id: "redis",
+        title: "Redis 内存数据存储",
+        description: "高性能的内存数据存储系统，广泛应用于缓存、消息队列、分布式锁等高并发场景",
+        tags: ["Redis", "Cache", "Pub/Sub"],
+        github: "https://github.com/redis/redis",
+        status: "completed",
+        featured: false
+      }
+
+    ]
   },
 
   // 首页配置
@@ -150,6 +201,7 @@ export const siteConfig = {
     quickLinks: [
       { name: "博客", href: "/blog", icon: "BookOpen" },
       { name: "随笔", href: "/thoughts", icon: "PenTool" },
+      { name: "项目", href: "/projects", icon: "Code" },
       { name: "关于", href: "/about", icon: "User" },
     ],
   },
@@ -161,12 +213,12 @@ export const siteConfig = {
       postsPerPage: 6, // 每页显示的博客文章数量
       maxVisiblePages: 5, // 分页组件中最多显示的页码数量
     },
-    
+
     // 首页配置
     homepage: {
       recentPostsCount: 5, // 首页显示的最新文章数量
     },
-    
+
     // 其他博客相关配置
     display: {
       showExcerpt: true, // 是否显示文章摘要
@@ -180,11 +232,11 @@ export const siteConfig = {
   // SEO配置
   seo: {
     keywords: [
-        "个人主页",
-        "后端开发",
-        "React",
-        "Next.js",
-        "TypeScript",
+      "个人主页",
+      "后端开发",
+      "React",
+      "Next.js",
+      "TypeScript",
     ],
     openGraph: {
       type: "website",

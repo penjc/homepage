@@ -38,7 +38,15 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {siteConfig.navigation.main.map((item) => (
+              {siteConfig.navigation.main
+                .filter(item => {
+                  // 如果是项目链接且项目功能未启用，则不显示
+                  if (item.href.includes('projects')) {
+                    return siteConfig.projects?.enabled || false;
+                  }
+                  return true;
+                })
+                .map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -81,7 +89,15 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
           {/* Mobile Navigation */}
           {isOpen && (
             <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
-              {siteConfig.navigation.main.map((item) => (
+              {siteConfig.navigation.main
+                .filter(item => {
+                  // 如果是项目链接且项目功能未启用，则不显示
+                  if (item.href.includes('projects')) {
+                    return siteConfig.projects?.enabled || false;
+                  }
+                  return true;
+                })
+                .map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
