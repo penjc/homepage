@@ -128,7 +128,8 @@ export const siteConfig = {
           skills: [
             { name: "JavaScript/TypeScript", level: 85 },
             { name: "React/Next.js", level: 80 },
-            { name: "Vue.js", level: 75 }
+            { name: "Vue.js", level: 75 },
+            { name: "HTML/CSS", level: 80 }
           ]
         }
       ]
