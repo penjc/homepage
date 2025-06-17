@@ -42,12 +42,20 @@ export default function ProjectsPage() {
       
       <main className="min-h-screen bg-white dark:bg-gray-900 pt-16">
         {/* Hero Section */}
-        <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16 relative overflow-hidden">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{projects.title}</h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
               {projects.description}
             </p>
+          </div>
+          
+          {/* 背景动画点 */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 left-1/6 w-1 h-1 bg-gray-400/20 dark:bg-gray-500/20 rounded-full animate-pulse"></div>
+            <div className="absolute top-3/4 right-1/4 w-0.5 h-0.5 bg-gray-400/30 dark:bg-gray-500/30 rounded-full animate-ping"></div>
+            <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-gray-400/15 dark:bg-gray-500/15 rounded-full animate-pulse delay-500"></div>
+            <div className="absolute top-1/2 right-1/6 w-0.5 h-0.5 bg-gray-400/25 dark:bg-gray-500/25 rounded-full animate-ping delay-1000"></div>
           </div>
         </section>
 
@@ -112,10 +120,11 @@ export default function ProjectsPage() {
 
                       {/* 技术标签 */}
                       <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tags.map((tag) => (
+                        {project.tags.map((tag, tagIndex) => (
                           <span
                             key={tag}
-                            className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
+                            className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif transition-all duration-200 hover:scale-105 hover:bg-gray-200/80 dark:hover:bg-gray-600/60"
+                            style={{ animationDelay: `${(index * 150) + (tagIndex * 50)}ms` }}
                           >
                             {tag}
                           </span>
@@ -150,12 +159,22 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    {/* 悬浮时的边框效果 */}
+                    {/* 悬浮时的边框效果和扫描动画 */}
                     <div 
                       className={`absolute inset-0 rounded-2xl border-2 border-gray-300/0 dark:border-gray-600/0 transition-all duration-300 pointer-events-none ${
                         hoveredProject === project.id ? 'border-gray-300/50 dark:border-gray-600/50' : ''
                       }`}
                     ></div>
+                    
+                    {/* 扫描线动画 */}
+                    <div 
+                      className={`absolute inset-0 rounded-2xl pointer-events-none overflow-hidden ${
+                        hoveredProject === project.id ? 'opacity-100' : 'opacity-0'
+                      } transition-opacity duration-300`}
+                    >
+                      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-400/40 dark:via-gray-500/40 to-transparent animate-scan-horizontal"></div>
+                      <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-gray-400/40 dark:via-gray-500/40 to-transparent animate-scan-vertical"></div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -279,8 +298,34 @@ export default function ProjectsPage() {
           }
         }
 
+        @keyframes scan-horizontal {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(200%);
+          }
+        }
+
+        @keyframes scan-vertical {
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(200%);
+          }
+        }
+
         .animate-fade-in-up {
           animation: fade-in-up 0.6s ease-out forwards;
+        }
+
+        .animate-scan-horizontal {
+          animation: scan-horizontal 2s ease-in-out infinite;
+        }
+
+        .animate-scan-vertical {
+          animation: scan-vertical 2.5s ease-in-out infinite;
         }
       `}</style>
     </>
