@@ -7,6 +7,7 @@ import { Book, Star, ExternalLink, Eye, Clock, CheckCircle, Bookmark, Filter, Se
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
+import Comments from '../../components/Comments';
 
 // 书籍状态类型定义
 type BookStatus = 'reading' | 'read' | 'want_to_read';
@@ -398,6 +399,17 @@ function BooksContent() {
             </div>
           </section>
         )}
+
+        {/* Comments Section */}
+        <section className="py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Comments 
+              pageId="books"
+              pageTitle="书籍"
+              pageUrl="/books"
+            />
+          </div>
+        </section>
       </main>
 
       <Footer />

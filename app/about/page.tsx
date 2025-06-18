@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { siteConfig } from '../../site.config';
 import PageLayout from '../../components/PageLayout';
+import Comments from '../../components/Comments';
 import { 
   ArrowTopRightOnSquareIcon, 
   MapPinIcon, 
@@ -429,6 +430,15 @@ export default function AboutPage() {
             </div>
           </section>
         )}
+
+        {/* Comments Section */}
+        <section className="mb-20">
+          <Comments 
+            pageId="about"
+            pageTitle="关于我"
+            pageUrl="/about"
+          />
+        </section>
       </div>
     </PageLayout>
   );

@@ -7,6 +7,7 @@ import { Github, ExternalLink, Star, Code2, Zap, Clock } from 'lucide-react';
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
+import Comments from '../../components/Comments';
 import { getAssetPath } from '../../lib/utils';
 
 // 项目状态类型定义
@@ -270,6 +271,17 @@ export default function ProjectsPage() {
             </div>
           </section>
         )}
+
+        {/* Comments Section */}
+        <section className="py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Comments 
+              pageId="projects"
+              pageTitle="项目"
+              pageUrl="/projects"
+            />
+          </div>
+        </section>
       </main>
 
       <Footer />

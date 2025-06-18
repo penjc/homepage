@@ -10,10 +10,38 @@
 [![npm version](https://img.shields.io/npm/v/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
 [![npm downloads](https://img.shields.io/npm/dm/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
 
+[//]: # ([![GitHub stars]&#40;https://img.shields.io/github/stars/penjc/homepage?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/stargazers&#41;)
 
-**一个现代化、响应式的个人主页模板，支持博客、随笔等功能**
+[//]: # ([![GitHub forks]&#40;https://img.shields.io/github/forks/penjc/homepage?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/network/members&#41;)
+
+[//]: # ([![GitHub issues]&#40;https://img.shields.io/github/issues/penjc/homepage?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/issues&#41;)
+
+[//]: # ([![GitHub license]&#40;https://img.shields.io/github/license/penjc/homepage?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/blob/main/LICENSE&#41;)
+
+[![Next.js](https://img.shields.io/badge/Next.js-13+-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0+-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![React](https://img.shields.io/badge/React-18+-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
+
+[![Vercel](https://img.shields.io/badge/Deploy_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
+[![Netlify](https://img.shields.io/badge/Deploy_on-Netlify-00c7b7?style=flat-square&logo=netlify)](https://netlify.com)
+[![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/)
+
+[//]: # ([![PRs Welcome]&#40;https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/pulls&#41;)
+
+[//]: # ([![Maintenance]&#40;https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/graphs/commit-activity&#41;)
+
+[//]: # ([![Made with Love]&#40;https://img.shields.io/badge/Made%20with-❤️-red?style=flat-square&#41;]&#40;https://github.com/penjc&#41;)
+
+[//]: # ()
+
+**一个现代化、响应式的个人主页解决方案**
+
+基于 Next.js 13+ 构建的全功能个人主页模板，集成博客、项目展示、书籍管理、友链等多种功能。
 
 [🚀 快速开始](#-快速开始) • [📖 文档](#-文档) • [🎨 特性](#-特性) • [🌟 演示](https://pengjiancheng.com) • [🤝 贡献](#-贡献)
+
+简体中文 | [English](./README.en.md)
 
 </div>
 
@@ -21,18 +49,43 @@
 
 ## ✨ 特性
 
-- 🎨 **现代化设计** - 简约美观的界面设计
-- 📱 **完全响应式** - 完美适配桌面端和移动端
-- ⚡ **极速性能** - 基于 Next.js 13+ 构建，性能卓越
-- 🎯 **SEO 优化** - 内置 SEO 最佳实践
-- 📝 **Markdown 支持** - 支持 Markdown 写作，语法高亮
-- 🏷️ **标签分类** - 支持文章标签和分类管理
-- 🔍 **搜索功能** - 内置文章搜索功能
-- 📊 **数据分析** - 集成 Google Analytics
-- 🌙 **深色模式** - 支持明暗主题切换
-- 🚀 **一键部署** - 支持 Vercel、Netlify 等平台部署
-- 📱 **PWA 支持** - 支持离线访问
-- 🎭 **动画效果** - 流畅的页面过渡动画
+### 🎨 设计与交互
+- 🎨 **现代化设计** - 简约美观的界面设计，注重细节与用户体验
+- 📱 **完全响应式** - 完美适配桌面端和移动端，移动优先设计
+- 🎭 **动画效果** - 流畅的页面过渡动画和交互反馈
+- 💫 **加载体验** - 优雅的加载动画和骨架屏
+
+### 📝 内容管理
+- 📝 **Markdown 支持** - 支持 Markdown 写作，代码语法高亮
+- 📚 **博客系统** - 完整的博客功能，支持分页、分类、标签
+- ✍️ **随笔功能** - 记录生活感悟，支持心情标签和时间线
+- 🏷️ **标签分类** - 智能的内容分类和标签管理
+- 🔍 **搜索功能** - 内置全文搜索，快速查找内容
+
+### 🗂️ 展示模块
+- 💼 **项目展示** - 展示个人项目作品，支持分类、状态和链接管理
+- 📚 **书籍管理** - 分享阅读书单，记录读书心得、评分和购买链接
+- 🤝 **友链管理** - 管理友情链接，支持头像、描述和状态
+- 👤 **关于页面** - 完整的个人介绍，包括技能、工作经历、教育背景
+
+### 🎯 互动功能
+- 💬 **评论系统** - 支持多种评论系统（Giscus、Gitalk、Valine、Waline）
+- 📝 **评论配置** - 灵活的评论系统配置，支持页面级别控制
+- 🔄 **实时更新** - 动态内容加载，无需刷新页面
+- 🎨 **主题适配** - 评论系统自动适配网站主题
+
+### 🚀 部署与开发
+- 🚀 **一键部署** - 支持 Vercel、Netlify、GitHub Pages 等平台
+- ⚙️ **配置驱动** - 通过配置文件管理所有功能，无需修改代码
+- 🔧 **开发友好** - 热重载、ESLint、Prettier 开箱即用
+- 📦 **模块化设计** - 组件化架构，易于定制和扩展
+
+### ⚡ 性能与技术
+- ⚡ **极速性能** - 基于 Next.js 13+ 构建，静态生成，性能卓越
+- 🎯 **SEO 优化** - 内置 SEO 最佳实践，搜索引擎友好
+- 📱 **PWA 支持** - 支持离线访问，可安装到桌面
+- 🔧 **TypeScript** - 完整的类型安全，开发体验更佳
+- 📊 **数据分析** - 集成 Google Analytics，了解访问情况
 
 ## 🚀 快速开始
 
@@ -161,6 +214,202 @@ tags: ["感悟"]
 ```markdown
 ![图片描述](/images/your-image.jpg)
 ```
+
+### 🗂️ 配置展示模块
+
+#### 项目展示
+
+在 `site.config.ts` 中配置项目信息：
+
+```typescript
+projects: {
+  enabled: true,
+  title: "项目",
+  description: "探索技术作品与创新项目",
+  items: [
+    {
+      id: "homepage",
+      title: "个人主页",
+      description: "基于 Next.js 的个人主页模板",
+      image: "/images/projects/homepage.jpg",
+      tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+      github: "https://github.com/username/homepage",
+      demo: "https://your-site.com",
+      status: "active", // active | completed | archived
+      featured: true
+    }
+    // 更多项目...
+  ]
+}
+```
+
+#### 书籍管理
+
+配置你的阅读书单：
+
+```typescript
+books: {
+  enabled: true,
+  title: "书籍",
+  description: "分享值得阅读的好书，记录阅读心得",
+  categories: [
+    { id: "tech", name: "技术类", description: "提升技术能力的专业书籍" },
+    { id: "philosophy", name: "哲学思辨", description: "启发思维的哲学著作" }
+    // 更多分类...
+  ],
+  items: [
+    {
+      id: "clean-code",
+      title: "代码整洁之道",
+      author: "Robert C. Martin",
+      category: "tech",
+      rating: 5,
+      status: "read", // reading | read | want_to_read
+      cover: "/images/books/clean-code.jpg",
+      description: "代码质量与其整洁度成正比...",
+      review: "这本书彻底改变了我对编程的认知",
+      tags: ["编程", "软件工程", "最佳实践"],
+      readDate: "2024-01-15",
+      featured: true,
+      purchaseLinks: {
+        amazon: "https://amazon.com/clean-code",
+        douban: "https://book.douban.com/subject/4199741/"
+      }
+    }
+    // 更多书籍...
+  ]
+}
+```
+
+#### 友链管理
+
+配置友情链接：
+
+```typescript
+friends: {
+  enabled: true,
+  title: "友链",
+  description: "志同道合的朋友们",
+  items: [
+    {
+      id: "friend-1",
+      name: "朋友名称",
+      description: "朋友网站的描述",
+      avatar: "https://avatars.githubusercontent.com/u/1?v=4",
+      url: "https://friend-site.com",
+      featured: true,
+      status: "active", // active | inactive
+      tags: ["技术", "博客", "前端"]
+    }
+    // 更多友链...
+  ]
+}
+```
+
+#### 关于页面
+
+配置个人信息展示：
+
+```typescript
+about: {
+  // 个人简介
+  intro: {
+    title: "个人简介",
+    paragraphs: [
+      "后端开发工程师。熟练掌握后端技术栈...",
+      "在工作之余，我喜欢分享技术文章..."
+    ]
+  },
+  
+  // 教育背景
+  education: {
+    title: "教育背景",
+    items: [
+      {
+        year: "2020 - 2024",
+        degree: "计算机科学与技术 硕士",
+        school: "大学名称",
+        description: "专业课程描述...",
+        gpa: "3.8/4.0"
+      }
+    ]
+  },
+  
+  // 工作经历
+  experience: {
+    title: "工作经历",
+    items: [
+      {
+        year: "2023 - 现在",
+        title: "软件工程师",
+        company: "公司名称",
+        description: "工作描述...",
+        highlights: ["工作亮点1", "工作亮点2"]
+      }
+    ]
+  },
+  
+  // 技能专长
+  skills: {
+    title: "技能专长",
+    categories: [
+      {
+        name: "后端开发",
+        skills: [
+          { name: "Java/Spring Boot", level: 95 },
+          { name: "Python/Django", level: 88 }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 💬 配置评论系统
+
+支持多种评论系统，可以选择其中一种进行配置。评论功能会自动出现在博客详情页、随笔页、项目页、书籍页、友链页和关于页。
+
+#### 支持的评论系统
+
+- **Giscus** (推荐) - 基于 GitHub Discussions，完全免费
+- **Gitalk** - 基于 GitHub Issues
+- **Valine** - 基于 LeanCloud
+- **Waline** - Valine 的增强版
+
+#### 快速配置
+
+在 `site.config.ts` 文件中配置评论系统：
+
+```typescript
+export const siteConfig = {
+  // ... 其他配置
+  
+  comments: {
+    enabled: true,               // 启用评论功能
+    provider: "giscus",          // 选择评论系统: giscus | gitalk | valine | waline
+    
+    // Giscus 配置 (推荐)
+    giscus: {
+      repo: "your-username/your-repo",
+      repoId: "your-repo-id",
+      category: "General",
+      categoryId: "your-category-id",
+      mapping: "pathname",
+      theme: "preferred_color_scheme",
+      lang: "zh-CN",
+      // ... 更多配置
+    },
+    
+    // 其他评论系统配置...
+  },
+  
+  // ... 其他配置
+};
+```
+
+> **提示**: 仍支持环境变量配置方式，但推荐使用配置文件方式管理。
+
+详细配置说明请查看 [评论系统配置指南](docs/COMMENTS.md)。
 
 ## 🚀 部署
 
