@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import LoadingSpinner from './LoadingSpinner';
 
 interface ImageWithLoadingProps {
   src: string;
@@ -54,24 +53,10 @@ const ImageWithLoading: React.FC<ImageWithLoadingProps> = ({
 
   return (
     <div className="relative">
-      {/* Loading状态 */}
+      {/* 简约Loading状态 - 只有转圈 */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
-          <LoadingSpinner size="md" variant="pulse" />
-        </div>
-      )}
-
-      {/* 错误状态 */}
-      {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
-          <div className="text-center space-y-2">
-            <div className="w-12 h-12 mx-auto text-gray-400 dark:text-gray-600">
-              <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
-              </svg>
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400">加载失败</p>
-          </div>
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+          <div className="w-6 h-6 border-2 border-gray-200/30 border-t-gray-900 rounded-full animate-spin dark:border-gray-700/30 dark:border-t-gray-100"></div>
         </div>
       )}
 
@@ -92,6 +77,11 @@ const ImageWithLoading: React.FC<ImageWithLoadingProps> = ({
           onLoad={handleLoad}
           onError={handleError}
         />
+      )}
+
+      {/* 简化错误处理 - 图片加载失败时直接隐藏 */}
+      {hasError && (
+        <div className="absolute inset-0 bg-gray-50 dark:bg-gray-900"></div>
       )}
     </div>
   );
