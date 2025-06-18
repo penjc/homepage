@@ -176,7 +176,7 @@ export const siteConfig = {
       {
         id: "apache-nifi",
         title: "Apache NiFi 数据流处理",
-        description: "可视化数据流编排平台，支持大规模数据采集、转换与路由，适用于实时和批量数据处理场景",
+        description: "可视化数据流编排平台，支持大规模数据采集、转换与路由，适用批量数据处理场景",
         image: "/images/projects/apache-nifi.jpg",
         tags: ["Java", "Apache NiFi", "Kafka"],
         github: "https://github.com/apache/nifi",
