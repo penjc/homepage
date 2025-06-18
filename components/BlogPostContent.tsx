@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import TableOfContents from './TableOfContents';
+import Comments from './Comments';
 import { BlogPost } from '@/lib/blog';
 import { trackEvent } from './GoogleAnalytics';
 
@@ -286,6 +287,15 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                 >
                   返回博客列表
                 </Link>
+              </div>
+
+              {/* Comments */}
+              <div className="mt-12">
+                <Comments 
+                  pageId={`blog-${post.slug}`}
+                  pageTitle={post.title}
+                  pageUrl={`/blog/${post.slug}`}
+                />
               </div>
             </div>
           </main>

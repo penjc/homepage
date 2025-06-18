@@ -410,6 +410,73 @@ export const siteConfig = {
     googleAnalyticsId: "G-XXXXXXX", // Google Analytics ID
   },
 
+  // 评论系统配置
+  comments: {
+    enabled: true, // 是否启用评论功能
+    provider: "giscus", // 评论系统提供商: giscus | gitalk | valine | waline
+    
+    // Giscus 配置 (推荐)
+    giscus: { // 通过 https://giscus.app/zh-CN 生成以下参数
+      repo: "penjc/homepage", // GitHub 仓库地址，格式: owner/repo
+      repoId: "R_kgDOO3TEjw", // GitHub 仓库 ID
+      category: "Announcements", // GitHub Discussions 分类
+      categoryId: "DIC_kwDOO3TEj84Crqrf", // GitHub Discussions 分类 ID
+      mapping: "pathname", // 页面映射方式: pathname | url | title
+      theme: "preferred_color_scheme", // 主题: light | dark | preferred_color_scheme
+      lang: "zh-CN", // 语言
+      loading: "lazy", // 加载方式: lazy | eager
+      reactionsEnabled: true, // 是否启用表情回应
+      emitMetadata: false, // 是否输出元数据
+      inputPosition: "bottom", // 输入框位置: top | bottom
+    },
+    
+    // Gitalk 配置
+    gitalk: {
+      clientID: "", // GitHub OAuth App Client ID
+      clientSecret: "", // GitHub OAuth App Client Secret
+      repo: "", // GitHub 仓库名
+      owner: "", // GitHub 用户名
+      admin: [], // 管理员用户名列表，格式: ["admin1", "admin2"]
+      language: "zh-CN", // 语言
+      perPage: 10, // 每页评论数
+      distractionFreeMode: false, // 无干扰模式
+      pagerDirection: "last", // 分页方向: last | first
+      createIssueManually: false, // 是否手动创建 Issue
+      enableHotKey: true, // 是否启用快捷键
+    },
+    
+    // Valine 配置
+    valine: {
+      appId: "", // LeanCloud App ID
+      appKey: "", // LeanCloud App Key
+      placeholder: "请输入评论内容...", // 输入框占位符
+      avatar: "mp", // 头像类型: mp | identicon | monsterid | wavatar | retro | hide
+      meta: ["nick", "mail", "link"], // 评论者信息字段
+      pageSize: 10, // 每页评论数
+      lang: "zh-CN", // 语言
+      visitor: true, // 是否启用访问量统计
+      highlight: true, // 是否启用代码高亮
+      recordIP: false, // 是否记录 IP
+      enableQQ: true, // 是否启用 QQ 头像
+      requiredFields: ["nick", "mail"], // 必填字段
+    },
+    
+    // Waline 配置
+    waline: {
+      serverURL: "", // Waline 服务器地址
+      placeholder: "请输入评论内容...", // 输入框占位符
+      avatar: "mp", // 头像类型: mp | identicon | monsterid | wavatar | retro | hide
+      meta: ["nick", "mail", "link"], // 评论者信息字段
+      pageSize: 10, // 每页评论数
+      lang: "zh-CN", // 语言
+      visitor: true, // 是否启用访问量统计
+      highlight: true, // 是否启用代码高亮
+      recordIP: false, // 是否记录 IP
+      enableQQ: true, // 是否启用 QQ 头像
+      requiredFields: ["nick", "mail"], // 必填字段
+    },
+  },
+
   // 底部栏配置
   footer: {
     copyright: {
@@ -426,7 +493,7 @@ export const siteConfig = {
   // 部署配置
   deployment: {
     baseUrl: "/homepage",
-    // 基础路径配置 - 总是填写你的仓库路径
+    // 基础路径配置 - 总是填写你的仓库名
     // GitHub Pages 部署时通过 GITHUB_PAGES=true 环境变量启用此配置
     // 自定义域名部署时不设置 GITHUB_PAGES 环境变量，会忽略此配置
   },

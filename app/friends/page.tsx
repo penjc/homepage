@@ -7,6 +7,7 @@ import { ExternalLink, Heart, Sparkles, Globe, Code, Palette } from 'lucide-reac
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
+import Comments from '../../components/Comments';
 
 // 友链状态类型定义
 type FriendStatus = 'active' | 'inactive';
@@ -312,6 +313,17 @@ export default function FriendsPage() {
                  </Link>
                )}
             </div>
+          </div>
+        </section>
+
+        {/* Comments Section */}
+        <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Comments 
+              pageId="friends"
+              pageTitle="友链"
+              pageUrl="/friends"
+            />
           </div>
         </section>
       </main>

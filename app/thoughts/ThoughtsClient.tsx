@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import Comments from '../../components/Comments';
 
 interface Thought {
   content: string;
@@ -351,6 +352,15 @@ export default function ThoughtsClient({
             </p>
           </div>
         )}
+
+        {/* 评论区 */}
+        <div className="mt-16">
+          <Comments 
+            pageId="thoughts"
+            pageTitle="随笔"
+            pageUrl="/thoughts"
+          />
+        </div>
       </main>
     </>
   );
