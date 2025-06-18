@@ -283,27 +283,11 @@ export const siteConfig = {
       locale: "zh_CN",
       siteName: "个人主页",
     },
-    // 图标配置
-    icons: {
-      favicon: "/favicon.ico",
-    },
   },
 
   // 分析工具
   analytics: {
     googleAnalyticsId: "G-XXXXXXX", // Google Analytics ID
-  },
-
-  // 主题配置
-  theme: {
-    colors: {
-      primary: "#3b82f6", // 主色调
-      secondary: "#1e293b", // 次要色调
-    },
-    fonts: {
-      sans: ["Inter", "Noto Sans SC", "sans-serif"],
-      mono: ["JetBrains Mono", "monospace"],
-    },
   },
 
   // 底部栏配置
