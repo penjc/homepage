@@ -424,7 +424,7 @@ export const siteConfig = {
       mapping: "pathname", // 页面映射方式: pathname | url | title
       theme: "preferred_color_scheme", // 主题: light | dark | preferred_color_scheme
       lang: "zh-CN", // 语言
-      loading: "lazy", // 加载方式: lazy | eager
+      loading: "eager", // 加载方式: lazy | eager
       reactionsEnabled: true, // 是否启用表情回应
       emitMetadata: false, // 是否输出元数据
       inputPosition: "bottom", // 输入框位置: top | bottom

@@ -446,18 +446,18 @@ const WalineComments = ({ config, pageId }: { config: ValineConfig; pageId: stri
 
 export default function Comments({ pageId, pageTitle, pageUrl, className = '' }: CommentsProps) {
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const commentConfig = getCommentConfig();
   const commentsConfig = siteConfig.comments;
 
   useEffect(() => {
     setMounted(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    // const timer = setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 1000);
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) {
@@ -472,24 +472,27 @@ export default function Comments({ pageId, pageTitle, pageUrl, className = '' }:
   // 如果评论功能启用但配置不正确，显示配置提示
   if (!commentConfig) {
     return (
-      <div className={`bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8 text-center ${className}`}>
+      <div className={`text-center py-8 ${className}`}>
         <div className="flex flex-col items-center gap-4">
+          <div className="flex items-center gap-3 mb-4">
+            <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
+            <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
+              评论
+            </h3>
+          </div>
           <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-            <MessageCircle size={32} className="text-gray-400 dark:text-gray-500" />
+            <Settings size={32} className="text-gray-400 dark:text-gray-500" />
           </div>
           <div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2 font-thin tracking-wide font-serif">
-              评论功能配置不完整
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm font-thin tracking-wide font-serif">
-              要启用评论功能，请在 site.config.ts 中完善评论系统配置
+            <p className="text-gray-600 dark:text-gray-400 text-sm font-thin tracking-wide">
+              评论功能配置不完整，请在 site.config.ts 中完善评论系统配置
             </p>
           </div>
           <details className="mt-4 w-full max-w-md">
             <summary className="cursor-pointer text-blue-600 dark:text-blue-400 text-sm hover:underline">
               查看配置说明
             </summary>
-            <div className="mt-3 p-4 bg-white dark:bg-gray-700 rounded-lg text-xs text-gray-600 dark:text-gray-300 font-mono">
+            <div className="mt-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-xs text-gray-600 dark:text-gray-300 font-mono">
               <p className="mb-2 font-semibold">支持的评论系统：</p>
               <ul className="space-y-1 list-disc list-inside">
                 <li>Giscus (GitHub Discussions)</li>
@@ -524,33 +527,44 @@ comments: {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className={`bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8 ${className}`}>
-        <div className="flex items-center justify-center gap-3">
-          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-gray-600 dark:text-gray-400 font-thin tracking-wide font-serif">
-            正在加载评论...
-          </span>
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className={`py-8 ${className}`}>
+  //       <div className="flex items-center gap-3 mb-6">
+  //         <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
+  //         <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
+  //           评论
+  //         </h3>
+  //       </div>
+  //       <div className="flex justify-center py-8">
+  //         <div className="w-5 h-5 border border-gray-300 dark:border-gray-600 border-t-transparent rounded-full animate-spin"></div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return (
-      <div className={`bg-red-50 dark:bg-red-900/20 rounded-2xl p-8 text-center ${className}`}>
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-16 h-16 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center">
-            <Settings size={32} className="text-red-500 dark:text-red-400" />
-          </div>
-          <div>
-            <h3 className="text-lg font-medium text-red-900 dark:text-red-200 mb-2 font-thin tracking-wide font-serif">
-              评论加载失败
-            </h3>
-            <p className="text-red-700 dark:text-red-300 text-sm font-thin tracking-wide font-serif">
-              {error}
-            </p>
+      <div className={`py-8 ${className}`}>
+        <div className="flex items-center gap-3 mb-6">
+          <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
+          <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
+            评论
+          </h3>
+        </div>
+        <div className="text-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center">
+              <Settings size={32} className="text-red-500 dark:text-red-400" />
+            </div>
+            <div>
+              <h4 className="text-lg font-medium text-red-900 dark:text-red-200 mb-2 font-thin tracking-wide">
+                评论加载失败
+              </h4>
+              <p className="text-red-700 dark:text-red-300 text-sm font-thin tracking-wide">
+                {error}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -578,33 +592,17 @@ comments: {
   };
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden ${className}`}>
-      {/* 评论区标题 */}
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-            {commentConfig.provider === 'giscus' || commentConfig.provider === 'gitalk' ? (
-              <Github size={18} className="text-blue-600 dark:text-blue-400" />
-            ) : (
-              <Users size={18} className="text-blue-600 dark:text-blue-400" />
-            )}
-          </div>
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white font-thin tracking-wide font-serif">
-              评论
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">
-              {commentConfig.provider === 'giscus' && '基于 GitHub Discussions'}
-              {commentConfig.provider === 'gitalk' && '基于 GitHub Issues'}
-              {commentConfig.provider === 'valine' && '基于 LeanCloud'}
-              {commentConfig.provider === 'waline' && '基于 Waline'}
-            </p>
-          </div>
-        </div>
+    <div className={`${className}`}>
+      {/* 简化的评论标题 */}
+      <div className="flex items-center gap-3 mb-6">
+        <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
+        <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
+          评论
+        </h3>
       </div>
 
-      {/* 评论内容 */}
-      <div className="p-6">
+      {/* 评论系统 */}
+      <div>
         {renderCommentSystem()}
       </div>
     </div>
