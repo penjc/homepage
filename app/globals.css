@@ -279,4 +279,65 @@
   .dark .loading-overlay {
     background: rgba(17, 24, 39, 0.8);
   }
+
+  /* Float animation for books page particles */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translateY(-10px) translateX(5px);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-20px) translateX(-5px);
+      opacity: 0.9;
+    }
+    75% {
+      transform: translateY(-10px) translateX(10px);
+      opacity: 0.6;
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Flow animation for data stream effect */
+  @keyframes flow-right {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(400%);
+      opacity: 0;
+    }
+  }
+
+  .animate-flow-right {
+    animation: flow-right 1.5s ease-in-out infinite;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 } 

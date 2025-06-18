@@ -141,6 +141,7 @@ export const siteConfig = {
       { name: "博客", href: "/blog" },
       { name: "随笔", href: "/thoughts" },
       { name: "项目", href: "/projects" },
+      { name: "书籍", href: "/books" },
       { name: "友链", href: "/friends" },
       { name: "关于", href: "/about" },
     ],
@@ -193,6 +194,125 @@ export const siteConfig = {
         featured: false
       }
 
+    ]
+  },
+
+  // 书籍推荐配置
+  books: {
+    enabled: true, // 是否启用书籍页面
+    title: "书籍",
+    description: "分享值得阅读的好书，记录阅读心得",
+    categories: [
+      {
+        id: "tech",
+        name: "技术类",
+        description: "提升技术能力的专业书籍"
+      },
+      {
+        id: "philosophy",
+        name: "哲学思辨",
+        description: "启发思维的哲学著作"
+      },
+      {
+        id: "psychology",
+        name: "心理学",
+        description: "探索内心世界的心理学作品"
+      },
+      {
+        id: "history",
+        name: "历史人文",
+        description: "了解过去，洞察未来"
+      },
+      {
+        id: "novel",
+        name: "文学小说",
+        description: "陶冶情操的文学作品"
+      }
+    ],
+    items: [
+      {
+        id: "clean-code",
+        title: "代码整洁之道",
+        author: "Robert C. Martin",
+        category: "tech",
+        rating: 5,
+        status: "read", // reading | read | want_to_read
+        cover: "/images/books/clean-code.jpg",
+        description: "代码质量与其整洁度成正比。干净的代码，既在质量上可靠，也为后期维护奠定基础。",
+        review: "这本书彻底改变了我对编程的认知，让我明白了什么是真正优秀的代码。",
+        tags: ["编程", "软件工程", "最佳实践"],
+        readDate: "2024-01-15",
+        featured: true,
+        purchaseLinks: {
+          amazon: "https://amazon.com/clean-code",
+          douban: "https://book.douban.com/subject/4199741/",
+        }
+      },
+      {
+        id: "thinking-fast-slow",
+        title: "思考，快与慢",
+        author: "丹尼尔·卡尼曼",
+        category: "psychology",
+        rating: 5,
+        status: "read",
+        cover: "/images/books/thinking-fast-slow.jpg",
+        description: "诺贝尔经济学奖得主丹尼尔·卡尼曼的经典著作，揭示人类思维的双重系统。",
+        review: "深度解析了人类决策过程，让我重新审视自己的思维模式。",
+        tags: ["心理学", "认知科学", "决策"],
+        readDate: "2023-12-20",
+        featured: true,
+        purchaseLinks: {
+          douban: "https://book.douban.com/subject/10785583/"
+        }
+      },
+      {
+        id: "sapiens",
+        title: "人类简史",
+        author: "尤瓦尔·赫拉利",
+        category: "history",
+        rating: 5,
+        status: "read",
+        cover: "/images/books/sapiens.jpg",
+        description: "从认知革命、农业革命到科学革命，梳理影响人类发展的重大脉络。",
+        review: "宏观视角下的人类历史，思维开阔，见解独特。",
+        tags: ["历史", "人类学", "社会"],
+        readDate: "2023-11-10",
+        featured: true,
+        purchaseLinks: {
+          douban: "https://book.douban.com/subject/25985021/"
+        }
+      },
+      {
+        id: "design-patterns",
+        title: "设计模式：可复用面向对象软件的基础",
+        author: "Gang of Four",
+        category: "tech",
+        rating: 4,
+        status: "reading",
+        cover: "/images/books/design-patterns.jpg",
+        description: "软件工程领域的经典著作，介绍23种设计模式。",
+        review: "正在阅读中，对理解软件架构很有帮助。",
+        tags: ["设计模式", "软件架构", "面向对象"],
+        featured: false,
+        purchaseLinks: {
+          douban: "https://book.douban.com/subject/1052241/"
+        }
+      },
+      {
+        id: "the-pragmatic-programmer",
+        title: "程序员修炼之道",
+        author: "David Thomas & Andrew Hunt",
+        category: "tech",
+        rating: 5,
+        status: "want_to_read",
+        cover: "/images/books/pragmatic-programmer.jpg",
+        description: "程序员的必读经典，涵盖软件开发的方方面面。",
+        tags: ["编程哲学", "软件开发", "职业发展"],
+        featured: false,
+        purchaseLinks: {
+          douban: "https://book.douban.com/subject/1417047/"
+        }
+      },
     ]
   },
 
