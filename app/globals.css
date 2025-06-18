@@ -205,6 +205,71 @@
     }
   }
 
+  /* Scan animations for tech effect */
+  @keyframes scan-horizontal {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes scan-vertical {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  .animate-scan-horizontal {
+    animation: scan-horizontal 2s ease-in-out infinite;
+  }
+
+  .animate-scan-vertical {
+    animation: scan-vertical 2s ease-in-out infinite 1s;
+  }
+
+  /* Glow effect for cards */
+  .glow-effect {
+    position: relative;
+  }
+
+  .glow-effect::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(45deg, 
+      transparent, 
+      rgba(59, 130, 246, 0.3), 
+      transparent, 
+      rgba(147, 197, 253, 0.3), 
+      transparent
+    );
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .glow-effect:hover::before {
+    opacity: 1;
+  }
+
   /* Loading overlay */
   .loading-overlay {
     background: rgba(255, 255, 255, 0.8);

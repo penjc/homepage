@@ -141,6 +141,7 @@ export const siteConfig = {
       { name: "博客", href: "/blog" },
       { name: "随笔", href: "/thoughts" },
       { name: "项目", href: "/projects" },
+      { name: "友链", href: "/friends" },
       { name: "关于", href: "/about" },
     ],
   },
@@ -192,6 +193,45 @@ export const siteConfig = {
         featured: false
       }
 
+    ]
+  },
+
+  // 友链配置
+  friends: {
+    enabled: true, // 是否启用友链页面
+    title: "友链",
+    description: "志同道合的朋友们",
+    items: [
+      {
+        id: "example-friend-1",
+        name: "示例朋友",
+        description: "这是一个示例朋友的描述",
+        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
+        url: "https://example.com",
+        featured: true,
+        status: "active", // active | inactive
+        tags: ["技术", "博客", "前端"]
+      },
+      {
+        id: "example-friend-2", 
+        name: "另一个朋友",
+        description: "另一个朋友的网站，专注于后端技术分享",
+        avatar: "https://avatars.githubusercontent.com/u/2?v=4",
+        url: "https://example2.com",
+        featured: false,
+        status: "active",
+        tags: ["后端", "Java", "Spring"]
+      },
+      {
+        id: "example-friend-3",
+        name: "设计师朋友",
+        description: "专业UI/UX设计师，分享设计心得与作品",
+        avatar: "https://avatars.githubusercontent.com/u/3?v=4",
+        url: "https://example3.com",
+        featured: true,
+        status: "active",
+        tags: ["设计", "UI/UX", "创意"]
+      }
     ]
   },
 
