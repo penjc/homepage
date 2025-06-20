@@ -15,57 +15,34 @@ interface BlogPostContentProps {
   nextPost: BlogPost | null;
 }
 
+// 简单的ID生成函数
+const generateHeadingId = (text: string) => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .trim();
+};
+
 export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostContentProps) {
   const [mounted, setMounted] = useState(false);
   const [tocCollapsed, setTocCollapsed] = useState(false);
 
-  // 预先解析所有标题，生成ID映射
-  const [headingIds, setHeadingIds] = useState<Map<string, string>>(new Map());
-  
-  useEffect(() => {
-    // 解析markdown内容，预生成所有标题ID
-    const headingRegex = /^(#{1,6})\s+(.+)$/gm;
-    const seenIds = new Set<string>();
-    const idMap = new Map<string, string>();
-    let match;
+  // 用来跟踪已使用的ID，避免重复
+  const usedIds = new Set<string>();
 
-    // 重置正则表达式状态
-    headingRegex.lastIndex = 0;
-
-    while ((match = headingRegex.exec(post.content || post.excerpt || '')) !== null) {
-      const text = match[2].trim();
-      let id = text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .trim();
-      
-      // 处理重复ID
-      let finalId = id;
-      let counter = 1;
-      while (seenIds.has(finalId)) {
-        finalId = `${id}-${counter}`;
-        counter++;
-      }
-      seenIds.add(finalId);
-      
-      // 使用原始文本作为键，生成的ID作为值
-      idMap.set(text, finalId);
-      console.log('BlogPost预生成ID:', text, '->', finalId); // 调试信息
+  // 生成唯一ID的函数
+  const generateUniqueId = (text: string) => {
+    let baseId = generateHeadingId(text);
+    let id = baseId;
+    let counter = 1;
+    
+    while (usedIds.has(id)) {
+      id = `${baseId}-${counter}`;
+      counter++;
     }
     
-    setHeadingIds(idMap);
-  }, [post.content, post.excerpt]);
-
-  // 生成标题ID的函数，从预生成的映射中获取
-  const generateId = (text: string) => {
-    const cleanText = text.trim();
-    const id = headingIds.get(cleanText);
-    console.log('BlogPost查找ID:', cleanText, '->', id, '映射表大小:', headingIds.size); // 调试信息
-    if (!id) {
-      console.warn('未找到ID映射，回退到默认生成:', cleanText);
-      return cleanText.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').trim();
-    }
+    usedIds.add(id);
     return id;
   };
 
@@ -86,6 +63,11 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
     };
   }, [post.title]);
 
+  // 重置已使用的ID集合
+  useEffect(() => {
+    usedIds.clear();
+  }, [post.slug]);
+
   if (!mounted) {
     return null;
   }
@@ -93,10 +75,10 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-8 relative">
+        <div className="lg:flex lg:gap-8 relative">
           {/* Main Content */}
           <main className={`min-w-0 transition-all duration-300 ease-in-out ${
-            tocCollapsed ? 'flex-1 pr-0' : 'flex-1 pr-8 lg:pr-0'
+            tocCollapsed ? 'lg:flex-1 lg:pr-0' : 'lg:flex-1 lg:pr-8'
           }`}>
             <div className="prose prose-lg dark:prose-invert max-w-none">
               {/* Article Content */}
@@ -104,7 +86,7 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                 components={{
                   // 自定义标题组件，确保可以被TOC识别
                   h1: ({ children }) => {
-                    const id = generateId(children?.toString() || '');
+                    const id = generateUniqueId(children?.toString() || '');
                     return (
                       <h1 id={id} className="font-thin tracking-widest font-serif text-gray-900 dark:text-white">
                         {children}
@@ -112,7 +94,7 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                     );
                   },
                   h2: ({ children }) => {
-                    const id = generateId(children?.toString() || '');
+                    const id = generateUniqueId(children?.toString() || '');
                     return (
                       <h2 id={id} className="font-thin tracking-wide font-serif text-gray-900 dark:text-white">
                         {children}
@@ -120,7 +102,7 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                     );
                   },
                   h3: ({ children }) => {
-                    const id = generateId(children?.toString() || '');
+                    const id = generateUniqueId(children?.toString() || '');
                     return (
                       <h3 id={id} className="font-thin tracking-wide font-serif text-gray-900 dark:text-white">
                         {children}
@@ -128,7 +110,7 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                     );
                   },
                   h4: ({ children }) => {
-                    const id = generateId(children?.toString() || '');
+                    const id = generateUniqueId(children?.toString() || '');
                     return (
                       <h4 id={id} className="font-thin tracking-wide font-serif text-gray-900 dark:text-white">
                         {children}
@@ -136,7 +118,7 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                     );
                   },
                   h5: ({ children }) => {
-                    const id = generateId(children?.toString() || '');
+                    const id = generateUniqueId(children?.toString() || '');
                     return (
                       <h5 id={id} className="font-thin tracking-wide font-serif text-gray-900 dark:text-white">
                         {children}
@@ -144,7 +126,7 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                     );
                   },
                   h6: ({ children }) => {
-                    const id = generateId(children?.toString() || '');
+                    const id = generateUniqueId(children?.toString() || '');
                     return (
                       <h6 id={id} className="font-thin tracking-wide font-serif text-gray-900 dark:text-white">
                         {children}
