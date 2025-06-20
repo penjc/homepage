@@ -151,21 +151,31 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                   // 代码块
                   code: ({ node, inline, className, children, ...props }) => {
                     const match = /language-(\w+)/.exec(className || '');
-                    return !inline && match ? (
-                      <CodeBlock
-                        className={className}
-                        inline={inline}
-                      >
-                        {String(children).replace(/\n$/, '')}
-                      </CodeBlock>
-                    ) : (
-                      <code 
-                        className={`${className} bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm font-mono`} 
-                        {...props}
-                      >
-                        {children}
-                      </code>
-                    );
+                    
+                    // 如果不是内联代码且没有找到语言标识，或者明确是代码块，则使用CodeBlock组件
+                    if (!inline) {
+                      // 如果没有语言标识，默认设置为txt
+                      const finalClassName = match ? className : 'language-txt';
+                      
+                      return (
+                        <CodeBlock
+                          className={finalClassName}
+                          inline={inline}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </CodeBlock>
+                      );
+                    } else {
+                      // 内联代码
+                      return (
+                        <code 
+                          className={`${className} bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm font-mono`} 
+                          {...props}
+                        >
+                          {children}
+                        </code>
+                      );
+                    }
                   },
                   // 表格
                   table: ({ children }) => (

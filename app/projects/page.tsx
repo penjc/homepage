@@ -6,6 +6,7 @@ import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
 import { getAssetPath } from '../../lib/utils';
+import BackToTop from '../../components/BackToTop';
 
 // 项目状态类型定义
 type ProjectStatus = 'active' | 'completed' | 'archived';
@@ -245,6 +246,9 @@ export default function ProjectsPage() {
       </main>
       
       <Footer />
+      
+      {/* Back to Top Button */}
+      <BackToTop />
     </>
   );
 } 

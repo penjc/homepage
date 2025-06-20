@@ -6,6 +6,7 @@ import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
 import { getAssetPath } from '../../lib/utils';
+import BackToTop from '../../components/BackToTop';
 
 // 书籍状态类型定义
 type BookStatus = 'reading' | 'read' | 'want_to_read';
@@ -297,6 +298,9 @@ export default function BooksPage() {
       </main>
       
       <Footer />
+      
+      {/* Back to Top Button */}
+      <BackToTop />
     </>
   );
 } 

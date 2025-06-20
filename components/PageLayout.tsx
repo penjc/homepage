@@ -1,6 +1,7 @@
 import NavigationWrapper from './NavigationWrapper';
 import Footer from './Footer';
 import SuspenseWrapper from './SuspenseWrapper';
+import BackToTop from './BackToTop';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -21,6 +22,9 @@ export default function PageLayout({ children }: PageLayoutProps) {
 
       {/* Footer */}
       <Footer />
+      
+      {/* Back to Top Button */}
+      <BackToTop />
     </div>
   );
 } 
