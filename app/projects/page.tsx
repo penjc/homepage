@@ -1,6 +1,3 @@
-'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Github, ExternalLink, Star, Code2, Zap, Clock } from 'lucide-react';
@@ -21,8 +18,6 @@ const statusConfig: Record<ProjectStatus, { label: string; color: string }> = {
 };
 
 export default function ProjectsPage() {
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-
   // 如果项目功能未启用，返回 404
   if (!siteConfig.projects?.enabled) {
     return null;
@@ -45,8 +40,6 @@ export default function ProjectsPage() {
               {projects.description}
             </p>
           </div>
-          
-
         </section>
 
         {/* Featured Projects */}
@@ -62,8 +55,6 @@ export default function ProjectsPage() {
                   <div
                     key={project.id}
                     className="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300 glow-effect"
-                    onMouseEnter={() => setHoveredProject(project.id)}
-                    onMouseLeave={() => setHoveredProject(null)}
                   >
                     {/* 悬浮背景效果 */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30 dark:from-blue-900/10 dark:to-purple-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
@@ -146,11 +137,7 @@ export default function ProjectsPage() {
                     </div>
 
                     {/* 扫描线动画 */}
-                    <div 
-                      className={`absolute inset-0 rounded-2xl pointer-events-none overflow-hidden ${
-                        hoveredProject === project.id ? 'opacity-100' : 'opacity-0'
-                      } transition-opacity duration-300`}
-                    >
+                    <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent animate-scan-horizontal"></div>
                       <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
                     </div>
@@ -174,8 +161,6 @@ export default function ProjectsPage() {
                   <div
                     key={project.id}
                     className="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/60 dark:border-gray-700/60 p-6 hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
-                    onMouseEnter={() => setHoveredProject(project.id)}
-                    onMouseLeave={() => setHoveredProject(null)}
                   >
                     {/* 简化的悬浮效果 */}
                     <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-blue-50/50 dark:from-gray-700/30 dark:to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
@@ -198,70 +183,52 @@ export default function ProjectsPage() {
                       {project.title}
                     </h3>
                     
-                    <p className="text-gray-600 dark:text-gray-300 mb-4 font-thin tracking-wide font-serif text-sm leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-300 mb-4 font-thin tracking-wide font-serif leading-relaxed text-sm">
                       {project.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {project.tags.slice(0, 3).map((tag) => (
+                    {/* 技术标签 */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="inline-flex items-center px-2 py-0.5 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded font-thin tracking-wide font-serif"
+                          className="inline-flex items-center px-2 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
                         >
                           {tag}
                         </span>
                       ))}
-                      {project.tags.length > 3 && (
-                        <span className="text-xs text-gray-500 dark:text-gray-400 font-thin">
-                          +{project.tags.length - 3}
-                        </span>
-                      )}
                     </div>
 
+                    {/* 链接按钮 */}
                     <div className="flex items-center gap-2">
                       {project.github && (
                         <Link
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-md hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
                         >
                           <Github size={14} />
                           <span>代码</span>
                         </Link>
                       )}
                       
-                                              {project.demo && (
-                          <Link
-                            href={project.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded transition-all duration-200 font-thin tracking-wide font-serif"
-                          >
-                            <ExternalLink size={14} />
-                            <span>演示</span>
-                          </Link>
-                        )}
+                      {project.demo && (
+                        <Link
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md transition-all duration-200 font-thin tracking-wide font-serif"
+                        >
+                          <ExternalLink size={14} />
+                          <span>演示</span>
+                        </Link>
+                      )}
                     </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </section>
-        )}
-
-        {/* Empty State */}
-        {projects.items.length === 0 && (
-          <section className="py-24">
-            <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <Code2 size={64} className="mx-auto text-gray-400 dark:text-gray-500 mb-6" />
-              <h2 className="text-2xl font-thin tracking-wide font-serif mb-4 text-gray-900 dark:text-white">
-                暂无项目
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif">
-                项目正在开发中，敬请期待...
-              </p>
             </div>
           </section>
         )}
@@ -272,45 +239,12 @@ export default function ProjectsPage() {
             <Comments 
               pageId="projects"
               pageTitle="项目"
-              pageUrl="/projects"
             />
           </div>
         </section>
       </main>
-
-      <Footer />
       
-      <style jsx>{`
-
-
-        @keyframes scan-horizontal {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(200%);
-          }
-        }
-
-        @keyframes scan-vertical {
-          0% {
-            transform: translateY(-100%);
-          }
-          100% {
-            transform: translateY(200%);
-          }
-        }
-
-
-
-        .animate-scan-horizontal {
-          animation: scan-horizontal 2s ease-in-out infinite;
-        }
-
-        .animate-scan-vertical {
-          animation: scan-vertical 2.5s ease-in-out infinite;
-        }
-      `}</style>
+      <Footer />
     </>
   );
 } 

@@ -1,6 +1,3 @@
-'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink, Heart, Sparkles, Globe, Code, Palette } from 'lucide-react';
@@ -33,8 +30,6 @@ const tagIcons: { [key: string]: any } = {
 };
 
 export default function FriendsPage() {
-  const [hoveredFriend, setHoveredFriend] = useState<string | null>(null);
-
   // 如果友链功能未启用，返回 404
   if (!siteConfig.friends?.enabled) {
     return null;
@@ -106,8 +101,6 @@ export default function FriendsPage() {
                   <div
                     key={friend.id}
                     className="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300 glow-effect"
-                    onMouseEnter={() => setHoveredFriend(friend.id)}
-                    onMouseLeave={() => setHoveredFriend(null)}
                   >
                     {/* 悬浮背景效果 */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30 dark:from-blue-900/10 dark:to-purple-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
@@ -132,7 +125,7 @@ export default function FriendsPage() {
                             className="object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                           {/* 头像扫描效果 */}
-                          <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-opacity duration-300 ${hoveredFriend === friend.id ? 'opacity-100 animate-scan-horizontal' : 'opacity-0'}`}></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-100 group-hover:animate-scan-horizontal"></div>
                         </div>
                         
                         <div className="flex-1">
@@ -168,24 +161,20 @@ export default function FriendsPage() {
                         })}
                       </div>
 
-                                             {/* 访问按钮 */}
-                       <Link
-                         href={friend.url}
-                         target="_blank"
-                         rel="noopener noreferrer"
-                         className="inline-flex items-center gap-2 w-full justify-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
-                       >
-                         <span>访问网站</span>
-                         <ExternalLink size={16} className="group-hover/btn:translate-x-1 transition-transform duration-200" />
-                       </Link>
+                      {/* 访问按钮 */}
+                      <Link
+                        href={friend.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 w-full justify-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                      >
+                        <span>访问网站</span>
+                        <ExternalLink size={16} className="group-hover/btn:translate-x-1 transition-transform duration-200" />
+                      </Link>
                     </div>
 
                     {/* 扫描线动画 */}
-                    <div 
-                      className={`absolute inset-0 rounded-2xl pointer-events-none overflow-hidden ${
-                        hoveredFriend === friend.id ? 'opacity-100' : 'opacity-0'
-                      } transition-opacity duration-300`}
-                    >
+                    <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent animate-scan-horizontal"></div>
                       <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
                     </div>
@@ -204,54 +193,76 @@ export default function FriendsPage() {
                 更多友链
               </h2>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {otherFriends.map((friend) => (
                   <div
                     key={friend.id}
-                    className="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/60 dark:border-gray-700/60 p-4 hover:shadow-md dark:hover:shadow-lg transition-all duration-300"
-                    onMouseEnter={() => setHoveredFriend(friend.id)}
-                    onMouseLeave={() => setHoveredFriend(null)}
+                    className="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
                   >
                     {/* 简化的悬浮效果 */}
                     <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-blue-50/50 dark:from-gray-700/30 dark:to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
                     
-                    <div className="relative z-10">
-                      {/* 头像和名称 */}
+                    {/* 状态标签 */}
+                    <div className="absolute top-3 right-3 z-20">
+                      <div className={`w-2 h-2 rounded-full ${friend.status === 'active' ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                    </div>
+
+                    <div className="relative z-10 p-4">
+                      {/* 头像和基本信息 */}
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="relative w-10 h-10 rounded-full overflow-hidden ring-1 ring-gray-200 dark:ring-gray-700">
+                        <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
                           <Image
                             src={getAssetPath(friend.avatar)}
                             alt={friend.name}
                             fill
-                            className="object-cover"
+                            className="object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                         </div>
                         
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-thin tracking-wide font-serif text-gray-900 dark:text-white truncate">
+                          <h3 className="text-base font-thin tracking-wide font-serif text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                             {friend.name}
                           </h3>
-                          <div className={`inline-flex items-center gap-1 text-xs ${statusConfig[friend.status as FriendStatus]?.color || statusConfig.active.color}`}>
-                            <div className={`w-1 h-1 rounded-full ${friend.status === 'active' ? 'bg-green-500' : 'bg-gray-400'}`}></div>
-                            {statusConfig[friend.status as FriendStatus]?.label || '在线'}
+                          <div className="flex items-center gap-1 mt-0.5">
+                            <Globe className="w-3 h-3 text-gray-400 flex-shrink-0" />
+                            <span className="text-xs text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif truncate">
+                              {friend.url.replace(/^https?:\/\//, '')}
+                            </span>
                           </div>
                         </div>
                       </div>
                       
-                                             <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 font-thin tracking-wide font-serif leading-relaxed h-8 overflow-hidden">
-                         {friend.description}
-                       </p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-3 font-thin tracking-wide font-serif leading-relaxed text-xs line-clamp-2">
+                        {friend.description}
+                      </p>
 
-                                             {/* 访问按钮 */}
-                       <Link
-                         href={friend.url}
-                         target="_blank"
-                         rel="noopener noreferrer"
-                         className="inline-flex items-center gap-2 w-full justify-center px-3 py-2 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif"
-                       >
-                         <span>访问</span>
-                         <ExternalLink size={12} />
-                       </Link>
+                      {/* 技术标签 */}
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {friend.tags.slice(0, 2).map((tag) => (
+                          <span
+                            key={tag}
+                            className="inline-flex items-center px-2 py-0.5 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {friend.tags.length > 2 && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400 font-thin">
+                            +{friend.tags.length - 2}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* 访问按钮 */}
+                      <Link
+                        href={friend.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 w-full justify-center px-3 py-2 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                      >
+                        <span>访问</span>
+                        <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform duration-200" />
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -308,12 +319,11 @@ export default function FriendsPage() {
         </section>
 
         {/* Comments Section */}
-        <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
+        <section className="py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Comments 
               pageId="friends"
               pageTitle="友链"
-              pageUrl="/friends"
             />
           </div>
         </section>
