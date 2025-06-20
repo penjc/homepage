@@ -61,6 +61,8 @@ export default function CodeBlock({
     'rs': 'rust',
     'rust': 'rust',
     'sql': 'sql',
+    'txt': 'text',
+    'plain': 'text',
   };
 
   language = languageMap[language] || language;
@@ -106,7 +108,7 @@ export default function CodeBlock({
     return (
       <div className="bg-gray-800 rounded-lg overflow-hidden my-4">
         <div className="bg-gray-700 px-4 py-2 text-sm text-gray-300">
-          {language === 'text' ? 'CODE' : language.toUpperCase()}
+          {language === 'text' || language === 'txt' || language === 'plain' ? 'TXT' : language.toUpperCase()}
         </div>
         <pre className="bg-gray-800 p-4 text-gray-100 overflow-x-auto">
           <code>{codeString}</code>
@@ -160,7 +162,7 @@ export default function CodeBlock({
               textTransform: 'uppercase',
               letterSpacing: '0.5px'
             }}>
-              {language === 'text' ? 'CODE' : language}
+              {language === 'text' || language === 'txt' || language === 'plain' ? 'TXT' : language}
             </div>
             
             {/* 操作按钮 */}

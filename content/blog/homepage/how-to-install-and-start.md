@@ -185,7 +185,7 @@ npm run type-check
 
 了解项目结构有助于更好地定制你的主页：
 
-```
+```bash
 homepage/
 ├── app/                    # Next.js 13+ App Router
 │   ├── about/             # 关于页面
