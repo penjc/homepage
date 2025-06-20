@@ -34,6 +34,53 @@ export const siteConfig = {
     },
   },
 
+  // 首页配置
+  hero: {
+    backgroundImage: "/images/hero-bg.jpg",
+    quickLinks: [
+      { name: "博客", href: "/blog", icon: "BookOpen" },
+      { name: "随笔", href: "/thoughts", icon: "PenTool" },
+      { name: "项目", href: "/projects", icon: "Code" },
+      { name: "关于", href: "/about", icon: "User" },
+    ],
+  },
+
+  // 博客配置
+  blog: {
+    // 分页配置
+    pagination: {
+      postsPerPage: 6, // 每页显示的博客文章数量
+      maxVisiblePages: 5, // 分页组件中最多显示的页码数量
+    },
+
+    // 首页配置
+    homepage: {
+      recentPostsCount: 5, // 首页显示的最新文章数量
+    },
+
+    // 其他博客相关配置
+    display: {
+      showExcerpt: true, // 是否显示文章摘要
+      excerptLength: 150, // 文章摘要长度
+      showReadTime: true, // 是否显示阅读时间
+      showTags: true, // 是否显示标签
+      maxTagsToShow: 3, // 最多显示的标签数量
+    },
+  },
+
+  // 导航配置
+  navigation: {
+    main: [
+      { name: "首页", href: "/" },
+      { name: "博客", href: "/blog" },
+      { name: "随笔", href: "/thoughts" },
+      { name: "项目", href: "/projects" },
+      { name: "书籍", href: "/books" },
+      { name: "友链", href: "/friends" },
+      { name: "关于", href: "/about" },
+    ],
+  },
+
   // 关于我页面配置
   about: {
     // 个人简介
@@ -132,19 +179,6 @@ export const siteConfig = {
         }
       ]
     },
-  },
-
-  // 导航配置
-  navigation: {
-    main: [
-      { name: "首页", href: "/" },
-      { name: "博客", href: "/blog" },
-      { name: "随笔", href: "/thoughts" },
-      { name: "项目", href: "/projects" },
-      { name: "书籍", href: "/books" },
-      { name: "友链", href: "/friends" },
-      { name: "关于", href: "/about" },
-    ],
   },
 
   // 项目配置
@@ -353,40 +387,6 @@ export const siteConfig = {
         tags: ["设计", "UI/UX", "创意"]
       }
     ]
-  },
-
-  // 首页配置
-  hero: {
-    backgroundImage: "/images/hero-bg.jpg",
-    quickLinks: [
-      { name: "博客", href: "/blog", icon: "BookOpen" },
-      { name: "随笔", href: "/thoughts", icon: "PenTool" },
-      { name: "项目", href: "/projects", icon: "Code" },
-      { name: "关于", href: "/about", icon: "User" },
-    ],
-  },
-
-  // 博客配置
-  blog: {
-    // 分页配置
-    pagination: {
-      postsPerPage: 6, // 每页显示的博客文章数量
-      maxVisiblePages: 5, // 分页组件中最多显示的页码数量
-    },
-    
-    // 首页配置
-    homepage: {
-      recentPostsCount: 5, // 首页显示的最新文章数量
-    },
-    
-    // 其他博客相关配置
-    display: {
-      showExcerpt: true, // 是否显示文章摘要
-      excerptLength: 150, // 文章摘要长度
-      showReadTime: true, // 是否显示阅读时间
-      showTags: true, // 是否显示标签
-      maxTagsToShow: 3, // 最多显示的标签数量
-    },
   },
 
   // SEO配置

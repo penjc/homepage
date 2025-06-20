@@ -46,13 +46,7 @@ export default function ProjectsPage() {
             </p>
           </div>
           
-          {/* 背景动画点 */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-1/6 w-1 h-1 bg-gray-400/20 dark:bg-gray-500/20 rounded-full animate-pulse"></div>
-            <div className="absolute top-3/4 right-1/4 w-0.5 h-0.5 bg-gray-400/30 dark:bg-gray-500/30 rounded-full animate-ping"></div>
-            <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-gray-400/15 dark:bg-gray-500/15 rounded-full animate-pulse delay-500"></div>
-            <div className="absolute top-1/2 right-1/6 w-0.5 h-0.5 bg-gray-400/25 dark:bg-gray-500/25 rounded-full animate-ping delay-1000"></div>
-          </div>
+
         </section>
 
         {/* Featured Projects */}

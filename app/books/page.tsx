@@ -8,6 +8,7 @@ import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
+import { getAssetPath } from '../../lib/utils';
 
 // 书籍状态类型定义
 type BookStatus = 'reading' | 'read' | 'want_to_read';
@@ -101,7 +102,7 @@ function BookCard({ book, index }: { book: BookItem; index: number }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
         {book.cover ? (
           <Image
-            src={book.cover}
+            src={getAssetPath(book.cover)}
             alt={book.title}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
