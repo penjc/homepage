@@ -1,6 +1,3 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Book, Star, ExternalLink, Eye, Clock, CheckCircle, Bookmark, Filter, Search } from 'lucide-react';
@@ -72,7 +69,6 @@ interface BookItem {
 
 // 书籍卡片组件
 function BookCard({ book, index }: { book: BookItem; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
   const StatusIcon = statusConfig[book.status as BookStatus]?.icon || Book;
 
   return (
@@ -81,18 +77,12 @@ function BookCard({ book, index }: { book: BookItem; index: number }) {
       style={{
         animationDelay: `${index * 100}ms`
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* 悬浮光效 */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 dark:from-blue-900/10 dark:via-purple-900/10 dark:to-pink-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
       
       {/* 扫描线动画 */}
-      <div 
-        className={`absolute inset-0 rounded-2xl pointer-events-none overflow-hidden ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        } transition-opacity duration-300`}
-      >
+      <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/60 dark:via-cyan-500/60 to-transparent animate-scan-horizontal"></div>
         <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
       </div>
@@ -144,13 +134,13 @@ function BookCard({ book, index }: { book: BookItem; index: number }) {
           </div>
         )}
         
-                 {/* 状态标签 */}
-         <div className="absolute top-4 left-4 z-20">
-           <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm ${statusConfig[book.status as BookStatus]?.color || statusConfig.read.color}`}>
-             <StatusIcon size={12} />
-             {statusConfig[book.status as BookStatus]?.label || '已读完'}
-           </span>
-         </div>
+        {/* 状态标签 */}
+        <div className="absolute top-4 left-4 z-20">
+          <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm ${statusConfig[book.status as BookStatus]?.color || statusConfig.read.color}`}>
+            <StatusIcon size={12} />
+            {statusConfig[book.status as BookStatus]?.label || '已读完'}
+          </span>
+        </div>
 
         {/* 评分 */}
         {book.rating && (
@@ -198,231 +188,115 @@ function BookCard({ book, index }: { book: BookItem; index: number }) {
         {/* 阅读日期 */}
         {book.readDate && (
           <div className="flex items-center gap-2 mb-4 text-sm text-gray-500 dark:text-gray-400">
-            <Clock size={14} />
+            <Clock size={16} />
             <span className="font-thin tracking-wide font-serif">
-              阅读于 {new Date(book.readDate).toLocaleDateString('zh-CN')}
+              阅读于 {book.readDate}
             </span>
           </div>
         )}
 
         {/* 购买链接 */}
-        {book.purchaseLinks && (
-          <div className="flex items-center gap-3">
+        {book.purchaseLinks && Object.keys(book.purchaseLinks).length > 0 && (
+          <div className="flex flex-wrap gap-2">
             {Object.entries(book.purchaseLinks).map(([platform, url]) => (
               <Link
                 key={platform}
-                href={url as string}
+                href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-lg hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-lg hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
               >
-                <ExternalLink size={14} />
-                <span>{platform === 'douban' ? '豆瓣' : '购买'}</span>
+                <ExternalLink size={12} />
+                <span>{platform}</span>
               </Link>
             ))}
           </div>
         )}
       </div>
-
-      {/* 数据流动画线条 */}
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/40 dark:via-blue-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden">
-        <div className="absolute top-0 left-0 w-16 h-px bg-gradient-to-r from-transparent via-blue-400 dark:via-blue-500 to-transparent animate-flow-right"></div>
-        <div className="absolute top-0 left-0 w-12 h-px bg-gradient-to-r from-transparent via-cyan-400 dark:via-cyan-500 to-transparent animate-flow-right" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute top-0 left-0 w-8 h-px bg-gradient-to-r from-transparent via-purple-400 dark:via-purple-500 to-transparent animate-flow-right" style={{ animationDelay: '1s' }}></div>
-      </div>
     </div>
   );
 }
 
-// 内部组件处理书籍逻辑
+// 主要内容组件
 function BooksContent() {
+  // 如果书籍功能未启用，返回 404
+  if (!siteConfig.books?.enabled) {
+    return null;
+  }
+
   const { books } = siteConfig;
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredBooks, setFilteredBooks] = useState<any[]>([]);
-
-  // 过滤书籍
-  useEffect(() => {
-    if (!books?.items) return;
-    
-    let filtered = books.items;
-
-    // 按分类过滤
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(book => book.category === selectedCategory);
-    }
-
-    // 按搜索词过滤
-    if (searchTerm) {
-      filtered = filtered.filter(book =>
-        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-      );
-    }
-
-    setFilteredBooks(filtered);
-  }, [selectedCategory, searchTerm, books?.items]);
-
-  // 初始化过滤的书籍列表
-  useEffect(() => {
-    if (books?.items && filteredBooks.length === 0) {
-      setFilteredBooks(books.items);
-    }
-  }, [books?.items, filteredBooks.length]);
-
-  const featuredBooks = filteredBooks.filter(book => book.featured);
-  const otherBooks = filteredBooks.filter(book => !book.featured);
+  const featuredBooks = books.items.filter(book => book.featured) as BookItem[];
+  const otherBooks = books.items.filter(book => !book.featured) as BookItem[];
 
   return (
     <>
-      <NavigationWrapper />
-      
-      <main className="min-h-screen bg-white dark:bg-gray-900 pt-16">
-        {/* Hero Section */}
-        <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16 relative overflow-hidden">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{books.title}</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
-              {books.description}
-            </p>
-          </div>
-          
-          {/* 背景粒子动画 */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(12)].map((_, i) => (
-              <div
-                key={i}
-                className={`absolute w-1 h-1 bg-blue-400/20 dark:bg-blue-500/20 rounded-full animate-float`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${3 + Math.random() * 4}s`
-                }}
-              ></div>
-            ))}
-          </div>
-        </section>
+      {/* Hero Section */}
+      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{books.title}</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
+            {books.description}
+          </p>
+        </div>
+      </section>
 
-        {/* 搜索和过滤 */}
-        <section className="py-8 bg-white dark:bg-gray-900 border-b border-gray-200/60 dark:border-gray-700/60">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              {/* 搜索框 */}
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
-                <input
-                  type="text"
-                  placeholder="搜索书籍、作者或标签..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200/60 dark:border-gray-700/60 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-thin tracking-wide font-serif focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/60 transition-colors"
-                />
-              </div>
-
-              {/* 分类过滤 */}
-              <div className="flex items-center gap-2 flex-wrap">
-                <Filter size={20} className="text-gray-500 dark:text-gray-400" />
-                <button
-                  onClick={() => setSelectedCategory('all')}
-                  className={`px-4 py-2 rounded-lg text-sm font-thin tracking-wide font-serif transition-colors ${
-                    selectedCategory === 'all'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
-                >
-                  全部
-                </button>
-                {books.categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-thin tracking-wide font-serif transition-colors ${
-                      selectedCategory === category.id
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                    }`}
-                  >
-                    {category.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 精选书籍 */}
-        {featuredBooks.length > 0 && (
-          <section className="py-16">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
-                精选推荐
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                 {featuredBooks.map((book, index) => (
-                   <BookCard key={book.id} book={book as BookItem} index={index} />
-                 ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 其他书籍 */}
-        {otherBooks.length > 0 && (
-          <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
-                我的书单
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                 {otherBooks.map((book, index) => (
-                   <BookCard key={book.id} book={book as BookItem} index={index} />
-                 ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 空状态 */}
-        {filteredBooks.length === 0 && (
-          <section className="py-16">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <Book size={64} className="mx-auto text-gray-400 dark:text-gray-500 mb-4" />
-              <h3 className="text-xl font-thin tracking-wide font-serif text-gray-600 dark:text-gray-400 mb-2">
-                没有找到相关书籍
-              </h3>
-              <p className="text-gray-500 dark:text-gray-500 font-thin tracking-wide font-serif">
-                尝试调整搜索条件或选择其他分类
-              </p>
-            </div>
-          </section>
-        )}
-
-        {/* Comments Section */}
+      {/* Featured Books */}
+      {featuredBooks.length > 0 && (
         <section className="py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Comments 
-              pageId="books"
-              pageTitle="书籍"
-              pageUrl="/books"
-            />
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
+              精选推荐
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredBooks.map((book, index) => (
+                <BookCard key={book.id} book={book} index={index} />
+              ))}
+            </div>
           </div>
         </section>
-      </main>
+      )}
 
-      <Footer />
+      {/* Other Books */}
+      {otherBooks.length > 0 && (
+        <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
+              更多书籍
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {otherBooks.map((book, index) => (
+                <BookCard key={book.id} book={book} index={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Comments Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Comments 
+            pageId="books"
+            pageTitle="书籍"
+          />
+        </div>
+      </section>
     </>
   );
 }
 
 export default function BooksPage() {
-  // 如果书籍功能未启用，返回 null
-  if (!siteConfig.books?.enabled) {
-    return null;
-  }
-
-  return <BooksContent />;
+  return (
+    <>
+      <NavigationWrapper />
+      
+      <main className="min-h-screen bg-white dark:bg-gray-900 pt-16">
+        <BooksContent />
+      </main>
+      
+      <Footer />
+    </>
+  );
 } 
