@@ -8,6 +8,7 @@ import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
+import { getAssetPath } from '../../lib/utils';
 
 // 友链状态类型定义
 type FriendStatus = 'active' | 'inactive';
@@ -89,17 +90,7 @@ export default function FriendsPage() {
             {/*</div>*/}
           </div>
           
-          {/* 背景动画点 */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-1/6 w-1 h-1 bg-gray-400/20 dark:bg-gray-500/20 rounded-full animate-pulse"></div>
-            <div className="absolute top-3/4 right-1/4 w-0.5 h-0.5 bg-gray-400/30 dark:bg-gray-500/30 rounded-full animate-ping"></div>
-            <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-gray-400/15 dark:bg-gray-500/15 rounded-full animate-pulse delay-500"></div>
-            <div className="absolute top-1/2 right-1/6 w-0.5 h-0.5 bg-gray-400/25 dark:bg-gray-500/25 rounded-full animate-ping delay-1000"></div>
-            
-            {/* 环绕粒子 */}
-            <div className="absolute top-1/3 left-1/3 w-2 h-2 bg-blue-400/10 dark:bg-blue-500/10 rounded-full animate-orbit"></div>
-            <div className="absolute bottom-1/4 right-1/3 w-1 h-1 bg-purple-400/10 dark:bg-purple-500/10 rounded-full animate-orbit" style={{ animationDelay: '2s' }}></div>
-          </div>
+
         </section>
 
         {/* Featured Friends */}
@@ -135,7 +126,7 @@ export default function FriendsPage() {
                       <div className="flex items-center gap-4 mb-4">
                         <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
                           <Image
-                            src={friend.avatar}
+                            src={getAssetPath(friend.avatar)}
                             alt={friend.name}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -229,7 +220,7 @@ export default function FriendsPage() {
                       <div className="flex items-center gap-3 mb-3">
                         <div className="relative w-10 h-10 rounded-full overflow-hidden ring-1 ring-gray-200 dark:ring-gray-700">
                           <Image
-                            src={friend.avatar}
+                            src={getAssetPath(friend.avatar)}
                             alt={friend.name}
                             fill
                             className="object-cover"

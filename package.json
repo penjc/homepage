@@ -1,6 +1,6 @@
 {
   "name": "@penjc/homepage",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "个人主页模板，支持博客、随笔等功能",
   "bin": {
     "create-homepage": "./bin/create-homepage.js"
@@ -26,9 +26,7 @@
     "dev": "next dev --port 4000",
     "build": "next build",
     "start": "npx serve out -p 4000",
-    "build:github": "NODE_ENV=production GITHUB_PAGES=true npm run build",
     "preview": "npm run build && npm run start",
-    "preview:github": "npm run build:github && npm run start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "prepublishOnly": "npm run type-check",

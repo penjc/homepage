@@ -32,7 +32,7 @@
 A full-featured personal homepage template built with Next.js 13+, integrating blog, project showcase, book management, friend links, and more.  
 Built with TypeScript + Tailwind CSS stack, providing ultimate developer and user experience.
 
-[🚀 Quick Start](#-quick-start) • [📖 Documentation](#-documentation) • [🎨 Features](#-features) • [🌟 Demo](https://pengjiancheng.com) • [🤝 Contributing](#-contributing)
+[🚀 Quick Start](#-quick-start) • [📖 Documentation](#-documentation) • [🎨 Features](#-features) • [💻 Demo](https://pengjiancheng.com) • [🤝 Contributing](#-contributing)
 
 [简体中文](./README.md) | English
 
@@ -41,12 +41,6 @@ Built with TypeScript + Tailwind CSS stack, providing ultimate developer and use
 ---
 
 ## ✨ Features
-
-### 🎨 Design & Interaction
-- 🎨 **Modern Design** - Clean and beautiful interface design with attention to detail and user experience
-- 📱 **Fully Responsive** - Perfect adaptation for desktop and mobile, mobile-first design
-- 🎭 **Smooth Animations** - Fluid page transitions and interactive feedback
-- 💫 **Loading Experience** - Elegant loading animations and skeleton screens
 
 ### 📝 Content Management
 - 📝 **Markdown Support** - Support for Markdown writing with code syntax highlighting
@@ -468,7 +462,6 @@ The following environment variables are automatically set during deployment:
 - **Animation**: [Framer Motion](https://www.framer.com/motion/) - Production-ready animation library
 - **Content**: [Markdown](https://www.markdownguide.org/) + [Gray Matter](https://github.com/jonschlinkert/gray-matter)
 - **Code Highlighting**: [Prism.js](https://prismjs.com/)
-- **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
 
 ## 📁 Project Structure
 
@@ -478,7 +471,9 @@ homepage/
 │   ├── about/             # About page
 │   ├── blog/              # Blog related pages
 │   ├── thoughts/          # Thoughts related pages
-│   └── api/               # API routes
+│   ├── books/             # Book pages
+│   ├── friends/           # Friend links pages
+│   └── projects/          # Project showcase pages
 ├── components/            # React components
 ├── content/               # Markdown content
 │   ├── blog/             # Blog posts
@@ -501,13 +496,6 @@ We welcome all forms of contributions! Please refer to the [Contributing Guide](
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-### Contribution Guidelines
-
-- Please ensure your code follows the project's coding standards
-- Add appropriate tests
-- Update relevant documentation
-- Ensure all tests pass
 
 ## 📄 License
 
