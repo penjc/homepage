@@ -29,7 +29,7 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           {/* 左侧版权信息 */}
           <div className="text-sm text-gray-600 dark:text-gray-400">
-            <span>©{getCopyrightYear()} Designed By <a href="https://github.com/penjc" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400">penjc</a></span>
+            <span>©{getCopyrightYear()} Designed By <a href="https://github.com/penjc/homepage" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400">penjc</a></span>
           </div>
           
           {/* 右侧备案信息 */}

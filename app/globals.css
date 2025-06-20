@@ -340,4 +340,306 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Enhanced bounce animation for decorative elements */
+  @keyframes bounce-slow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 2s ease-in-out infinite;
+  }
+
+  /* Gentle scale animation for buttons */
+  .hover-scale {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  /* Gradient border animation */
+  @keyframes gradient-border {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient-border {
+    background-size: 400% 400%;
+    animation: gradient-border 3s ease infinite;
+  }
+
+  /* 页面进入动画 */
+  @keyframes slide-up {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-left {
+    0% {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-right {
+    0% {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scale-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-left {
+    animation: slide-left 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-right {
+    animation: slide-right 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* 增强的浮动动画 */
+  @keyframes float-enhanced {
+    0%, 100% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+      opacity: 0.4;
+    }
+    25% {
+      transform: translateY(-15px) translateX(8px) rotate(90deg);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateY(-25px) translateX(-8px) rotate(180deg);
+      opacity: 1;
+    }
+    75% {
+      transform: translateY(-15px) translateX(12px) rotate(270deg);
+      opacity: 0.8;
+    }
+  }
+
+  .animate-float {
+    animation: float-enhanced 8s ease-in-out infinite;
+  }
+
+  /* 心形特殊脉动动画 */
+  @keyframes heartbeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    75% {
+      transform: scale(1.1);
+    }
+  }
+
+  .animate-heartbeat {
+    animation: heartbeat 2s ease-in-out infinite;
+  }
+
+  /* 光波流动动画 */
+  @keyframes light-wave {
+    0% {
+      transform: translateX(-100%) skewX(-15deg);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%) skewX(-15deg);
+      opacity: 0;
+    }
+  }
+
+  .animate-light-wave {
+    animation: light-wave 2s ease-in-out infinite;
+  }
+
+  /* 渐变背景动画 */
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient-shift {
+    background-size: 200% 200%;
+    animation: gradient-shift 4s ease infinite;
+  }
+
+  /* 纯CSS视口进入动画 */
+  .friends-animate-item {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: friends-fade-in-up 0.8s ease-out forwards;
+    animation-delay: calc(var(--delay, 0s) + 0.5s);
+  }
+
+  @keyframes friends-fade-in-up {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 现代浏览器使用 view-timeline 实现更精确的视口检测 */
+  @supports (animation-timeline: view()) {
+    .friends-animate-section {
+      view-timeline-name: --friends-section;
+      view-timeline-axis: block;
+    }
+
+    .friends-animate-item {
+      animation-timeline: --friends-section;
+      animation-range: entry 20% entry 80%;
+      animation-delay: var(--delay, 0s);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+  }
+
+  /* 对于不支持 view-timeline 的浏览器，使用延迟动画 */
+  @supports not (animation-timeline: view()) {
+    .friends-animate-item {
+      animation-delay: calc(var(--delay, 0s) + 1s);
+    }
+  }
+
+  /* 关于页面动画样式 */
+  .about-animate-item {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    animation: about-fade-in-up 0.8s ease-out forwards;
+    animation-delay: calc(var(--delay, 0s) + 0.3s);
+  }
+
+  @keyframes about-fade-in-up {
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* 现代浏览器使用 view-timeline 实现更精确的视口检测 */
+  @supports (animation-timeline: view()) {
+    .about-animate-section {
+      view-timeline-name: --about-section;
+      view-timeline-axis: block;
+    }
+
+    .about-animate-item {
+      animation-timeline: --about-section;
+      animation-range: entry 10% entry 70%;
+      animation-delay: var(--delay, 0s);
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+    }
+  }
+
+  /* 对于不支持 view-timeline 的浏览器，使用延迟动画 */
+  @supports not (animation-timeline: view()) {
+    .about-animate-item {
+      animation-delay: calc(var(--delay, 0s) + 0.8s);
+    }
+  }
+
+  /* 浮动粒子动画 */
+  @keyframes about-float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+      opacity: 0.3;
+    }
+    33% {
+      transform: translateY(-15px) rotate(120deg);
+      opacity: 0.8;
+    }
+    66% {
+      transform: translateY(15px) rotate(240deg);
+      opacity: 0.6;
+    }
+  }
+
+  .animate-float {
+    animation: about-float 6s ease-in-out infinite;
+  }
+
+  /* 慢速旋转装饰环 */
+  @keyframes about-spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: about-spin-slow 20s linear infinite;
+  }
+
+  /* 头像悬浮效果增强 */
+  .about-avatar-container:hover .animate-spin-slow {
+    animation-duration: 10s;
+  }
 } 

@@ -273,48 +273,130 @@ export default function FriendsPage() {
         )}
 
         {/* 申请友链说明 */}
-        <section className="py-16 bg-white dark:bg-gray-900">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                         <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 border border-gray-200/60 dark:border-gray-700/60">
-               <div className="flex items-center justify-center gap-3 mb-4">
-                 <h3 className="text-2xl font-thin tracking-wide font-serif text-gray-900 dark:text-white">
-                   申请友链
-                 </h3>
-                 <Heart className="w-6 h-6 text-red-500 animate-pulse" />
-               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6 font-thin tracking-wide font-serif leading-relaxed">
-                欢迎志同道合的朋友申请友链！请确保您的网站内容积极向上，并且能够正常访问。
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
-                <div className="text-left">
-                  <h4 className="font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 mb-2">申请要求：</h4>
-                  <ul className="space-y-1 font-thin tracking-wide font-serif">
-                    <li>• 网站内容原创且有价值</li>
-                    <li>• 网站可以正常访问</li>
-                    <li>• 技术相关或个人博客</li>
-                    <li>• 网站设计美观</li>
-                  </ul>
+        <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20 relative overflow-hidden friends-animate-section">
+          {/* 背景动画装饰 */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-20 left-10 w-2 h-2 bg-blue-300/40 dark:bg-blue-500/20 rounded-full animate-float" style={{animationDelay: '0s'}}></div>
+            <div className="absolute top-40 right-20 w-1.5 h-1.5 bg-purple-300/40 dark:bg-purple-500/20 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
+            <div className="absolute bottom-32 left-1/4 w-1 h-1 bg-pink-300/40 dark:bg-pink-500/20 rounded-full animate-float" style={{animationDelay: '4s'}}></div>
+            <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-green-300/40 dark:bg-green-500/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
+            <div className="absolute bottom-20 right-10 w-2 h-2 bg-indigo-300/40 dark:bg-indigo-500/20 rounded-full animate-float" style={{animationDelay: '3s'}}></div>
+          </div>
+
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-12 friends-animate-section">
+              <div className="flex items-center justify-center gap-2 mb-6 friends-animate-item" style={{'--delay': '0.1s'} as React.CSSProperties}>
+                <div className="relative">
+                  <Heart className="w-6 h-6 text-red-500 animate-pulse" />
+                  <div className="absolute inset-0 animate-ping">
+                    <Heart className="w-6 h-6 text-red-500/30" />
+                  </div>
                 </div>
-                <div className="text-left">
-                  <h4 className="font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 mb-2">提供信息：</h4>
-                  <ul className="space-y-1 font-thin tracking-wide font-serif">
-                    <li>• 网站名称</li>
-                    <li>• 网站地址</li>
-                    <li>• 网站描述</li>
-                    <li>• 头像链接</li>
-                  </ul>
+                <Sparkles className="w-5 h-5 text-yellow-500 animate-bounce" style={{animationDelay: '0.5s'}} />
+              </div>
+              <h3 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif text-gray-900 dark:text-white mb-4 friends-animate-item" style={{'--delay': '0.2s'} as React.CSSProperties}>
+                申请友链
+              </h3>
+              <p className="text-lg text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif leading-relaxed max-w-2xl mx-auto friends-animate-item" style={{'--delay': '0.3s'} as React.CSSProperties}>
+                欢迎志同道合的朋友申请友链，一起构建互联网的美好连接
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden relative group friends-animate-item" style={{'--delay': '0.4s'} as React.CSSProperties}>
+              {/* 悬浮时的边框动画 */}
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-50/80 via-blue-50/60 to-gray-50/80 dark:from-gray-700/20 dark:via-gray-600/30 dark:to-gray-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl"></div>
+              
+              {/* 顶部扫描线动画 */}
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div className="p-8 md:p-10 relative z-10">
+                {/* 要求和信息网格 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                  {/* 申请要求 */}
+                  <div className="friends-animate-item" style={{'--delay': '0.5s'} as React.CSSProperties}>
+                    <h4 className="text-lg font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-4 flex items-center gap-2 group/title">
+                      <Code className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover/title:text-blue-500 dark:group-hover/title:text-blue-400 transition-colors duration-300 group-hover/title:rotate-12 transform" />
+                      申请要求
+                    </h4>
+                    <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif">
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.6s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-blue-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站内容原创且有价值</span>
+                      </li>
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.7s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-green-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站可以正常访问</span>
+                      </li>
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.8s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-purple-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">技术相关或个人博客</span>
+                      </li>
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.9s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-pink-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站设计美观</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* 提供信息 */}
+                  <div className="friends-animate-item" style={{'--delay': '0.5s'} as React.CSSProperties}>
+                    <h4 className="text-lg font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-4 flex items-center gap-2 group/title">
+                      <Globe className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover/title:text-green-500 dark:group-hover/title:text-green-400 transition-colors duration-300 group-hover/title:rotate-12 transform" />
+                      提供信息
+                    </h4>
+                    <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif">
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.6s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-orange-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站名称</span>
+                      </li>
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.7s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-teal-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站地址</span>
+                      </li>
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.8s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-indigo-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站描述</span>
+                      </li>
+                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.9s'} as React.CSSProperties}>
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-rose-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
+                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">头像链接</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 分隔线 */}
+                <div className="border-t border-gray-200/60 dark:border-gray-700/60 my-8 relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-300/20 dark:via-gray-600/20 to-transparent animate-pulse"></div>
+                </div>
+
+                {/* 申请按钮区域 */}
+                <div className="text-center friends-animate-item" style={{'--delay': '1s'} as React.CSSProperties}>
+                  {siteConfig.profile.email && (
+                    <div className="space-y-4">
+                      <Link
+                        href={`mailto:${siteConfig.profile.email}?subject=友链申请&body=网站名称：%0A网站地址：%0A网站描述：%0A头像链接：`}
+                        className="group/btn inline-flex items-center gap-2 px-6 py-3 text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 hover:bg-gray-200/80 dark:hover:bg-gray-600/80 rounded-lg transition-all duration-300 font-thin tracking-wide font-serif hover:scale-105 hover:shadow-lg dark:hover:shadow-xl transform relative overflow-hidden"
+                      >
+                        {/* 按钮背景动画 */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-100/60 to-gray-200/60 dark:from-gray-600/30 dark:to-gray-500/30 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                        
+                        <span className="relative z-10 group-hover/btn:text-gray-800 dark:group-hover/btn:text-gray-100 transition-colors">申请友链</span>
+                        <ExternalLink className="w-4 h-4 relative z-10 group-hover/btn:translate-x-1 group-hover/btn:scale-110 transform transition-all duration-300" />
+                        
+                        {/* 按钮光效 */}
+                        <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300">
+                          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-flow-right"></div>
+                        </div>
+                      </Link>
+                      
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif animate-pulse">
+                        申请后我会在 24 小时内回复
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
-              
-                             {siteConfig.profile.email && (
-                 <Link
-                   href={`mailto:${siteConfig.profile.email}?subject=友链申请&body=网站名称：%0A网站地址：%0A网站描述：%0A头像链接：`}
-                   className="inline-flex items-center gap-2 px-6 py-3 text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif"
-                 >
-                   <span>申请友链</span>
-                 </Link>
-               )}
             </div>
           </div>
         </section>
