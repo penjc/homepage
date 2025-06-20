@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import { getAssetPath } from '../lib/utils';
 import ImageWithLoading from '../components/ImageWithLoading';
 import SuspenseWrapper from '../components/SuspenseWrapper';
+import BackToTop from '../components/BackToTop';
 
 export default function HomePage() {
   const recentPosts = getRecentPosts(siteConfig.blog.homepage.recentPostsCount);
@@ -197,6 +198,9 @@ export default function HomePage() {
 
       {/* Footer - 只在首页的博客部分底部显示 */}
       <Footer />
+      
+      {/* Back to Top Button - 在滚动到博客部分时显示 */}
+      <BackToTop showOnHomepage={false} threshold={500} />
     </>
   );
 } 

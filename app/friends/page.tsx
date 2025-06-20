@@ -6,6 +6,7 @@ import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
 import { getAssetPath } from '../../lib/utils';
+import BackToTop from '../../components/BackToTop';
 
 // 友链状态类型定义
 type FriendStatus = 'active' | 'inactive';
@@ -330,6 +331,9 @@ export default function FriendsPage() {
       </main>
 
       <Footer />
+      
+      {/* Back to Top Button */}
+      <BackToTop />
     </>
   );
 } 
