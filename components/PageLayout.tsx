@@ -15,7 +15,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
 
       {/* Main Content */}
       <main className="flex-1 pt-16">
-        <SuspenseWrapper loadingText="页面加载中..." variant="spinner" size="lg">
+        <SuspenseWrapper loadingText="页面加载中...">
           {children}
         </SuspenseWrapper>
       </main>
