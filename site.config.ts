@@ -1,7 +1,7 @@
 export const siteConfig = {
   // 基本信息
   name: "penjc",
-  title: "無限進步",
+  title: "penjc 的个人主页",
   description: "个人主页",
   url: "https://pengjiancheng.com",
   
@@ -491,11 +491,11 @@ export const siteConfig = {
   },
 
   // 部署配置 - 已禁用 GitHub Pages 支持
-  deployment: {
-    baseUrl: "/homepage",
-    // 基础路径配置 - 总是填写你的仓库名
-    // 如果项目为 yourName.github.io 则为空
-    // GitHub Pages 部署时通过 GITHUB_PAGES=true 环境变量启用此配置
-    // 自定义域名部署时不设置 GITHUB_PAGES 环境变量，会忽略此配置
-  },
+  // deployment: {
+  //   baseUrl: "/homepage",
+  //   // 基础路径配置 - 总是填写你的仓库名
+  //   // 如果项目为 yourName.github.io 则为空
+  //   // GitHub Pages 部署时通过 GITHUB_PAGES=true 环境变量启用此配置
+  //   // 自定义域名部署时不设置 GITHUB_PAGES 环境变量，会忽略此配置
+  // },
 }; 

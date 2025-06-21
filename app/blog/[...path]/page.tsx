@@ -45,6 +45,14 @@ export default function BlogPostPage() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  // 设置页面标题
+  useEffect(() => {
+    if (!loading && !notFound && post) {
+      const { siteConfig } = require('../../../site.config');
+      document.title = `${post.title} | ${siteConfig.title}`;
+    }
+  }, [loading, notFound, post]);
+
   useEffect(() => {
     const fetchPost = async () => {
       try {

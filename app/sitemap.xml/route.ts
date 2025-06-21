@@ -15,6 +15,9 @@ export async function GET() {
     '/blog',
     '/thoughts',
     '/about',
+    '/projects',
+    '/books',
+    '/friends',
   ];
   
   // 生成博客文章的URL

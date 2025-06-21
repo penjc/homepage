@@ -104,6 +104,13 @@ export default function BlogPageWithPagination() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  // 设置页面标题
+  useEffect(() => {
+    if (!loading && !notFound && currentPage) {
+      document.title = `博客 | ${siteConfig.title}`;
+    }
+  }, [loading, notFound, currentPage]);
+
   useEffect(() => {
     const pageParam = Array.isArray(params.page) ? params.page[0] : params.page;
     const page = parseInt(pageParam || '1', 10);
@@ -195,7 +202,7 @@ export default function BlogPageWithPagination() {
       animate="visible"
       variants={pageVariants}
     >
-      <ClientPageLayout>
+              <ClientPageLayout>
         {/* Hero Section */}
         <motion.section 
           className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16"
