@@ -441,12 +441,6 @@ export const siteConfig = {
 - **本地开发**: 所有资源使用相对路径（如 `/favicon.svg`）
 - **GitHub Pages**: 自动添加项目名前缀（如 `/homepage/favicon.svg`）
 
-这通过以下机制实现：
-
-1. **Next.js 配置** (`next.config.js`): 根据环境变量动态设置 `basePath` 和 `assetPrefix`
-2. **构建脚本** (`scripts/update-manifest.js`): 自动更新 `manifest.json` 中的图标路径  
-3. **工具函数** (`lib/utils.ts`): `getAssetPath()` 函数处理代码中的静态资源路径
-
 #### 构建命令
 
 ```bash

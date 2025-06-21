@@ -9,10 +9,10 @@ import Pagination from '../../../../../../components/Pagination';
 export const dynamic = 'force-static';
 
 interface TagPageProps {
-  params: {
+  params: Promise<{
     slug: string;
     page: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -47,24 +47,25 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: TagPageProps) {
+  const resolvedParams = await params;
   // 更智能的参数解码处理
-  let tag: string = params.slug;
+  let tag: string = resolvedParams.slug;
   
   // 检查是否是编码的URL
-  if (params.slug.includes('%')) {
+  if (resolvedParams.slug.includes('%')) {
     try {
-      tag = decodeURIComponent(params.slug);
+      tag = decodeURIComponent(resolvedParams.slug);
     } catch {
       // 如果解码失败，尝试查找匹配的标签
       const allTags = getAllTags();
-      const found = allTags.find(t => encodeURIComponent(t) === params.slug);
+      const found = allTags.find(t => encodeURIComponent(t) === resolvedParams.slug);
       if (found) {
         tag = found;
       }
     }
   }
   
-  const currentPage = parseInt(params.page, 10);
+  const currentPage = parseInt(resolvedParams.page, 10);
   const allTagPosts = getAllPosts().filter(post => post.tags.includes(tag));
   
   if (allTagPosts.length === 0) {
@@ -79,25 +80,26 @@ export async function generateMetadata({ params }: TagPageProps) {
   };
 }
 
-export default function TagPageWithPagination({ params }: TagPageProps) {
+export default async function TagPageWithPagination({ params }: TagPageProps) {
+  const resolvedParams = await params;
   // 更智能的参数解码处理
-  let tag: string = params.slug;
+  let tag: string = resolvedParams.slug;
   
   // 检查是否是编码的URL
-  if (params.slug.includes('%')) {
+  if (resolvedParams.slug.includes('%')) {
     try {
-      tag = decodeURIComponent(params.slug);
+      tag = decodeURIComponent(resolvedParams.slug);
     } catch {
       // 如果解码失败，尝试查找匹配的标签
       const allTags = getAllTags();
-      const found = allTags.find(t => encodeURIComponent(t) === params.slug);
+      const found = allTags.find(t => encodeURIComponent(t) === resolvedParams.slug);
       if (found) {
         tag = found;
       }
     }
   }
   
-  const currentPage = parseInt(params.page, 10);
+  const currentPage = parseInt(resolvedParams.page, 10);
   const postsPerPage = siteConfig.blog.pagination.postsPerPage;
   
   const paginatedData = getPaginatedPostsByTag(tag, currentPage, postsPerPage);

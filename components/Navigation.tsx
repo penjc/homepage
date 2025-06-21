@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Menu, X, Search } from 'lucide-react';
 import { siteConfig } from '../site.config';
 import SearchModal from './SearchModal';
-import { BlogPost, Thought } from '../lib/blog';
+import { BlogPost, Thought } from '../lib/types';
 import { trackEvent } from './GoogleAnalytics';
 import LinkWithLoading from './LinkWithLoading';
 

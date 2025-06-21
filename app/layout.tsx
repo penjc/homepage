@@ -1,6 +1,7 @@
 import './globals.css';
 import '../styles/prism-theme.css';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { siteConfig } from '../site.config';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import AnalyticsProvider from '../components/AnalyticsProvider';
@@ -119,11 +120,13 @@ export default function RootLayout({
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
         <DynamicHead />
         <GoogleAnalytics />
-        <AnalyticsProvider>
-          <PageLoadingProvider>
-            {children}
-          </PageLoadingProvider>
-        </AnalyticsProvider>
+        <Suspense fallback={null}>
+          <AnalyticsProvider>
+            <PageLoadingProvider>
+              {children}
+            </PageLoadingProvider>
+          </AnalyticsProvider>
+        </Suspense>
       </body>
     </html>
   );

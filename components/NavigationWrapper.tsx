@@ -1,9 +1,13 @@
-import { getAllPosts, getAllThoughts } from '../lib/blog';
+'use client';
+
+import { BlogPost, Thought } from '../lib/types';
 import Navigation from './Navigation';
 
-export default function NavigationWrapper() {
-  const posts = getAllPosts();
-  const thoughts = getAllThoughts();
+interface NavigationWrapperProps {
+  posts?: BlogPost[];
+  thoughts?: Thought[];
+}
 
+export default function NavigationWrapper({ posts = [], thoughts = [] }: NavigationWrapperProps) {
   return <Navigation posts={posts} thoughts={thoughts} />;
 } 

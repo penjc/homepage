@@ -9,10 +9,10 @@ import Pagination from '../../../../../../components/Pagination';
 export const dynamic = 'force-static';
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     slug: string;
     page: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -50,19 +50,20 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: CategoryPageProps) {
-  console.log('generateMetadata called with params:', params);
+  const resolvedParams = await params;
+  console.log('generateMetadata called with params:', resolvedParams);
   
   // 更智能的参数解码处理
-  let category: string = params.slug;
+  let category: string = resolvedParams.slug;
   
   // 检查是否是编码的URL
-  if (params.slug.includes('%')) {
+  if (resolvedParams.slug.includes('%')) {
     try {
-      category = decodeURIComponent(params.slug);
+      category = decodeURIComponent(resolvedParams.slug);
     } catch {
       // 如果解码失败，尝试查找匹配的分类
       const allCategories = getAllCategories();
-      const found = allCategories.find(cat => encodeURIComponent(cat) === params.slug);
+      const found = allCategories.find(cat => encodeURIComponent(cat) === resolvedParams.slug);
       if (found) {
         category = found;
       }
@@ -71,7 +72,7 @@ export async function generateMetadata({ params }: CategoryPageProps) {
   
   console.log('Resolved category:', category);
   
-  const currentPage = parseInt(params.page, 10);
+  const currentPage = parseInt(resolvedParams.page, 10);
   const allCategoryPosts = getAllPosts().filter(post => post.category === category);
   
   if (allCategoryPosts.length === 0) {
@@ -86,20 +87,21 @@ export async function generateMetadata({ params }: CategoryPageProps) {
   };
 }
 
-export default function CategoryPageWithPagination({ params }: CategoryPageProps) {
-  console.log('Component called with params:', params);
+export default async function CategoryPageWithPagination({ params }: CategoryPageProps) {
+  const resolvedParams = await params;
+  console.log('Component called with params:', resolvedParams);
   
   // 更智能的参数解码处理
-  let category: string = params.slug;
+  let category: string = resolvedParams.slug;
   
   // 检查是否是编码的URL
-  if (params.slug.includes('%')) {
+  if (resolvedParams.slug.includes('%')) {
     try {
-      category = decodeURIComponent(params.slug);
+      category = decodeURIComponent(resolvedParams.slug);
     } catch {
       // 如果解码失败，尝试查找匹配的分类
       const allCategories = getAllCategories();
-      const found = allCategories.find(cat => encodeURIComponent(cat) === params.slug);
+      const found = allCategories.find(cat => encodeURIComponent(cat) === resolvedParams.slug);
       if (found) {
         category = found;
       }
@@ -108,7 +110,7 @@ export default function CategoryPageWithPagination({ params }: CategoryPageProps
   
   console.log('Component resolved category:', category);
   
-  const currentPage = parseInt(params.page, 10);
+  const currentPage = parseInt(resolvedParams.page, 10);
   const postsPerPage = siteConfig.blog.pagination.postsPerPage;
   
   const paginatedData = getPaginatedPostsByCategory(category, currentPage, postsPerPage);

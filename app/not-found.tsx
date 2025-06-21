@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { siteConfig } from '../site.config';
-import NavigationWrapper from '../components/NavigationWrapper';
+import NavigationWrapperServer from '../components/NavigationWrapperServer';
 import Footer from '../components/Footer';
 
 export default function NotFound() {
   return (
     <>
-      <NavigationWrapper />
+      <NavigationWrapperServer />
       
       <main className="min-h-screen bg-white dark:bg-gray-900 pt-16 flex items-center justify-center relative overflow-hidden">
         <div className="max-w-lg mx-auto text-center px-4 relative z-10">

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { X, Search } from 'lucide-react';
-import { BlogPost, Thought } from '../lib/blog';
+import { BlogPost, Thought } from '../lib/types';
 
 interface SearchModalProps {
   isOpen: boolean;

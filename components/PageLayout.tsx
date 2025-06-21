@@ -1,4 +1,4 @@
-import NavigationWrapper from './NavigationWrapper';
+import NavigationWrapperServer from './NavigationWrapperServer';
 import Footer from './Footer';
 import SuspenseWrapper from './SuspenseWrapper';
 import BackToTop from './BackToTop';
@@ -11,7 +11,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
       {/* Navigation */}
-      <NavigationWrapper />
+      <NavigationWrapperServer />
 
       {/* Main Content */}
       <main className="flex-1 pt-16">

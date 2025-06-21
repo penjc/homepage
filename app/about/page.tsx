@@ -2,11 +2,11 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { siteConfig } from '../../site.config';
 import PageLayout from '../../components/PageLayout';
 import Comments from '../../components/Comments';
+import ClientImage from '../../components/ClientImage';
 import { 
   ArrowTopRightOnSquareIcon, 
   MapPinIcon, 
@@ -23,7 +23,6 @@ import {
   BriefcaseIcon as BriefcaseSolidIcon,
   UserIcon as UserSolidIcon
 } from '@heroicons/react/24/solid';
-import { getAssetPath } from '../../lib/utils';
 
 // 动画变体定义
 const fadeInUp = {
@@ -188,8 +187,8 @@ export default function AboutPage() {
                     }
                   }}
                 >
-                  <Image
-                    src={getAssetPath(profile.avatar)}
+                  <ClientImage
+                    src={profile.avatar}
                     alt={name}
                     width={256}
                     height={256}

@@ -8,9 +8,9 @@ import { siteConfig } from '../../../../site.config';
 export const dynamic = 'force-static';
 
 interface BlogPageProps {
-  params: {
+  params: Promise<{
     page: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -28,7 +28,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogPageProps) {
-  const currentPage = parseInt(params.page, 10);
+  const resolvedParams = await params;
+  const currentPage = parseInt(resolvedParams.page, 10);
   
   return {
     title: `博客 - 第 ${currentPage} 页 | ${siteConfig.title}`,
@@ -36,8 +37,9 @@ export async function generateMetadata({ params }: BlogPageProps) {
   };
 }
 
-export default function BlogPageWithPagination({ params }: BlogPageProps) {
-  const currentPage = parseInt(params.page, 10);
+export default async function BlogPageWithPagination({ params }: BlogPageProps) {
+  const resolvedParams = await params;
+  const currentPage = parseInt(resolvedParams.page, 10);
   const postsPerPage = siteConfig.blog.pagination.postsPerPage;
   
   const paginatedData = getPaginatedPosts(currentPage, postsPerPage);

@@ -1,15 +1,16 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { siteConfig } from '../../../site.config';
 import { getPostBySlug, getAllPosts } from '../../../lib/blog';
 import PageLayout from '../../../components/PageLayout';
 import BlogPostContent from '../../../components/BlogPostContent';
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     path: string[];
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -20,7 +21,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const slug = params.path.join('/');
+  const resolvedParams = await params;
+  const slug = resolvedParams.path.join('/');
   const post = getPostBySlug(slug);
   
   if (!post) {
@@ -50,8 +52,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const slug = params.path.join('/');
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const resolvedParams = await params;
+  const slug = resolvedParams.path.join('/');
   const post = getPostBySlug(slug);
   
   if (!post) {
@@ -117,11 +120,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </header>
 
       {/* Article Content - 使用客户端组件处理主题 */}
-      <BlogPostContent 
-        post={post}
-        prevPost={prevPost}
-        nextPost={nextPost}
-      />
+      <Suspense fallback={<div className="text-center py-8">加载中...</div>}>
+        <BlogPostContent 
+          post={post}
+          prevPost={prevPost}
+          nextPost={nextPost}
+        />
+      </Suspense>
     </PageLayout>
   );
 } 
