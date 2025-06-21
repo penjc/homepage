@@ -1,6 +1,8 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
+import { motion, useInView } from 'framer-motion';
 import { ExternalLink, Heart, Sparkles, Globe, Code, Palette } from 'lucide-react';
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
@@ -8,6 +10,28 @@ import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
 import ClientImage from '../../components/ClientImage';
 import BackToTop from '../../components/BackToTop';
+
+// 动画组件
+function AnimatedSection({ children, className = "", delay = 0 }: { 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 // 友链状态类型定义
 type FriendStatus = 'active' | 'inactive';
@@ -31,6 +55,33 @@ const tagIcons: { [key: string]: any } = {
   '创意': Sparkles,
 };
 
+// 简化的动画变量
+const pageVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
+
+const heroVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 30
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 1.0,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
 export default function FriendsPage() {
   // 如果友链功能未启用，返回 404
   if (!siteConfig.friends?.enabled) {
@@ -42,57 +93,30 @@ export default function FriendsPage() {
   const otherFriends = friends.items.filter(friend => !friend.featured);
 
   return (
-    <>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={pageVariants}
+    >
       <NavigationWrapper />
       
       <main className="min-h-screen bg-white dark:bg-gray-900 pt-16">
         {/* Hero Section */}
-        <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16 relative overflow-hidden">
+        <motion.section 
+          className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16 relative overflow-hidden"
+          variants={heroVariants}
+        >
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            {/*<div className="inline-flex items-center gap-3 mb-6">*/}
-            {/*  <Users className="w-12 h-12 text-gray-600 dark:text-gray-400" />*/}
-            {/*  <Heart className="w-8 h-8 text-red-500 animate-pulse" />*/}
-            {/*</div>*/}
             <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{friends.title}</h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
               {friends.description}
             </p>
-            
-            {/* 统计信息 */}
-            {/*<div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 max-w-md mx-auto">*/}
-            {/*  <div className="text-center">*/}
-            {/*    <div className="text-2xl font-thin tracking-wide font-serif text-gray-900 dark:text-white">*/}
-            {/*      {friends.items.length}*/}
-            {/*    </div>*/}
-            {/*    <div className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">*/}
-            {/*      总友链*/}
-            {/*    </div>*/}
-            {/*  </div>*/}
-            {/*  <div className="text-center">*/}
-            {/*    <div className="text-2xl font-thin tracking-wide font-serif text-gray-900 dark:text-white">*/}
-            {/*      {friends.items.filter(f => f.status === 'active').length}*/}
-            {/*    </div>*/}
-            {/*    <div className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">*/}
-            {/*      在线*/}
-            {/*    </div>*/}
-            {/*  </div>*/}
-            {/*  <div className="text-center col-span-2 md:col-span-1">*/}
-            {/*    <div className="text-2xl font-thin tracking-wide font-serif text-gray-900 dark:text-white">*/}
-            {/*      {featuredFriends.length}*/}
-            {/*    </div>*/}
-            {/*    <div className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">*/}
-            {/*      精选*/}
-            {/*    </div>*/}
-            {/*  </div>*/}
-            {/*</div>*/}
           </div>
-          
-
-        </section>
+        </motion.section>
 
         {/* Featured Friends */}
         {featuredFriends.length > 0 && (
-          <section className="py-16">
+          <AnimatedSection className="py-16">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white flex items-center justify-center gap-3">
                 精选友链
@@ -100,9 +124,14 @@ export default function FriendsPage() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featuredFriends.map((friend) => (
-                  <div
+                  <motion.div
                     key={friend.id}
-                    className="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300 glow-effect"
+                    className="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
+                    whileHover={{ 
+                      y: -8,
+                      scale: 1.02,
+                      transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                    }}
                   >
                     {/* 悬浮背景效果 */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30 dark:from-blue-900/10 dark:to-purple-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
@@ -149,30 +178,51 @@ export default function FriendsPage() {
 
                       {/* 技术标签 */}
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {friend.tags.map((tag) => {
+                        {friend.tags.map((tag, tagIndex) => {
                           const IconComponent = tagIcons[tag] || Globe;
                           return (
-                            <span
+                            <motion.span
                               key={tag}
-                              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif transition-all duration-200 hover:scale-105 hover:bg-gray-200/80 dark:hover:bg-gray-600/60"
+                              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif transition-all duration-200"
+                              initial={{ opacity: 0, scale: 0.8, y: 15 }}
+                              animate={{ 
+                                opacity: 1, 
+                                scale: 1,
+                                y: 0,
+                                transition: { 
+                                  delay: 0.3 + (0.1 * tagIndex),
+                                  duration: 0.5,
+                                  ease: [0.25, 0.46, 0.45, 0.94]
+                                }
+                              }}
+                              whileHover={{ 
+                                scale: 1.05,
+                                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                                transition: { duration: 0.3 }
+                              }}
                             >
                               <IconComponent size={12} />
                               {tag}
-                            </span>
+                            </motion.span>
                           );
                         })}
                       </div>
 
                       {/* 访问按钮 */}
-                      <Link
-                        href={friend.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 w-full justify-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                       >
-                        <span>访问网站</span>
-                        <ExternalLink size={16} className="group-hover/btn:translate-x-1 transition-transform duration-200" />
-                      </Link>
+                        <Link
+                          href={friend.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 w-full justify-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                        >
+                          <span>访问网站</span>
+                          <ExternalLink size={16} className="group-hover/btn:translate-x-1 transition-transform duration-200" />
+                        </Link>
+                      </motion.div>
                     </div>
 
                     {/* 扫描线动画 */}
@@ -180,16 +230,16 @@ export default function FriendsPage() {
                       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent animate-scan-horizontal"></div>
                       <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
-          </section>
+          </AnimatedSection>
         )}
 
         {/* Other Friends */}
         {otherFriends.length > 0 && (
-          <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
+          <AnimatedSection className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
                 更多友链
@@ -197,9 +247,14 @@ export default function FriendsPage() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {otherFriends.map((friend) => (
-                  <div
+                  <motion.div
                     key={friend.id}
                     className="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
+                    whileHover={{ 
+                      y: -6,
+                      scale: 1.02,
+                      transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                    }}
                   >
                     {/* 简化的悬浮效果 */}
                     <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-blue-50/50 dark:from-gray-700/30 dark:to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
@@ -240,13 +295,24 @@ export default function FriendsPage() {
 
                       {/* 技术标签 */}
                       <div className="flex flex-wrap gap-1 mb-3">
-                        {friend.tags.slice(0, 2).map((tag) => (
-                          <span
+                        {friend.tags.slice(0, 2).map((tag, tagIndex) => (
+                          <motion.span
                             key={tag}
                             className="inline-flex items-center px-2 py-0.5 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
+                            initial={{ opacity: 0, x: -15, scale: 0.9 }}
+                            animate={{ 
+                              opacity: 1, 
+                              x: 0,
+                              scale: 1,
+                              transition: { 
+                                delay: 0.3 + (0.1 * tagIndex),
+                                duration: 0.5,
+                                ease: [0.25, 0.46, 0.45, 0.94]
+                              }
+                            }}
                           >
                             {tag}
-                          </span>
+                          </motion.span>
                         ))}
                         {friend.tags.length > 2 && (
                           <span className="text-xs text-gray-500 dark:text-gray-400 font-thin">
@@ -256,37 +322,85 @@ export default function FriendsPage() {
                       </div>
 
                       {/* 访问按钮 */}
-                      <Link
-                        href={friend.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 w-full justify-center px-3 py-2 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                       >
-                        <span>访问</span>
-                        <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform duration-200" />
-                      </Link>
+                        <Link
+                          href={friend.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 w-full justify-center px-3 py-2 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                        >
+                          <span>访问</span>
+                          <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform duration-200" />
+                        </Link>
+                      </motion.div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
-          </section>
+          </AnimatedSection>
         )}
 
         {/* 申请友链说明 */}
-        <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20 relative overflow-hidden friends-animate-section">
+        <AnimatedSection className="py-16 bg-gray-50/50 dark:bg-gray-800/20 relative overflow-hidden">
           {/* 背景动画装饰 */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-20 left-10 w-2 h-2 bg-blue-300/40 dark:bg-blue-500/20 rounded-full animate-float" style={{animationDelay: '0s'}}></div>
-            <div className="absolute top-40 right-20 w-1.5 h-1.5 bg-purple-300/40 dark:bg-purple-500/20 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
-            <div className="absolute bottom-32 left-1/4 w-1 h-1 bg-pink-300/40 dark:bg-pink-500/20 rounded-full animate-float" style={{animationDelay: '4s'}}></div>
-            <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-green-300/40 dark:bg-green-500/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
-            <div className="absolute bottom-20 right-10 w-2 h-2 bg-indigo-300/40 dark:bg-indigo-500/20 rounded-full animate-float" style={{animationDelay: '3s'}}></div>
+            <motion.div 
+              className="absolute top-20 left-10 w-2 h-2 bg-blue-300/40 dark:bg-blue-500/20 rounded-full"
+              animate={{ 
+                y: [0, -10, 0],
+                opacity: [0.4, 0.8, 0.4]
+              }}
+              transition={{ 
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-40 right-20 w-1.5 h-1.5 bg-purple-300/40 dark:bg-purple-500/20 rounded-full"
+              animate={{ 
+                y: [0, -8, 0],
+                opacity: [0.3, 0.7, 0.3]
+              }}
+              transition={{ 
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-32 left-1/4 w-1 h-1 bg-pink-300/40 dark:bg-pink-500/20 rounded-full"
+              animate={{ 
+                y: [0, -6, 0],
+                opacity: [0.2, 0.6, 0.2]
+              }}
+              transition={{ 
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2
+              }}
+            />
           </div>
 
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="text-center mb-12 friends-animate-section">
-              <div className="flex items-center justify-center gap-2 mb-6 friends-animate-item" style={{'--delay': '0.1s'} as React.CSSProperties}>
+            <motion.div 
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <motion.div 
+                className="flex items-center justify-center gap-2 mb-6"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
                 <div className="relative">
                   <Heart className="w-6 h-6 text-red-500 animate-pulse" />
                   <div className="absolute inset-0 animate-ping">
@@ -294,16 +408,25 @@ export default function FriendsPage() {
                   </div>
                 </div>
                 <Sparkles className="w-5 h-5 text-yellow-500 animate-bounce" style={{animationDelay: '0.5s'}} />
-              </div>
-              <h3 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif text-gray-900 dark:text-white mb-4 friends-animate-item" style={{'--delay': '0.2s'} as React.CSSProperties}>
+              </motion.div>
+              <h3 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif text-gray-900 dark:text-white mb-4">
                 申请友链
               </h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif leading-relaxed max-w-2xl mx-auto friends-animate-item" style={{'--delay': '0.3s'} as React.CSSProperties}>
+              <p className="text-lg text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif leading-relaxed max-w-2xl mx-auto">
                 欢迎志同道合的朋友申请友链，一起构建互联网的美好连接
               </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden relative group friends-animate-item" style={{'--delay': '0.4s'} as React.CSSProperties}>
+            <motion.div 
+              className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden relative group"
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              whileHover={{ 
+                y: -4,
+                transition: { duration: 0.3, ease: "easeOut" }
+              }}
+            >
               {/* 悬浮时的边框动画 */}
               <div className="absolute inset-0 bg-gradient-to-r from-gray-50/80 via-blue-50/60 to-gray-50/80 dark:from-gray-700/20 dark:via-gray-600/30 dark:to-gray-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl"></div>
               
@@ -314,56 +437,76 @@ export default function FriendsPage() {
                 {/* 要求和信息网格 */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                   {/* 申请要求 */}
-                  <div className="friends-animate-item" style={{'--delay': '0.5s'} as React.CSSProperties}>
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
+                  >
                     <h4 className="text-lg font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-4 flex items-center gap-2 group/title">
                       <Code className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover/title:text-blue-500 dark:group-hover/title:text-blue-400 transition-colors duration-300 group-hover/title:rotate-12 transform" />
                       申请要求
                     </h4>
                     <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif">
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.6s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-blue-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站内容原创且有价值</span>
-                      </li>
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.7s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-green-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站可以正常访问</span>
-                      </li>
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.8s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-purple-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">技术相关或个人博客</span>
-                      </li>
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.9s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-pink-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站设计美观</span>
-                      </li>
+                                              {[
+                                                  '网站内容原创且有价值',
+                        '网站可以正常访问',
+                        '技术相关或个人博客',
+                        '网站设计美观'
+                      ].map((item, index) => (
+                        <motion.li 
+                          key={index}
+                          className="flex items-start gap-3 group/item"
+                                                      initial={{ opacity: 0, x: -15, scale: 0.95 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 + (index * 0.05) }}
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 transition-colors duration-300 group-hover/item:scale-125 transform ${
+                            index === 0 ? 'bg-blue-400 group-hover/item:bg-blue-500' :
+                            index === 1 ? 'bg-green-400 group-hover/item:bg-green-500' :
+                            index === 2 ? 'bg-purple-400 group-hover/item:bg-purple-500' :
+                            'bg-pink-400 group-hover/item:bg-pink-500'
+                          }`}></div>
+                          <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">{item}</span>
+                        </motion.li>
+                      ))}
                     </ul>
-                  </div>
+                  </motion.div>
 
                   {/* 提供信息 */}
-                  <div className="friends-animate-item" style={{'--delay': '0.5s'} as React.CSSProperties}>
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
+                  >
                     <h4 className="text-lg font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-4 flex items-center gap-2 group/title">
                       <Globe className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover/title:text-green-500 dark:group-hover/title:text-green-400 transition-colors duration-300 group-hover/title:rotate-12 transform" />
                       提供信息
                     </h4>
                     <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif">
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.6s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-orange-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站名称</span>
-                      </li>
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.7s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-teal-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站地址</span>
-                      </li>
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.8s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-indigo-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">网站描述</span>
-                      </li>
-                      <li className="flex items-start gap-3 group/item friends-animate-item" style={{'--delay': '0.9s'} as React.CSSProperties}>
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-rose-500 transition-colors duration-300 group-hover/item:scale-125 transform"></div>
-                        <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">头像链接</span>
-                      </li>
+                                              {[
+                                                  '网站名称',
+                        '网站地址',
+                        '网站描述',
+                        '头像链接'
+                      ].map((item, index) => (
+                        <motion.li 
+                          key={index}
+                          className="flex items-start gap-3 group/item"
+                                                      initial={{ opacity: 0, x: 15, scale: 0.95 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 + (index * 0.05) }}
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 transition-colors duration-300 group-hover/item:scale-125 transform ${
+                            index === 0 ? 'bg-orange-400 group-hover/item:bg-orange-500' :
+                            index === 1 ? 'bg-teal-400 group-hover/item:bg-teal-500' :
+                            index === 2 ? 'bg-indigo-400 group-hover/item:bg-indigo-500' :
+                            'bg-rose-400 group-hover/item:bg-rose-500'
+                          }`}></div>
+                          <span className="group-hover/item:text-gray-800 dark:group-hover/item:text-gray-200 transition-colors duration-300">{item}</span>
+                        </motion.li>
+                      ))}
                     </ul>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* 分隔线 */}
@@ -372,51 +515,61 @@ export default function FriendsPage() {
                 </div>
 
                 {/* 申请按钮区域 */}
-                <div className="text-center friends-animate-item" style={{'--delay': '1s'} as React.CSSProperties}>
+                <motion.div 
+                  className="text-center"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
+                >
                   {siteConfig.profile.email && (
                     <div className="space-y-4">
-                      <Link
-                        href={`mailto:${siteConfig.profile.email}?subject=友链申请&body=网站名称：%0A网站地址：%0A网站描述：%0A头像链接：`}
-                        className="group/btn inline-flex items-center gap-2 px-6 py-3 text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 hover:bg-gray-200/80 dark:hover:bg-gray-600/80 rounded-lg transition-all duration-300 font-thin tracking-wide font-serif hover:scale-105 hover:shadow-lg dark:hover:shadow-xl transform relative overflow-hidden"
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        {/* 按钮背景动画 */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-gray-100/60 to-gray-200/60 dark:from-gray-600/30 dark:to-gray-500/30 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                        
-                        <span className="relative z-10 group-hover/btn:text-gray-800 dark:group-hover/btn:text-gray-100 transition-colors">申请友链</span>
-                        <ExternalLink className="w-4 h-4 relative z-10 group-hover/btn:translate-x-1 group-hover/btn:scale-110 transform transition-all duration-300" />
-                        
-                        {/* 按钮光效 */}
-                        <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300">
-                          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-flow-right"></div>
-                        </div>
-                      </Link>
+                        <Link
+                          href={`mailto:${siteConfig.profile.email}?subject=友链申请&body=网站名称：%0A网站地址：%0A网站描述：%0A头像链接：`}
+                          className="group/btn inline-flex items-center gap-2 px-6 py-3 text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 hover:bg-gray-200/80 dark:hover:bg-gray-600/80 rounded-lg transition-all duration-300 font-thin tracking-wide font-serif hover:shadow-lg dark:hover:shadow-xl transform relative overflow-hidden"
+                        >
+                          {/* 按钮背景动画 */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-gray-100/60 to-gray-200/60 dark:from-gray-600/30 dark:to-gray-500/30 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                          
+                          <span className="relative z-10 group-hover/btn:text-gray-800 dark:group-hover/btn:text-gray-100 transition-colors">申请友链</span>
+                          <ExternalLink className="w-4 h-4 relative z-10 group-hover/btn:translate-x-1 group-hover/btn:scale-110 transform transition-all duration-300" />
+                          
+                          {/* 按钮光效 */}
+                          <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300">
+                            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-flow-right"></div>
+                          </div>
+                        </Link>
+                      </motion.div>
                       
                       <p className="text-xs text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif animate-pulse">
                         申请后我会在 24 小时内回复
                       </p>
                     </div>
                   )}
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Comments Section */}
-        <section className="py-16">
+        <AnimatedSection className="py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Comments 
               pageId="friends"
               pageTitle="友链"
             />
           </div>
-        </section>
+        </AnimatedSection>
       </main>
 
       <Footer />
       
       {/* Back to Top Button */}
       <BackToTop />
-    </>
+    </motion.div>
   );
 } 
