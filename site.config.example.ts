@@ -205,7 +205,7 @@ export const siteConfig = {
         image: "/images/projects/spring.jpg",
         tags: ["Java", "FrameWork", "Spring FrameWork"],
         github: "https://github.com/spring-projects/spring-framework",
-        status: "active",
+        status: "archived",
         featured: true
       },
       {
@@ -236,41 +236,13 @@ export const siteConfig = {
     enabled: true, // 是否启用书籍页面
     title: "书籍",
     description: "分享值得阅读的好书，记录阅读心得",
-    categories: [
-      {
-        id: "tech",
-        name: "技术类",
-        description: "提升技术能力的专业书籍"
-      },
-      {
-        id: "philosophy",
-        name: "哲学思辨",
-        description: "启发思维的哲学著作"
-      },
-      {
-        id: "psychology",
-        name: "心理学",
-        description: "探索内心世界的心理学作品"
-      },
-      {
-        id: "history",
-        name: "历史人文",
-        description: "了解过去，洞察未来"
-      },
-      {
-        id: "novel",
-        name: "文学小说",
-        description: "陶冶情操的文学作品"
-      }
-    ],
     items: [
       {
         id: "clean-code",
         title: "代码整洁之道",
         author: "Robert C. Martin",
-        category: "tech",
         rating: 5,
-        status: "read", // reading | read | want_to_read
+        status: "reading", // reading | read | want_to_read
         cover: "/images/books/clean-code.jpg",
         description: "代码质量与其整洁度成正比。干净的代码，既在质量上可靠，也为后期维护奠定基础。",
         review: "这本书彻底改变了我对编程的认知，让我明白了什么是真正优秀的代码。",
@@ -278,15 +250,21 @@ export const siteConfig = {
         readDate: "2024-01-15",
         featured: true,
         purchaseLinks: {
-          amazon: "https://amazon.com/clean-code",
+          jd: "https://item.jd.com/46401025666.html",
           douban: "https://book.douban.com/subject/4199741/",
+          // douban: '豆瓣',
+          // amazon: '亚马逊',
+          // taobao: '淘宝',
+          // tmall: '天猫',
+          // jd: '京东',
+          // dangdang: '当当',
+          // pdd: '拼多多',
         }
       },
       {
         id: "thinking-fast-slow",
         title: "思考，快与慢",
         author: "丹尼尔·卡尼曼",
-        category: "psychology",
         rating: 5,
         status: "read",
         cover: "/images/books/thinking-fast-slow.jpg",
@@ -303,7 +281,6 @@ export const siteConfig = {
         id: "sapiens",
         title: "人类简史",
         author: "尤瓦尔·赫拉利",
-        category: "history",
         rating: 5,
         status: "read",
         cover: "/images/books/sapiens.jpg",
@@ -320,7 +297,6 @@ export const siteConfig = {
         id: "design-patterns",
         title: "设计模式：可复用面向对象软件的基础",
         author: "Gang of Four",
-        category: "tech",
         rating: 4,
         status: "reading",
         cover: "/images/books/design-patterns.jpg",
@@ -336,7 +312,6 @@ export const siteConfig = {
         id: "the-pragmatic-programmer",
         title: "程序员修炼之道",
         author: "David Thomas & Andrew Hunt",
-        category: "tech",
         rating: 5,
         status: "want_to_read",
         cover: "/images/books/pragmatic-programmer.jpg",
