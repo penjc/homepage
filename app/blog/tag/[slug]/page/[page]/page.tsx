@@ -1,13 +1,42 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { motion, useInView } from 'framer-motion';
 import ClientPageLayout from '../../../../../../components/ClientPageLayout';
 import NotFoundContent from '../../../../../../components/NotFoundContent';
 import Pagination from '../../../../../../components/Pagination';
 import { siteConfig } from '../../../../../../site.config';
 import { BlogPost, PaginatedPosts } from '../../../../../../lib/types';
+
+// 页面动画变体
+const pageVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+};
+
+// 头部动画变体
+const heroVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 20
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
 
 export default function TagPageWithPagination() {
   const params = useParams();
@@ -107,10 +136,15 @@ export default function TagPageWithPagination() {
     return (
       <ClientPageLayout>
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
             <p className="text-gray-600 dark:text-gray-400">加载中...</p>
-          </div>
+          </motion.div>
         </div>
       </ClientPageLayout>
     );
@@ -125,19 +159,44 @@ export default function TagPageWithPagination() {
   }
 
   return (
-    <ClientPageLayout>
-      {/* Hero Section */}
-      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">#{tag}</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
-            标签下的文章
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 font-thin tracking-wide font-serif">
-            共 {totalPosts} 篇文章，第 {currentPage} 页，共 {totalPages} 页
-          </p>
-        </div>
-      </section>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={pageVariants}
+    >
+      <ClientPageLayout>
+        {/* Hero Section */}
+        <motion.section 
+          className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16"
+          variants={heroVariants}
+        >
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.h1 
+              className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              #{tag}
+            </motion.h1>
+            <motion.p 
+              className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              标签下的文章
+            </motion.p>
+            <motion.p 
+              className="text-sm text-gray-500 dark:text-gray-500 mt-2 font-thin tracking-wide font-serif"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              共 {totalPosts} 篇文章，第 {currentPage} 页，共 {totalPages} 页
+            </motion.p>
+          </div>
+        </motion.section>
 
       {/* Blog Tags */}
       <section className="bg-white dark:bg-gray-800 py-8 border-b border-gray-200 dark:border-gray-700">
@@ -276,6 +335,7 @@ export default function TagPageWithPagination() {
           )}
         </div>
       </section>
-    </ClientPageLayout>
+      </ClientPageLayout>
+    </motion.div>
   );
 } 

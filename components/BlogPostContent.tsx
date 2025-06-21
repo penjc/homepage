@@ -281,14 +281,15 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                 </Link>
               </div>
 
-              {/* Comments */}
-              <div className="mt-12">
-                <Comments 
-                  pageId={`blog-${post.slug}`}
-                  pageTitle={post.title}
-                  pageUrl={`/blog/${post.slug}`}
-                />
-              </div>
+            </div>
+            
+            {/* Comments */}
+            <div className="mt-12">
+              <Comments 
+                pageId={`blog-${post.slug}`}
+                pageTitle={post.title}
+                pageUrl={`/blog/${post.slug}`}
+              />
             </div>
           </main>
 

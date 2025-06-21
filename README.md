@@ -9,6 +9,9 @@
 
 [![npm version](https://img.shields.io/npm/v/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
 [![npm downloads](https://img.shields.io/npm/dm/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
+[![Vercel](https://img.shields.io/badge/Deploy_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
+[![Netlify](https://img.shields.io/badge/Deploy_on-Netlify-00c7b7?style=flat-square&logo=netlify)](https://netlify.com)
+<!-- [![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/) -->
 
 [//]: # ([![GitHub stars]&#40;https://img.shields.io/github/stars/penjc/homepage?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/stargazers&#41;)
 
@@ -22,10 +25,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0+-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![React](https://img.shields.io/badge/React-18+-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
-
-[![Vercel](https://img.shields.io/badge/Deploy_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
-[![Netlify](https://img.shields.io/badge/Deploy_on-Netlify-00c7b7?style=flat-square&logo=netlify)](https://netlify.com)
-<!-- [![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/) -->
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11+-ff0055?style=flat-square&logo=framer)](https://www.framer.com/motion/)
 
 [//]: # ([![PRs Welcome]&#40;https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/pulls&#41;)
 
@@ -37,7 +37,8 @@
 
 **现代化、响应式的个人主页模版**
 
-基于 Next.js 13+ 构建的全功能个人主页模板，集成博客、项目展示、书单、友链等多种功能。
+基于 Next.js 13+ 构建的全功能个人主页模板，集成博客、项目展示、书单、友链等多种功能。  
+采用 TypeScript + Tailwind CSS + Framer Motion 技术栈，提供流畅的动画效果和卓越的用户体验。
 
 [🚀 快速开始](#-快速开始) • [📖 文档](#-文档) • [🎨 特性](#-特性) • [💻 演示](https://pengjiancheng.com) • [🤝 贡献](#-贡献)
 
@@ -52,34 +53,37 @@
 ### 📝 内容管理
 - 📝 **Markdown 支持** - 支持 Markdown 写作，代码语法高亮
 - 📚 **博客系统** - 完整的博客功能，支持分页、分类、标签
-- ✍️ **随笔功能** - 记录生活感悟，支持心情标签和时间线
-- 🏷️ **标签分类** - 智能的内容分类和标签管理
-- 🔍 **搜索功能** - 内置全文搜索，快速查找内容
+- ✍️ **随笔功能** - 记录生活感悟，支持心情标签
+- 🔍 **搜索功能** - 内置全文搜索
 
 ### 🗂️ 展示模块
-- 💼 **项目展示** - 展示个人项目作品，支持分类、状态和链接管理
-- 📚 **书籍管理** - 分享阅读书单，记录读书心得、评分和购买链接
-- 🤝 **友链管理** - 管理友情链接，支持头像、描述和状态
-- 👤 **关于页面** - 完整的个人介绍，包括技能、工作经历、教育背景
+- 💼 **项目展示** - 展示个人项目作品
+- 📚 **书籍管理** - 分享阅读书单，记录读书心得
+- 🤝 **友链管理** - 管理友情链接
+- 👤 **关于页面** - 完整的个人介绍
+
+### 🎬 动画效果
+- ✨ **页面入场动画** - 流畅的入场动画效果
+- 🎭 **分层动画系统** - 元素按层次依次出现
+- 🚀 **交互反馈** - 悬浮、点击等交互反馈
+- ⚡ **性能优化** - 基于 Framer Motion 构建
 
 ### 🎯 互动功能
-- 💬 **评论系统** - 支持多种评论系统（Giscus、Gitalk、Valine、Waline）
-- 📝 **评论配置** - 灵活的评论系统配置，支持页面级别控制
-- 🔄 **实时更新** - 动态内容加载，无需刷新页面
+- 💬 **评论系统** - 支持多种评论系统
+- 🔄 **实时更新** - 动态内容加载
 - 🎨 **主题适配** - 评论系统自动适配网站主题
 
 ### 🚀 部署与开发
 - 🚀 **一键部署** - 支持 Vercel、Netlify 等平台
-- ⚙️ **配置驱动** - 通过配置文件管理所有功能，无需修改代码
+- ⚙️ **配置驱动** - 通过配置文件管理所有功能
 - 🔧 **开发友好** - 热重载、ESLint、Prettier 开箱即用
 - 📦 **模块化设计** - 组件化架构，易于定制和扩展
 
 ### ⚡ 性能与技术
-- ⚡ **极速性能** - 基于 Next.js 13+ 构建，静态生成，性能卓越
-- 🎯 **SEO 优化** - 内置 SEO 最佳实践，搜索引擎友好
+- ⚡ **极速性能** - 基于 Next.js 13+ 构建，静态生成
+- 🎯 **SEO 优化** - 内置 SEO 最佳实践
 - 📱 **PWA 支持** - 支持离线访问，可安装到桌面
-- 🔧 **TypeScript** - 完整的类型安全，开发体验更佳
-- 📊 **数据分析** - 集成 Google Analytics，了解访问情况
+- 🔧 **TypeScript** - 完整的类型安全
 
 ## 🚀 快速开始
 
