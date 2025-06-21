@@ -1,5 +1,9 @@
+'use client';
+
+import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion, useInView } from 'framer-motion';
 import { siteConfig } from '../../site.config';
 import PageLayout from '../../components/PageLayout';
 import Comments from '../../components/Comments';
@@ -21,10 +25,57 @@ import {
 } from '@heroicons/react/24/solid';
 import { getAssetPath } from '../../lib/utils';
 
-export const metadata = {
-  title: '关于我',
-  description: '了解更多关于我的信息',
+// 动画变体定义
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0 }
 };
+
+const fadeInLeft = {
+  initial: { opacity: 0, x: -60 },
+  animate: { opacity: 1, x: 0 }
+};
+
+const fadeInRight = {
+  initial: { opacity: 0, x: 60 },
+  animate: { opacity: 1, x: 0 }
+};
+
+const scaleIn = {
+  initial: { opacity: 0, scale: 0.8 },
+  animate: { opacity: 1, scale: 1 }
+};
+
+const staggerContainer = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+// 动画组件
+function AnimatedSection({ children, className = "", delay = 0 }: { 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 // 技能图标映射
 const skillIcons: { [key: string]: any } = {
@@ -40,36 +91,192 @@ export default function AboutPage() {
   return (
     <PageLayout>
       {/* Hero Section */}
-      <section className="relative bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white overflow-hidden">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="relative bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white overflow-hidden"
+      >
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="w-64 h-64 relative">
-              <Image
-                src={getAssetPath(profile.avatar)}
-                alt={name}
-                width={256}
-                height={256}
-                className="relative w-64 h-64 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700 shadow-lg"
-                priority
-              />
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="w-64 h-64 relative group cursor-pointer"
+            >
+              {/* 头像光环效果 */}
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                animate={{
+                  background: [
+                    "conic-gradient(from 0deg, rgba(156, 163, 175, 0.3), rgba(209, 213, 219, 0.5), rgba(156, 163, 175, 0.3))",
+                    "conic-gradient(from 360deg, rgba(156, 163, 175, 0.3), rgba(209, 213, 219, 0.5), rgba(156, 163, 175, 0.3))"
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+                style={{
+                  padding: "3px",
+                  borderRadius: "50%"
+                }}
+              >
+                <div className="w-full h-full rounded-full bg-gray-50 dark:bg-gray-900" />
+              </motion.div>
+
+              {/* 头像容器 */}
+              <motion.div
+                className="absolute inset-1 rounded-full overflow-hidden"
+                whileHover={{ 
+                  scale: 1.05,
+                  rotate: [0, -2, 2, 0],
+                  transition: { 
+                    scale: { duration: 0.3, ease: "easeOut" },
+                    rotate: { duration: 0.6, ease: "easeInOut" }
+                  }
+                }}
+                whileTap={{ 
+                  scale: 0.95,
+                  rotate: [0, -5, 5, -3, 3, 0],
+                  transition: { 
+                    scale: { duration: 0.1 },
+                    rotate: { duration: 0.5, ease: "easeInOut" }
+                  }
+                }}
+                onHoverStart={() => {
+                  // 可以在这里添加悬浮开始的逻辑
+                }}
+                onHoverEnd={() => {
+                  // 可以在这里添加悬浮结束的逻辑
+                }}
+                onClick={() => {
+                  // 可以在这里添加点击逻辑，比如打开大图预览
+                  console.log('头像被点击了！');
+                }}
+              >
+                {/* 悬浮时的发光效果 */}
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-400/20 to-gray-600/20 opacity-0 group-hover:opacity-100"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ 
+                    opacity: [0, 0.3, 0],
+                    scale: [1, 1.1, 1],
+                    transition: { 
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }}
+                />
+
+                {/* 头像图片 */}
+                <motion.div
+                  className="relative w-full h-full"
+                  whileHover={{
+                    filter: [
+                      "brightness(1) contrast(1) saturate(1)",
+                      "brightness(1.1) contrast(1.1) saturate(1.2)",
+                      "brightness(1) contrast(1) saturate(1)"
+                    ],
+                    transition: {
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }}
+                >
+                  <Image
+                    src={getAssetPath(profile.avatar)}
+                    alt={name}
+                    width={256}
+                    height={256}
+                    className="w-full h-full rounded-full object-cover border-4 border-gray-200 dark:border-gray-700 shadow-lg group-hover:shadow-xl transition-shadow duration-300"
+                    priority
+                  />
+                </motion.div>
+
+                {/* 点击波纹效果 */}
+                <motion.div
+                  className="absolute inset-0 rounded-full border-2 border-gray-400 dark:border-gray-500 opacity-0"
+                  animate={{
+                    scale: [1, 1.2, 1.4],
+                    opacity: [0, 0.6, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeOut",
+                    delay: 0
+                  }}
+                />
+                <motion.div
+                  className="absolute inset-0 rounded-full border-2 border-gray-400 dark:border-gray-500 opacity-0"
+                  animate={{
+                    scale: [1, 1.2, 1.4],
+                    opacity: [0, 0.4, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeOut",
+                    delay: 0.5
+                  }}
+                />
+              </motion.div>
+
+              {/* 悬浮提示文字 */}
+              <motion.div
+                className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                initial={{ opacity: 0, y: 10 }}
+                whileHover={{ opacity: 1, y: 0 }}
+              >
+                <span className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif bg-white dark:bg-gray-800 px-3 py-1 rounded-full shadow-md">
+                  点击查看大图
+                </span>
+              </motion.div>
+            </motion.div>
             <div className="flex-1 text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif italic mb-4">{name}</h1>
-              <p className="text-xl text-gray-600 dark:text-gray-400 mb-6 font-thin tracking-widest font-serif italic">
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-4xl md:text-5xl font-thin tracking-widest font-serif italic mb-4"
+              >
+                {name}
+              </motion.h1>
+              <motion.p 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-xl text-gray-600 dark:text-gray-400 mb-6 font-thin tracking-widest font-serif italic"
+              >
                 {profile.bio}
-              </p>
+              </motion.p>
               {profile.location && (
-                <div className="flex items-center justify-center lg:justify-start gap-2 text-gray-500 dark:text-gray-400">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  className="flex items-center justify-center lg:justify-start gap-2 text-gray-500 dark:text-gray-400"
+                >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   <span className="font-thin tracking-wide font-serif">{profile.location}</span>
-                </div>
+                </motion.div>
               )}
               
               {/* 社交媒体图标 */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-6 max-w-md lg:max-w-none">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.0 }}
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-6 max-w-md lg:max-w-none"
+              >
                 {/* 创建社交媒体图标数组，优先显示常用的 */}
                 {((): Array<{ href: string; title: string; target?: string; svg: React.ReactNode }> => {
                   const socialLinks = [];
@@ -211,224 +418,451 @@ export default function AboutPage() {
                   // 限制显示前10个图标
                   return socialLinks.slice(0, 10);
                 })().map((social, index) => (
-                  <a
+                  <motion.a
                     key={index}
                     href={social.href}
                     target={social.target || undefined}
                     rel={social.target ? "noopener noreferrer" : undefined}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                     className="p-2.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
                     title={social.title}
                   >
                     {social.svg}
-                  </a>
+                  </motion.a>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Introduction - 只有当 intro 存在且有段落时才显示 */}
         {about.intro && about.intro.paragraphs && about.intro.paragraphs.length > 0 && (
-          <section className="mb-20">
+          <AnimatedSection className="mb-20">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4">
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4"
+              >
                 {about.intro.title || '个人简介'}
-              </h2>
-              <div className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"></div>
+              </motion.h2>
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: 96 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"
+              />
             </div>
-            <div className="max-w-4xl mx-auto">
+            <motion.div
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="max-w-4xl mx-auto"
+            >
               {about.intro.paragraphs.map((paragraph, index) => (
-                <p
+                <motion.p
                   key={index}
+                  variants={fadeInUp}
                   className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-6 text-center font-thin tracking-wide font-serif"
                 >
                   {paragraph}
-                </p>
+                </motion.p>
               ))}
-            </div>
-          </section>
+            </motion.div>
+          </AnimatedSection>
         )}
 
         {/* Education - 只有当 education 存在且有项目时才显示 */}
         {about.education && about.education.items && about.education.items.length > 0 && (
-          <section className="mb-20">
+          <AnimatedSection className="mb-20">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4">
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4"
+              >
                 {about.education.title || '教育背景'}
-              </h2>
-              <div className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"></div>
+              </motion.h2>
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: 96 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"
+              />
             </div>
             <div className="relative">
               {/* Timeline line */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 hidden md:block"></div>
               
-              <div className="space-y-12">
+              <motion.div
+                variants={staggerContainer}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
+                className="space-y-12"
+              >
                 {about.education.items.map((edu, index) => (
-                  <div key={index} className="relative flex gap-8">
+                  <motion.div 
+                    key={index} 
+                    variants={index % 2 === 0 ? fadeInLeft : fadeInRight}
+                    className="relative flex gap-8"
+                  >
                     {/* Timeline dot */}
                     <div className="hidden md:flex w-16 h-16 bg-gray-800 dark:bg-gray-200 rounded-full items-center justify-center flex-shrink-0 shadow-lg">
                       <AcademicCapIcon className="w-8 h-8 text-white dark:text-gray-900" />
                     </div>
                     
-                    <div className="flex-1 bg-white dark:bg-gray-900 rounded-lg p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-800">
-                                             <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                         <div>
-                           {(edu as any).degree && (
-                             <h3 className="text-2xl font-thin tracking-wide font-serif italic text-gray-900 dark:text-white mb-2">
-                               {(edu as any).degree}
-                             </h3>
-                           )}
-                           {edu.school && (
-                             <p className="text-gray-600 dark:text-gray-400 font-medium text-lg font-thin tracking-wide font-serif">
-                               {edu.school}
-                             </p>
-                           )}
-                         </div>
-                         <div className="text-right mt-2 md:mt-0">
-                           {edu.year && (
-                             <span className="text-gray-500 dark:text-gray-400 font-medium bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-md text-sm font-thin tracking-wide font-serif">
-                               {edu.year}
-                             </span>
-                           )}
-                           {(edu as any).gpa && (
-                             <p className="text-gray-700 dark:text-gray-300 font-bold mt-2 font-thin tracking-wide font-serif">
-                               GPA: {(edu as any).gpa}
-                             </p>
-                           )}
-                         </div>
-                       </div>
+                    <motion.div 
+                      whileHover={{ 
+                        y: -4, 
+                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                        borderColor: "rgb(209 213 219)"
+                      }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="flex-1 bg-white dark:bg-gray-900 rounded-lg p-8 shadow-sm border border-gray-200 dark:border-gray-800"
+                    >
+                      <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                        <div>
+                          {(edu as any).degree && (
+                            <motion.h3 
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              viewport={{ once: true }}
+                              className="text-2xl font-thin tracking-wide font-serif italic text-gray-900 dark:text-white mb-2"
+                            >
+                              {(edu as any).degree}
+                            </motion.h3>
+                          )}
+                          {edu.school && (
+                            <motion.p 
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: 0.3 }}
+                              viewport={{ once: true }}
+                              className="text-gray-600 dark:text-gray-400 font-medium text-lg font-thin tracking-wide font-serif"
+                            >
+                              {edu.school}
+                            </motion.p>
+                          )}
+                        </div>
+                        <div className="text-right mt-2 md:mt-0">
+                          {edu.year && (
+                            <motion.span 
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.4, delay: 0.4 }}
+                              viewport={{ once: true }}
+                              className="text-gray-500 dark:text-gray-400 font-medium bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-md text-sm font-thin tracking-wide font-serif"
+                            >
+                              {edu.year}
+                            </motion.span>
+                          )}
+                          {(edu as any).gpa && (
+                            <motion.p 
+                              initial={{ opacity: 0, y: 10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.4, delay: 0.5 }}
+                              viewport={{ once: true }}
+                              className="text-gray-700 dark:text-gray-300 font-bold mt-2 font-thin tracking-wide font-serif"
+                            >
+                              GPA: {(edu as any).gpa}
+                            </motion.p>
+                          )}
+                        </div>
+                      </div>
                       {edu.description && (
-                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed font-thin tracking-wide font-serif">
+                        <motion.p 
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.6 }}
+                          viewport={{ once: true }}
+                          className="text-gray-600 dark:text-gray-300 leading-relaxed font-thin tracking-wide font-serif"
+                        >
                           {edu.description}
-                        </p>
+                        </motion.p>
                       )}
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
-          </section>
+          </AnimatedSection>
         )}
 
         {/* Experience - 只有当 experience 存在且有项目时才显示 */}
         {(about as any).experience?.items && (about as any).experience.items.length > 0 && (
-          <section className="mb-20">
+          <AnimatedSection className="mb-20">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4">
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4"
+              >
                 {(about as any).experience.title || '工作经历'}
-              </h2>
-              <div className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"></div>
+              </motion.h2>
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: 96 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"
+              />
             </div>
             <div className="relative">
               {/* Timeline line */}
-              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 hidden md:block"></div>
+              <motion.div 
+                initial={{ height: 0 }}
+                whileInView={{ height: "100%" }}
+                transition={{ duration: 1.2, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="absolute left-8 top-0 w-0.5 bg-gray-300 dark:bg-gray-700 hidden md:block"
+              />
               
-              <div className="space-y-12">
+              <motion.div
+                variants={staggerContainer}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
+                className="space-y-12"
+              >
                 {(about as any).experience.items.map((exp: any, index: number) => (
-                  <div key={index} className="relative flex gap-8">
+                  <motion.div 
+                    key={index} 
+                    variants={index % 2 === 0 ? fadeInLeft : fadeInRight}
+                    className="relative flex gap-8"
+                  >
                     {/* Timeline dot */}
-                    <div className="hidden md:flex w-16 h-16 bg-gray-800 dark:bg-gray-200 rounded-full items-center justify-center text-white dark:text-gray-900 font-bold text-sm shadow-lg">
+                    <motion.div 
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="hidden md:flex w-16 h-16 bg-gray-800 dark:bg-gray-200 rounded-full items-center justify-center text-white dark:text-gray-900 font-bold text-sm shadow-lg"
+                    >
                       {index + 1}
-                    </div>
+                    </motion.div>
                     
-                    <div className="flex-1 bg-white dark:bg-gray-900 rounded-lg p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-800">
+                    <motion.div 
+                      whileHover={{ 
+                        y: -4, 
+                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                        borderColor: "rgb(209 213 219)"
+                      }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="flex-1 bg-white dark:bg-gray-900 rounded-lg p-8 shadow-sm border border-gray-200 dark:border-gray-800"
+                    >
                       <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                         <div>
                           {exp.title && (
-                            <h3 className="text-2xl font-thin tracking-wide font-serif italic text-gray-900 dark:text-white mb-2">
+                            <motion.h3 
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: 0.2 }}
+                              viewport={{ once: true }}
+                              className="text-2xl font-thin tracking-wide font-serif italic text-gray-900 dark:text-white mb-2"
+                            >
                               {exp.title}
-                            </h3>
+                            </motion.h3>
                           )}
                           {exp.company && (
-                            <p className="text-gray-600 dark:text-gray-400 font-medium text-lg font-thin tracking-wide font-serif">
+                            <motion.p 
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: 0.3 }}
+                              viewport={{ once: true }}
+                              className="text-gray-600 dark:text-gray-400 font-medium text-lg font-thin tracking-wide font-serif"
+                            >
                               {exp.company}
-                            </p>
+                            </motion.p>
                           )}
                         </div>
                         {exp.year && (
-                          <span className="text-gray-500 dark:text-gray-400 font-medium bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-md text-sm mt-2 md:mt-0 font-thin tracking-wide font-serif">
+                          <motion.span 
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.4, delay: 0.4 }}
+                            viewport={{ once: true }}
+                            className="text-gray-500 dark:text-gray-400 font-medium bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-md text-sm mt-2 md:mt-0 font-thin tracking-wide font-serif"
+                          >
                             {exp.year}
-                          </span>
+                          </motion.span>
                         )}
                       </div>
                       {exp.description && (
-                        <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed font-thin tracking-wide font-serif">
+                        <motion.p 
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.5 }}
+                          viewport={{ once: true }}
+                          className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed font-thin tracking-wide font-serif"
+                        >
                           {exp.description}
-                        </p>
+                        </motion.p>
                       )}
                       {exp.highlights && exp.highlights.length > 0 && (
-                        <div className="space-y-3">
+                        <motion.div 
+                          initial={{ opacity: 0 }}
+                          whileInView={{ opacity: 1 }}
+                          transition={{ duration: 0.6, delay: 0.6 }}
+                          viewport={{ once: true }}
+                          className="space-y-3"
+                        >
                           {exp.highlights.map((highlight: string, idx: number) => (
-                            <div key={idx} className="flex items-start gap-3">
+                            <motion.div 
+                              key={idx} 
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.4, delay: 0.7 + idx * 0.1 }}
+                              viewport={{ once: true }}
+                              className="flex items-start gap-3"
+                            >
                               <CheckCircleIcon className="w-5 h-5 text-gray-500 dark:text-gray-400 mt-0.5 flex-shrink-0" />
                               <span className="text-gray-600 dark:text-gray-300 font-thin tracking-wide font-serif">{highlight}</span>
-                            </div>
+                            </motion.div>
                           ))}
-                        </div>
+                        </motion.div>
                       )}
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
-          </section>
+          </AnimatedSection>
         )}
 
         {/* Skills - 只有当 skills 存在且有分类时才显示 */}
         {about.skills && about.skills.categories && about.skills.categories.length > 0 && (
-          <section className="mb-20">
+          <AnimatedSection className="mb-20">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4">
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-4xl font-thin tracking-widest font-serif text-gray-900 dark:text-white mb-4"
+              >
                 {about.skills.title || '技能专长'}
-              </h2>
-              <div className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"></div>
+              </motion.h2>
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: 96 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="w-24 h-1 bg-gray-800 dark:bg-gray-200 mx-auto rounded-full"
+              />
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <motion.div 
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+            >
               {about.skills.categories.map((category, index) => {
                 const IconComponent = skillIcons[category.name] || CodeBracketIcon;
                 return (
-                  <div
+                  <motion.div
                     key={index}
-                    className="group bg-white dark:bg-gray-900 rounded-lg p-8 shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300"
+                    variants={scaleIn}
+                    whileHover={{ 
+                      y: -4, 
+                      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                      borderColor: "rgb(209 213 219)"
+                    }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="group bg-white dark:bg-gray-900 rounded-lg p-8 shadow-sm border border-gray-200 dark:border-gray-800"
                   >
-                    <div className="flex items-center justify-center mb-6">
-                      <div className="w-16 h-16 bg-gray-800 dark:bg-gray-200 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                    <motion.div 
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex items-center justify-center mb-6"
+                    >
+                      <motion.div 
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="w-16 h-16 bg-gray-800 dark:bg-gray-200 rounded-full flex items-center justify-center"
+                      >
                         <IconComponent className="w-8 h-8 text-white dark:text-gray-900" />
-                      </div>
-                    </div>
-                    <h3 className="text-2xl font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-6 text-center">
+                      </motion.div>
+                    </motion.div>
+                    <motion.h3 
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="text-2xl font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-6 text-center"
+                    >
                       {category.name}
-                    </h3>
+                    </motion.h3>
                     {category.skills && category.skills.length > 0 && (
-                      <div className="space-y-5">
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="space-y-5"
+                      >
                         {category.skills.map((skill, idx) => (
-                          <div key={idx} className="group/skill">
+                          <motion.div 
+                            key={idx} 
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, delay: 0.5 + index * 0.1 + idx * 0.1 }}
+                            viewport={{ once: true }}
+                            className="group/skill"
+                          >
                             <div className="flex justify-between mb-3">
                               <span className="text-gray-900 dark:text-white font-medium text-sm font-thin tracking-wide font-serif">
                                 {skill.name}
                               </span>
-                              <span className="text-gray-600 dark:text-gray-400 font-bold text-sm bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md font-thin tracking-wide font-serif">
+                              <motion.span 
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.3, delay: 0.6 + index * 0.1 + idx * 0.1 }}
+                                viewport={{ once: true }}
+                                className="text-gray-600 dark:text-gray-400 font-bold text-sm bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md font-thin tracking-wide font-serif"
+                              >
                                 {skill.level}%
-                              </span>
+                              </motion.span>
                             </div>
                             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-                              <div
-                                className="h-2.5 rounded-full transition-all duration-1000 ease-out bg-gray-800 dark:bg-gray-200"
-                                style={{ width: `${skill.level}%` }}
+                              <motion.div
+                                initial={{ width: 0 }}
+                                whileInView={{ width: `${skill.level}%` }}
+                                transition={{ 
+                                  duration: 1.2, 
+                                  delay: 0.7 + index * 0.1 + idx * 0.1,
+                                  ease: "easeOut"
+                                }}
+                                viewport={{ once: true }}
+                                className="h-2.5 rounded-full bg-gray-800 dark:bg-gray-200"
                               />
                             </div>
-                          </div>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
-          </section>
+            </motion.div>
+          </AnimatedSection>
         )}
 
         {/* Comments Section */}
