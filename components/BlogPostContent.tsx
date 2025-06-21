@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import TableOfContents from './TableOfContents';
 import Comments from './Comments';
+import ClientImage from './ClientImage';
 import { BlogPost } from '@/lib/types';
 import { trackEvent } from './GoogleAnalytics';
 
@@ -133,11 +134,27 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                       </h6>
                     );
                   },
-                  p: ({ children }) => (
-                    <p className="font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 leading-relaxed">
-                      {children}
-                    </p>
-                  ),
+                  p: ({ children }) => {
+                    // 检查子元素中是否包含图片，如果包含则使用div而不是p标签
+                    const hasImage = Array.isArray(children) && children.some((child: any) => 
+                      child?.type === 'img' || 
+                      (child?.props && child.props.src)
+                    );
+                    
+                    if (hasImage) {
+                      return (
+                        <div className="font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 leading-relaxed my-4">
+                          {children}
+                        </div>
+                      );
+                    }
+                    
+                    return (
+                      <p className="font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {children}
+                      </p>
+                    );
+                  },
                   li: ({ children }) => (
                     <li className="font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300">
                       {children}
@@ -201,13 +218,33 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                     </td>
                   ),
                   // 图片
-                  img: ({ src, alt }) => (
-                    <img 
-                      src={src} 
-                      alt={alt} 
-                      className="rounded-lg shadow-lg max-w-full h-auto mx-auto"
-                    />
-                  ),
+                  img: ({ src, alt, ...props }) => {
+                    if (!src) return null;
+                    
+                    // 如果是外部链接，使用普通 img 标签
+                    if (src.startsWith('http://') || src.startsWith('https://')) {
+                      return (
+                        <img 
+                          src={src} 
+                          alt={alt || ''} 
+                          className="rounded-lg shadow-lg max-w-full h-auto mx-auto block my-6"
+                          {...props}
+                        />
+                      );
+                    }
+                    
+                    // 本地图片使用 ClientImage 组件处理路径
+                    return (
+                      <ClientImage
+                        src={src.startsWith('/') ? src : `/images/${src}`}
+                        alt={alt || ''}
+                        width={800}
+                        height={400}
+                        className="rounded-lg shadow-lg max-w-full h-auto mx-auto block my-6"
+                        style={{ maxWidth: '100%', height: 'auto' }}
+                      />
+                    );
+                  },
                   // 链接
                   a: ({ href, children }) => (
                     <a 
