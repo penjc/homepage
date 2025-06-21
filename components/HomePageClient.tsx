@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { siteConfig } from '../site.config';
 import { BlogPost } from '../lib/types';
 import { formatChineseDate } from '../lib/utils';
@@ -13,16 +14,129 @@ interface HomePageClientProps {
   recentPosts: BlogPost[];
 }
 
+// 动画变量
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 30,
+    scale: 0.95
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  }
+};
+
+const avatarVariants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0.8,
+    rotate: -10
+  },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    rotate: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  }
+};
+
+const quickLinksVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3
+    }
+  }
+};
+
+const quickLinkItemVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 20,
+    scale: 0.9
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  }
+};
+
+const blogSectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.6, -0.05, 0.01, 0.99],
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const blogPostVariants = {
+  hidden: { 
+    opacity: 0, 
+    x: -30,
+    scale: 0.95
+  },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  }
+};
+
 export default function HomePageClient({ recentPosts }: HomePageClientProps) {
   return (
     <>
       {/* Hero Section */}
-      <section className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+      <motion.section 
+        className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           {/* 垂直居中的单列布局 */}
           <div className="flex flex-col items-center text-center space-y-8">
             {/* Avatar */}
-            <div className="relative group">
+            <motion.div 
+              className="relative group"
+              variants={avatarVariants}
+            >
               <div className="w-40 h-40 relative">
                 <ClientImage
                   src={siteConfig.profile.avatar}
@@ -34,20 +148,26 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
                   style={{ objectFit: 'cover' }}
                 />
               </div>
-            </div>
+            </motion.div>
 
             {/* Name and Bio */}
-            <div className="space-y-6 max-w-3xl">
+            <motion.div 
+              className="space-y-6 max-w-3xl"
+              variants={itemVariants}
+            >
               <h1 className="text-6xl md:text-7xl font-thin tracking-[0.2em] font-serif italic text-gray-900 dark:text-white">
                 {siteConfig.name}
               </h1>
               <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-thin tracking-[0.1em] font-serif leading-relaxed">
                 {siteConfig.profile.bio}
               </p>
-            </div>
+            </motion.div>
             
             {/* Quick Links */}
-            <div className="flex items-center justify-center gap-8 pt-4">
+            <motion.div 
+              className="flex items-center justify-center gap-8 pt-4"
+              variants={quickLinksVariants}
+            >
               {siteConfig.hero.quickLinks
                 .filter(link => {
                   // 如果是项目链接且项目功能未启用，则不显示
@@ -92,41 +212,70 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
                 };
 
                 return (
-                  <Link
+                  <motion.div
                     key={index}
-                    href={link.href}
-                    className="group flex flex-col items-center gap-2 p-3 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-300"
-                    title={link.name}
+                    variants={quickLinkItemVariants}
+                    whileHover={{ 
+                      scale: 1.05,
+                      transition: { duration: 0.2 }
+                    }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 group-hover:border-gray-300 dark:group-hover:border-gray-600 group-hover:shadow-sm transition-all duration-300">
-                      {getIcon(link.href)}
-                    </div>
-                    <span className="text-xs font-thin tracking-wide font-serif opacity-70 group-hover:opacity-100 transition-opacity">
-                      {link.name}
-                    </span>
-                  </Link>
+                    <Link
+                      href={link.href}
+                      className="group flex flex-col items-center gap-2 p-3 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-300"
+                      title={link.name}
+                    >
+                      <div className="w-12 h-12 flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 group-hover:border-gray-300 dark:group-hover:border-gray-600 group-hover:shadow-sm transition-all duration-300">
+                        {getIcon(link.href)}
+                      </div>
+                      <span className="text-xs font-thin tracking-wide font-serif opacity-70 group-hover:opacity-100 transition-opacity">
+                        {link.name}
+                      </span>
+                    </Link>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Blog Preview Section */}
-      <section className="py-24 bg-gray-50/50 dark:bg-gray-800/50">
+      <motion.section 
+        className="py-24 bg-gray-50/50 dark:bg-gray-800/50"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={blogSectionVariants}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            variants={itemVariants}
+          >
             <h2 className="text-4xl md:text-5xl font-thin tracking-[0.15em] font-serif mb-6 text-gray-900 dark:text-white">最新博客</h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-thin tracking-[0.05em] font-serif italic">
               分享技术心得与生活感悟
             </p>
-          </div>
+          </motion.div>
 
           {/* Recent Posts List */}
-          <div className="space-y-8">
+          <motion.div 
+            className="space-y-8"
+            variants={containerVariants}
+          >
             {recentPosts.length > 0 ? (
               recentPosts.map((post, index) => (
-                <article key={post.slug} className="border-b border-gray-200/60 dark:border-gray-700/60 pb-8 last:border-b-0">
+                <motion.article 
+                  key={post.slug} 
+                  className="border-b border-gray-200/60 dark:border-gray-700/60 pb-8 last:border-b-0"
+                  variants={blogPostVariants}
+                  whileHover={{
+                    x: 10,
+                    transition: { duration: 0.2 }
+                  }}
+                >
                   <div className="flex items-start gap-6">
                     {/* Date */}
                     <div className="flex-shrink-0 w-20 text-center">
@@ -196,31 +345,39 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
                       </div>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))
             ) : (
-              <div className="text-center py-12">
+              <motion.div 
+                className="text-center py-12"
+                variants={itemVariants}
+              >
                 <p className="text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">暂无博客文章</p>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
 
           {/* View All Posts Link */}
           {recentPosts.length > 0 && (
-            <div className="text-center mt-12">
+            <motion.div 
+              className="text-center mt-12"
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <Link
                 href="/blog"
                 className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-lg transition-colors font-thin tracking-wide font-serif"
               >
                 查看所有文章 →
               </Link>
-            </div>
+            </motion.div>
           )}
         </div>
-      </section>
+      </motion.section>
 
       <Footer />
       <BackToTop />
     </>
   );
-} 
+}

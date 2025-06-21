@@ -6,7 +6,6 @@ import { siteConfig } from '../site.config';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import AnalyticsProvider from '../components/AnalyticsProvider';
 import DynamicHead from '../components/DynamicHead';
-import PageLoadingProvider from '../components/PageLoadingProvider';
 
 // GitHub Pages 支持已禁用
 // function getServerAssetPath(path: string): string {
@@ -127,9 +126,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <Suspense fallback={null}>
         <AnalyticsProvider>
-          <PageLoadingProvider>
-            {children}
-          </PageLoadingProvider>
+          {children}
         </AnalyticsProvider>
         </Suspense>
       </body>

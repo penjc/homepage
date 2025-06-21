@@ -1,13 +1,96 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { motion, useInView } from 'framer-motion';
 import ClientPageLayout from '../../../../../../components/ClientPageLayout';
 import NotFoundContent from '../../../../../../components/NotFoundContent';
 import Pagination from '../../../../../../components/Pagination';
 import { siteConfig } from '../../../../../../site.config';
 import { BlogPost, PaginatedPosts } from '../../../../../../lib/types';
+
+// 动画组件
+function AnimatedSection({ children, className = "", delay = 0 }: { 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// 博客文章项动画组件
+function AnimatedBlogPost({ children, index = 0 }: { 
+  children: React.ReactNode; 
+  index: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      animate={isInView ? { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: {
+          duration: 0.6,
+          delay: index * 0.1,
+          ease: "easeOut"
+        }
+      } : { opacity: 0, y: 50, scale: 0.95 }}
+      whileHover={{ 
+        y: -2,
+        transition: { duration: 0.2, ease: "easeOut" }
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// 页面动画变体
+const pageVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+};
+
+// 头部动画变体
+const heroVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 20
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
 
 export default function CategoryPageWithPagination() {
   const params = useParams();
@@ -107,10 +190,15 @@ export default function CategoryPageWithPagination() {
     return (
       <ClientPageLayout>
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
             <p className="text-gray-600 dark:text-gray-400">加载中...</p>
-          </div>
+          </motion.div>
         </div>
       </ClientPageLayout>
     );
@@ -125,19 +213,44 @@ export default function CategoryPageWithPagination() {
   }
 
   return (
-    <ClientPageLayout>
-      {/* Hero Section */}
-      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{category}</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
-            分类下的文章
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 font-thin tracking-wide font-serif">
-            共 {totalPosts} 篇文章，第 {currentPage} 页，共 {totalPages} 页
-          </p>
-        </div>
-      </section>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={pageVariants}
+    >
+      <ClientPageLayout>
+        {/* Hero Section */}
+        <motion.section 
+          className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16"
+          variants={heroVariants}
+        >
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.h1 
+              className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              {category}
+            </motion.h1>
+            <motion.p 
+              className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              分类下的文章
+            </motion.p>
+            <motion.p 
+              className="text-sm text-gray-500 dark:text-gray-500 mt-2 font-thin tracking-wide font-serif"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              共 {totalPosts} 篇文章，第 {currentPage} 页，共 {totalPages} 页
+            </motion.p>
+          </div>
+        </motion.section>
 
       {/* Blog Categories */}
       <section className="bg-white dark:bg-gray-800 py-8 border-b border-gray-200 dark:border-gray-700">
@@ -272,6 +385,7 @@ export default function CategoryPageWithPagination() {
           )}
         </div>
       </section>
-    </ClientPageLayout>
+      </ClientPageLayout>
+    </motion.div>
   );
 } 

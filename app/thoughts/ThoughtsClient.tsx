@@ -1,7 +1,62 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import Comments from '../../components/Comments';
+
+// 动画组件
+function AnimatedSection({ children, className = "", delay = 0 }: { 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// 随笔项动画组件
+function AnimatedThought({ children, index = 0 }: { 
+  children: React.ReactNode; 
+  index: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      animate={isInView ? { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: {
+          duration: 0.6,
+          delay: index * 0.1,
+          ease: "easeOut"
+        }
+      } : { opacity: 0, y: 50, scale: 0.95 }}
+      whileHover={{ 
+        y: -2,
+        transition: { duration: 0.2, ease: "easeOut" }
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 interface Thought {
   content: string;
@@ -128,10 +183,15 @@ export default function ThoughtsClient({
   return (
     <>
       {/* 筛选器区域 */}
-      <section className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
+      <AnimatedSection className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* 筛选器标题 */}
-          <div className="flex items-center justify-between mb-6">
+          <motion.div 
+            className="flex items-center justify-between mb-6"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <div className="flex items-center gap-4">
               <h2 className="text-lg font-thin tracking-wide font-serif text-gray-900 dark:text-white">筛选随笔</h2>
               <div className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">
@@ -139,24 +199,31 @@ export default function ThoughtsClient({
               </div>
             </div>
             {(selectedMood || selectedTags.length > 0) && (
-              <button
+              <motion.button
                 onClick={resetFilters}
                 className="text-sm text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors font-thin tracking-wide font-serif"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 清除筛选
-              </button>
+              </motion.button>
             )}
-          </div>
+          </motion.div>
 
           {/* 心情筛选 - 直接使用emoji */}
-          <div className="mb-6">
+          <motion.div 
+            className="mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <h3 className="text-sm font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 mb-3">按心情筛选</h3>
             <div className="flex flex-wrap gap-3">
-              {initialMoods.map(mood => {
+              {initialMoods.map((mood, index) => {
                 const count = initialThoughts.filter(t => t.mood === mood).length;
                 const isSelected = selectedMood === mood;
                 return (
-                  <button
+                  <motion.button
                     key={mood}
                     onClick={() => toggleMood(mood)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 font-thin tracking-wide font-serif ${
@@ -164,24 +231,44 @@ export default function ThoughtsClient({
                         ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-2 ring-gray-400 dark:ring-gray-500'
                         : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
                     }`}
+                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                    animate={{ 
+                      opacity: 1, 
+                      scale: 1,
+                      y: 0,
+                      transition: { 
+                        delay: 0.3 + (index * 0.1),
+                        duration: 0.5,
+                        ease: "easeOut"
+                      }
+                    }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      transition: { duration: 0.2 }
+                    }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <span className="text-lg">{mood}</span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">({count})</span>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
-          </div>
+          </motion.div>
 
           {/* 标签筛选 - 文字按钮样式 */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <h3 className="text-sm font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 mb-3">按标签筛选（可多选）</h3>
             <div className="flex flex-wrap gap-2">
-              {initialTags.map(tag => {
+              {initialTags.map((tag, index) => {
                 const count = initialThoughts.filter(t => t.tags.includes(tag)).length;
                 const isSelected = selectedTags.includes(tag);
                 return (
-                  <button
+                  <motion.button
                     key={tag}
                     onClick={() => toggleTag(tag)}
                     className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 font-thin tracking-wide font-serif ${
@@ -189,23 +276,50 @@ export default function ThoughtsClient({
                         ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-1 ring-gray-400 dark:ring-gray-500'
                         : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
                     }`}
+                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                    animate={{ 
+                      opacity: 1, 
+                      scale: 1,
+                      y: 0,
+                      transition: { 
+                        delay: 0.5 + (index * 0.05),
+                        duration: 0.4,
+                        ease: "easeOut"
+                      }
+                    }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      transition: { duration: 0.2 }
+                    }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     #{tag} ({count})
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
-          </div>
+          </motion.div>
 
           {/* 当前筛选状态提示 */}
           {(selectedMood || selectedTags.length > 0) && (
-            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <motion.div 
+              className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="text-sm text-gray-700 dark:text-gray-300 mb-2 font-thin tracking-wide font-serif">当前筛选条件：</div>
                   <div className="flex flex-wrap gap-2">
                     {selectedMood && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-thin tracking-wide font-serif">
+                      <motion.span 
+                        className="inline-flex items-center gap-1 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-thin tracking-wide font-serif"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                      >
                         {selectedMood}
                         <button
                           onClick={() => setSelectedMood('')}
@@ -213,12 +327,15 @@ export default function ThoughtsClient({
                         >
                           ×
                         </button>
-                      </span>
+                      </motion.span>
                     )}
-                    {selectedTags.map(tag => (
-                      <span
+                    {selectedTags.map((tag) => (
+                      <motion.span
                         key={tag}
                         className="inline-flex items-center gap-1 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-thin tracking-wide font-serif"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
                       >
                         #{tag}
                         <button
@@ -227,43 +344,63 @@ export default function ThoughtsClient({
                         >
                           ×
                         </button>
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* 随笔内容区域 - 居中显示 */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {filteredThoughts.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-gray-400 dark:text-gray-500 mb-6">
+          <AnimatedSection className="text-center py-16" delay={0.2}>
+            <motion.div 
+              className="text-gray-400 dark:text-gray-500 mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               <svg className="mx-auto h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-            </div>
-            <h3 className="text-xl font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-3">
+            </motion.div>
+            <motion.h3 
+              className="text-xl font-thin tracking-wide font-serif text-gray-900 dark:text-white mb-3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
               {initialThoughts.length === 0 ? '还没有随笔' : '没有找到匹配的随笔'}
-            </h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto font-thin tracking-wide font-serif">
+            </motion.h3>
+            <motion.p 
+              className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto font-thin tracking-wide font-serif"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
               {initialThoughts.length === 0 
                 ? '开始记录你的生活点滴和思考吧！' 
                 : '试试调整筛选条件，或者查看所有随笔'
               }
-            </p>
+            </motion.p>
             {(selectedMood || selectedTags.length > 0) && (
-              <button
+              <motion.button
                 onClick={resetFilters}
                 className="inline-flex items-center gap-2 font-medium py-3 px-6 rounded-md transition-colors duration-200 shadow-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 font-thin tracking-wide font-serif no-underline"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 查看所有随笔
-              </button>
+              </motion.button>
             )}
-          </div>
+          </AnimatedSection>
         ) : (
           <div className="space-y-8">
             {filteredThoughts.map((thought, index) => {
@@ -271,66 +408,81 @@ export default function ThoughtsClient({
               const isHighlighted = highlightedThought === thoughtId;
               
               return (
-              <article
-                key={`${thought.date}-${index}`}
-                id={thoughtId}
-                className={`rounded-lg shadow-sm border p-8 hover:shadow-md transition-all duration-200 ${
-                  isHighlighted 
-                    ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-600 shadow-lg' 
-                    : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'
-                }`}
-              >
-                {/* 文章头部 */}
-                <header className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => toggleMood(thought.mood)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer font-thin tracking-wide font-serif ${
-                        selectedMood === thought.mood
-                          ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-2 ring-gray-400 dark:ring-gray-500'
-                          : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                      }`}
-                      title={`点击筛选${thought.mood}心情的随笔`}
-                    >
-                      <span className="text-base">{thought.mood}</span>
-                    </button>
-                    <time className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">
-                      {new Date(thought.date).toLocaleDateString('zh-CN', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        weekday: 'long'
-                      })}
-                    </time>
-                  </div>
-                </header>
-                
-                {/* 文章内容 */}
-                <div className="prose prose-gray dark:prose-invert max-w-none mb-6">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base whitespace-pre-wrap font-thin tracking-wide font-serif">
-                    {thought.content}
-                  </p>
-                </div>
-                
-                {/* 标签 */}
-                {thought.tags.length > 0 && (
-                  <footer className="flex flex-wrap gap-2 pt-4 border-t border-gray-100 dark:border-gray-700">
-                    {thought.tags.map((tag) => (
-                      <button
-                        key={tag}
-                        onClick={() => toggleTag(tag)}
-                        className={`px-3 py-1 rounded-md text-sm transition-colors font-thin tracking-wide font-serif ${
-                          selectedTags.includes(tag)
-                            ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-1 ring-gray-400 dark:ring-gray-500'
-                            : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                        }`}
-                      >
-                        #{tag}
-                      </button>
-                    ))}
-                  </footer>
-                )}
-              </article>
+                <AnimatedThought key={`${thought.date}-${index}`} index={index}>
+                  <article
+                    id={thoughtId}
+                    className={`rounded-lg shadow-sm border p-8 hover:shadow-md transition-all duration-200 ${
+                      isHighlighted 
+                        ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-600 shadow-lg' 
+                        : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'
+                    }`}
+                  >
+                    {/* 文章头部 */}
+                    <header className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-4">
+                        <motion.button
+                          onClick={() => toggleMood(thought.mood)}
+                          className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer font-thin tracking-wide font-serif ${
+                            selectedMood === thought.mood
+                              ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-2 ring-gray-400 dark:ring-gray-500'
+                              : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          }`}
+                          title={`点击筛选${thought.mood}心情的随笔`}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <span className="text-base">{thought.mood}</span>
+                        </motion.button>
+                        <time className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">
+                          {new Date(thought.date).toLocaleDateString('zh-CN', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            weekday: 'long'
+                          })}
+                        </time>
+                      </div>
+                    </header>
+                    
+                    {/* 文章内容 */}
+                    <div className="prose prose-gray dark:prose-invert max-w-none mb-6">
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base whitespace-pre-wrap font-thin tracking-wide font-serif">
+                        {thought.content}
+                      </p>
+                    </div>
+                    
+                    {/* 标签 */}
+                    {thought.tags.length > 0 && (
+                      <footer className="flex flex-wrap gap-2 pt-4 border-t border-gray-100 dark:border-gray-700">
+                        {thought.tags.map((tag, tagIndex) => (
+                          <motion.button
+                            key={tag}
+                            onClick={() => toggleTag(tag)}
+                            className={`px-3 py-1 rounded-md text-sm transition-colors font-thin tracking-wide font-serif ${
+                              selectedTags.includes(tag)
+                                ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-1 ring-gray-400 dark:ring-gray-500'
+                                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                            }`}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ 
+                              opacity: 1, 
+                              scale: 1,
+                              transition: { 
+                                delay: 0.5 + (tagIndex * 0.1),
+                                duration: 0.4,
+                                ease: "easeOut"
+                              }
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            #{tag}
+                          </motion.button>
+                        ))}
+                      </footer>
+                    )}
+                  </article>
+                </AnimatedThought>
               );
             })}
           </div>
@@ -338,7 +490,7 @@ export default function ThoughtsClient({
 
         {/* 底部统计 */}
         {filteredThoughts.length > 0 && (
-          <div className="text-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <AnimatedSection className="text-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-700" delay={0.3}>
             <p className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">
               {(selectedMood || selectedTags.length > 0) ? (
                 <>显示 <span className="font-medium text-gray-900 dark:text-gray-100">
@@ -350,17 +502,17 @@ export default function ThoughtsClient({
                 </span> 篇随笔</>
               )}
             </p>
-          </div>
+          </AnimatedSection>
         )}
 
         {/* 评论区 */}
-        <div className="mt-16">
+        <AnimatedSection className="mt-16" delay={0.4}>
           <Comments 
             pageId="thoughts"
             pageTitle="随笔"
             pageUrl="/thoughts"
           />
-        </div>
+        </AnimatedSection>
       </main>
     </>
   );

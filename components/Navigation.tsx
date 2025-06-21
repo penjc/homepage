@@ -7,7 +7,6 @@ import { siteConfig } from '../site.config';
 import SearchModal from './SearchModal';
 import { BlogPost, Thought } from '../lib/types';
 import { trackEvent } from './GoogleAnalytics';
-import LinkWithLoading from './LinkWithLoading';
 
 interface NavigationProps {
   posts: BlogPost[];
@@ -47,9 +46,9 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
         <div className="container-custom">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <LinkWithLoading href="/" className="text-xl font-thin tracking-widest text-gray-900 dark:text-white font-serif italic">
+            <Link href="/" className="text-xl font-thin tracking-widest text-gray-900 dark:text-white font-serif italic">
               {siteConfig.name}
-            </LinkWithLoading>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
@@ -62,14 +61,14 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
                   return true;
                 })
                 .map((item) => (
-                <LinkWithLoading
+                <Link
                   key={item.href}
                   href={item.href}
                   className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors font-thin tracking-wide font-serif"
                   onClick={() => handleNavClick(item.name, item.href)}
                 >
                   {item.name}
-                </LinkWithLoading>
+                </Link>
               ))}
               
               {/* Search Button */}
@@ -118,7 +117,7 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
                   return true;
                 })
                 .map((item) => (
-                <LinkWithLoading
+                <Link
                   key={item.href}
                   href={item.href}
                   className="block py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors font-thin tracking-wide font-serif"
@@ -128,7 +127,7 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
                   }}
                 >
                   {item.name}
-                </LinkWithLoading>
+                </Link>
               ))}
             </div>
           )}

@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import LoadingSpinner from './LoadingSpinner';
 import SkeletonLoader from './SkeletonLoader';
 
 interface SuspenseWrapperProps {
@@ -7,8 +6,6 @@ interface SuspenseWrapperProps {
   fallback?: React.ReactNode;
   className?: string;
   loadingText?: string;
-  variant?: 'spinner' | 'pulse' | 'dots' | 'wave';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
   skeleton?: 'card' | 'list' | 'text' | 'avatar' | 'post';
   skeletonCount?: number;
 }
@@ -18,8 +15,6 @@ const SuspenseWrapper: React.FC<SuspenseWrapperProps> = ({
   fallback,
   className = '',
   loadingText = '加载中...',
-  variant = 'spinner',
-  size = 'lg',
   skeleton,
   skeletonCount = 3
 }) => {
@@ -29,11 +24,10 @@ const SuspenseWrapper: React.FC<SuspenseWrapperProps> = ({
     </div>
   ) : (
     <div className={`flex items-center justify-center py-12 ${className}`}>
-      <LoadingSpinner 
-        size={size}
-        variant={variant}
-        text={loadingText}
-      />
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
+        <p className="text-gray-600 dark:text-gray-400">{loadingText}</p>
+      </div>
     </div>
   );
 

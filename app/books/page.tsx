@@ -1,7 +1,9 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
-import { Book, Star, ExternalLink, Eye, Clock, CheckCircle, Bookmark, Filter, Search } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { ExternalLink, BookOpen, Star, Calendar, Tag } from 'lucide-react';
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
@@ -9,299 +11,233 @@ import Comments from '../../components/Comments';
 import ClientImage from '../../components/ClientImage';
 import BackToTop from '../../components/BackToTop';
 
-// 书籍状态类型定义
-type BookStatus = 'reading' | 'read' | 'want_to_read';
+// 动画组件
+function AnimatedSection({ children, className = "", delay = 0 }: { 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-// 书籍状态配置
-const statusConfig: Record<BookStatus, { label: string; color: string; icon: React.ComponentType<any> }> = {
-  reading: { 
-    label: '正在阅读', 
-    color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400',
-    icon: Eye
-  },
-  read: { 
-    label: '已读完', 
-    color: 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400',
-    icon: CheckCircle
-  },
-  want_to_read: { 
-    label: '想要阅读', 
-    color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400',
-    icon: Bookmark
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// 简化的动画变量
+const pageVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
   }
 };
 
-// 星级评分组件
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          size={16}
-          className={`${
-            star <= rating
-              ? 'text-yellow-400 fill-yellow-400'
-              : 'text-gray-300 dark:text-gray-600'
-          } transition-colors duration-200`}
-        />
-      ))}
-    </div>
-  );
-}
+const heroVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 20
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
 
-// 书籍类型定义
-interface BookItem {
-  id: string;
-  title: string;
-  author: string;
-  category: string;
-  rating?: number;
-  status: BookStatus;
-  cover?: string;
-  description: string;
-  review?: string;
-  tags: string[];
-  readDate?: string;
-  featured: boolean;
-  purchaseLinks?: {
-    [key: string]: string;
-  };
-}
-
-// 书籍卡片组件
-function BookCard({ book, index }: { book: BookItem; index: number }) {
-  const StatusIcon = statusConfig[book.status as BookStatus]?.icon || Book;
-
-  return (
-    <div
-      className="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-xl dark:hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
-      style={{
-        animationDelay: `${index * 100}ms`
-      }}
-    >
-      {/* 悬浮光效 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 dark:from-blue-900/10 dark:via-purple-900/10 dark:to-pink-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-      
-      {/* 扫描线动画 */}
-      <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/60 dark:via-cyan-500/60 to-transparent animate-scan-horizontal"></div>
-        <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
-      </div>
-
-      {/* 书籍封面 */}
-      <div className="relative h-64 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-        {book.cover ? (
-          <ClientImage
-            src={book.cover}
-            alt={book.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-        ) : (
-          <div className="w-full h-full relative bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 flex items-center justify-center overflow-hidden">
-            {/* 背景几何图案 */}
-            <div className="absolute inset-0 opacity-5 dark:opacity-10">
-              <div className="absolute top-4 left-4 w-16 h-16 border border-gray-400 dark:border-gray-500 rounded-lg transform rotate-12 group-hover:rotate-[30deg] transition-transform duration-700"></div>
-              <div className="absolute top-12 right-8 w-8 h-8 border border-gray-300 dark:border-gray-600 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
-              <div className="absolute bottom-8 left-12 w-12 h-12 border border-gray-300 dark:border-gray-600 rounded transform -rotate-45 group-hover:-rotate-[60deg] transition-transform duration-600"></div>
-              <div className="absolute bottom-4 right-4 w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full group-hover:scale-125 transition-transform duration-400"></div>
-              <div className="absolute top-1/2 left-1/2 w-20 h-20 border border-gray-200 dark:border-gray-700 rounded-lg transform -translate-x-1/2 -translate-y-1/2 rotate-45 group-hover:rotate-[60deg] transition-transform duration-800"></div>
-            </div>
-            
-            {/* 主要图标 */}
-            <div className="relative z-10 flex flex-col items-center group-hover:scale-105 transition-transform duration-300">
-              <div className="relative">
-                {/* 外圈装饰环 */}
-                <div className="absolute inset-0 w-16 h-16 border border-gray-200/40 dark:border-gray-600/40 rounded-full animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute inset-1 w-14 h-14 border border-gray-300/20 dark:border-gray-500/20 rounded-full animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ animationDelay: '0.2s' }}></div>
-                
-                {/* 主图标容器 */}
-                <div className="relative p-4 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg border border-gray-200/50 dark:border-gray-700/50 group-hover:shadow-xl group-hover:bg-white/90 dark:group-hover:bg-gray-800/90 transition-all duration-300">
-                  <Book size={32} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors duration-300" />
-                </div>
-              </div>
-              
-              <div className="mt-3 text-xs text-gray-400 dark:text-gray-500 font-thin tracking-wider font-serif opacity-60 group-hover:opacity-80 transition-opacity duration-300">
-                暂无封面
-              </div>
-            </div>
-
-            {/* 微妙的光效 */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 via-transparent to-blue-50/20 dark:from-gray-700/20 dark:via-transparent dark:to-gray-600/10 group-hover:from-blue-50/20 dark:group-hover:from-gray-600/30 transition-all duration-500"></div>
-            
-            {/* 悬停时的额外光效 */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent dark:via-gray-300/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-          </div>
-        )}
-        
-        {/* 状态标签 */}
-        <div className="absolute top-4 left-4 z-20">
-          <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-sm ${statusConfig[book.status as BookStatus]?.color || statusConfig.read.color}`}>
-            <StatusIcon size={12} />
-            {statusConfig[book.status as BookStatus]?.label || '已读完'}
-          </span>
-        </div>
-
-        {/* 评分 */}
-        {book.rating && (
-          <div className="absolute top-4 right-4 z-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg px-2 py-1">
-            <StarRating rating={book.rating} />
-          </div>
-        )}
-      </div>
-
-      {/* 书籍信息 */}
-      <div className="relative z-10 p-6">
-        <h3 className="text-xl font-thin tracking-wide font-serif mb-2 text-gray-900 dark:text-white group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors line-clamp-2">
-          {book.title}
-        </h3>
-        
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 font-thin tracking-wide font-serif">
-          作者：{book.author}
-        </p>
-
-        <p className="text-gray-700 dark:text-gray-300 mb-4 font-thin tracking-wide font-serif leading-relaxed text-sm line-clamp-3">
-          {book.description}
-        </p>
-
-        {/* 个人评价 */}
-        {book.review && (
-          <div className="mb-4 p-3 bg-gray-50/80 dark:bg-gray-700/40 rounded-lg border-l-4 border-blue-400/60 dark:border-blue-500/60">
-            <p className="text-sm text-gray-700 dark:text-gray-300 font-thin tracking-wide font-serif italic">
-              &ldquo;{book.review}&rdquo;
-            </p>
-          </div>
-        )}
-
-        {/* 标签 */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {book.tags.map((tag: string) => (
-            <span
-              key={tag}
-              className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif transition-all duration-200 hover:scale-105 hover:bg-gray-200/80 dark:hover:bg-gray-600/60"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* 阅读日期 */}
-        {book.readDate && (
-          <div className="flex items-center gap-2 mb-4 text-sm text-gray-500 dark:text-gray-400">
-            <Clock size={16} />
-            <span className="font-thin tracking-wide font-serif">
-              阅读于 {book.readDate}
-            </span>
-          </div>
-        )}
-
-        {/* 购买链接 */}
-        {book.purchaseLinks && Object.keys(book.purchaseLinks).length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(book.purchaseLinks).map(([platform, url]) => (
-              <Link
-                key={platform}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-lg hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
-              >
-                <ExternalLink size={12} />
-                <span>{platform}</span>
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// 主要内容组件
-function BooksContent() {
+export default function BooksPage() {
   // 如果书籍功能未启用，返回 404
   if (!siteConfig.books?.enabled) {
     return null;
   }
 
   const { books } = siteConfig;
-  const featuredBooks = books.items.filter(book => book.featured) as BookItem[];
-  const otherBooks = books.items.filter(book => !book.featured) as BookItem[];
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{books.title}</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
-            {books.description}
-          </p>
-        </div>
-      </section>
-
-      {/* Featured Books */}
-      {featuredBooks.length > 0 && (
-        <section className="py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
-              精选推荐
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredBooks.map((book, index) => (
-                <BookCard key={book.id} book={book} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Other Books */}
-      {otherBooks.length > 0 && (
-        <section className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
-              更多书籍
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {otherBooks.map((book, index) => (
-                <BookCard key={book.id} book={book} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Comments Section */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Comments 
-            pageId="books"
-            pageTitle="书籍"
-          />
-        </div>
-      </section>
-    </>
-  );
-}
-
-export default function BooksPage() {
-  return (
-    <>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={pageVariants}
+    >
       <NavigationWrapper />
       
       <main className="min-h-screen bg-white dark:bg-gray-900 pt-16">
-        <BooksContent />
+        {/* Hero Section */}
+        <motion.section 
+          className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16 relative overflow-hidden"
+          variants={heroVariants}
+        >
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{books.title}</h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
+              {books.description}
+            </p>
+          </div>
+        </motion.section>
+
+        {/* Books Grid */}
+        <AnimatedSection className="py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {books.items.map((book, index) => (
+                <motion.div
+                  key={book.id}
+                  className="group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
+                  whileHover={{ 
+                    y: -8,
+                    transition: { duration: 0.3, ease: "easeOut" }
+                  }}
+                >
+                  {/* 悬浮背景效果 */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 to-orange-50/30 dark:from-amber-900/10 dark:to-orange-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                  
+                  {/* 书籍封面 */}
+                  <div className="relative h-64 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+                    {book.cover ? (
+                      <ClientImage
+                        src={book.cover}
+                        alt={book.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-amber-100 to-orange-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+                        <BookOpen size={48} className="text-amber-600 dark:text-gray-400" />
+                      </div>
+                    )}
+                    
+                    {/* 阅读状态标签 */}
+                    <div className="absolute top-4 right-4 z-20">
+                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${
+                        book.status === 'reading' 
+                          ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+                          : book.status === 'completed'
+                          ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                          : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+                      }`}>
+                        {book.status === 'reading' && <BookOpen size={10} />}
+                        {book.status === 'completed' && <Star size={10} />}
+                        {book.status === 'wishlist' && <Calendar size={10} />}
+                        {book.status === 'reading' ? '阅读中' : book.status === 'completed' ? '已完成' : '想读'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 书籍信息 */}
+                  <div className="relative z-10 p-6">
+                    <h3 className="text-lg font-thin tracking-wide font-serif mb-2 text-gray-900 dark:text-white group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                      {book.title}
+                    </h3>
+                    
+                    <p className="text-gray-600 dark:text-gray-400 mb-2 font-thin tracking-wide font-serif text-sm">
+                      作者：{book.author}
+                    </p>
+                    
+                    <p className="text-gray-600 dark:text-gray-300 mb-4 font-thin tracking-wide font-serif leading-relaxed text-sm">
+                      {book.description}
+                    </p>
+
+                    {/* 评分 */}
+                    {book.rating && (
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              size={14}
+                              className={`${
+                                i < book.rating! 
+                                  ? 'text-yellow-400 fill-current' 
+                                  : 'text-gray-300 dark:text-gray-600'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm text-gray-600 dark:text-gray-400 font-thin tracking-wide font-serif">
+                          {book.rating}/5
+                        </span>
+                      </div>
+                    )}
+
+                    {/* 标签 */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {book.tags.map((tag, tagIndex) => (
+                        <span
+                          key={tag}
+                          className="inline-flex items-center gap-1 px-2 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
+                        >
+                          <Tag size={10} />
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* 购买链接 */}
+                    {book.purchaseLinks && Object.keys(book.purchaseLinks).length > 0 && (
+                      <div className="flex items-center gap-2">
+                        {Object.entries(book.purchaseLinks).map(([platform, url], linkIndex) => (
+                          <motion.div
+                            key={platform}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <Link
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-md hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
+                            >
+                              <ExternalLink size={12} />
+                              <span>{platform}</span>
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 悬浮光效 */}
+                  <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400/60 dark:via-amber-500/60 to-transparent animate-scan-horizontal"></div>
+                    <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-orange-400/60 dark:via-orange-500/60 to-transparent animate-scan-vertical"></div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* Comments Section */}
+        <AnimatedSection className="py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Comments 
+              pageId="books"
+              pageTitle="书籍"
+            />
+          </div>
+        </AnimatedSection>
       </main>
       
       <Footer />
       
       {/* Back to Top Button */}
       <BackToTop />
-    </>
+    </motion.div>
   );
 } 

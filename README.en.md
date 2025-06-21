@@ -9,6 +9,9 @@
 
 [![npm version](https://img.shields.io/npm/v/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
 [![npm downloads](https://img.shields.io/npm/dm/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
+[![Vercel](https://img.shields.io/badge/Deploy_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
+[![Netlify](https://img.shields.io/badge/Deploy_on-Netlify-00c7b7?style=flat-square&logo=netlify)](https://netlify.com)
+<!-- [![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/) -->
 
 [//]: # ([![GitHub stars]&#40;https://img.shields.io/github/stars/penjc/homepage?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/stargazers&#41;)
 
@@ -22,15 +25,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0+-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![React](https://img.shields.io/badge/React-18+-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
-
-[![Vercel](https://img.shields.io/badge/Deploy_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
-[![Netlify](https://img.shields.io/badge/Deploy_on-Netlify-00c7b7?style=flat-square&logo=netlify)](https://netlify.com)
-<!-- [![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/) -->
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11+-ff0055?style=flat-square&logo=framer)](https://www.framer.com/motion/)
 
 **A Modern, Responsive Personal Homepage Solution**
 
 A full-featured personal homepage template built with Next.js 13+, integrating blog, project showcase, book management, friend links, and more.  
-Built with TypeScript + Tailwind CSS stack, providing ultimate developer and user experience.
+Built with TypeScript + Tailwind CSS + Framer Motion stack, providing smooth animations and ultimate developer and user experience.
 
 [🚀 Quick Start](#-quick-start) • [📖 Documentation](#-documentation) • [🎨 Features](#-features) • [💻 Demo](https://pengjiancheng.com) • [🤝 Contributing](#-contributing)
 
@@ -45,34 +45,37 @@ Built with TypeScript + Tailwind CSS stack, providing ultimate developer and use
 ### 📝 Content Management
 - 📝 **Markdown Support** - Support for Markdown writing with code syntax highlighting
 - 📚 **Blog System** - Complete blog functionality with pagination, categories, and tags
-- ✍️ **Thoughts Feature** - Record life insights with mood tags and timeline
-- 🏷️ **Tag Categories** - Intelligent content categorization and tag management
-- 🔍 **Search Functionality** - Built-in full-text search for quick content discovery
+- ✍️ **Thoughts Feature** - Record life insights with mood tags
+- 🔍 **Search Functionality** - Built-in full-text search
 
 ### 🗂️ Showcase Modules
-- 💼 **Project Showcase** - Display personal projects with category, status, and link management
-- 📚 **Book Management** - Share reading lists, record book reviews, ratings, and purchase links
-- 🤝 **Friend Links** - Manage friend links with avatars, descriptions, and status
-- 👤 **About Page** - Complete personal introduction including skills, work experience, and education
+- 💼 **Project Showcase** - Display personal projects
+- 📚 **Book Management** - Share reading lists, record book reviews
+- 🤝 **Friend Links** - Manage friend links
+- 👤 **About Page** - Complete personal introduction
+
+### 🎬 Animation Effects
+- ✨ **Page Entrance Animations** - Smooth entrance animations
+- 🎭 **Layered Animation System** - Elements appear in hierarchical sequence
+- 🚀 **Interactive Feedback** - Instant visual feedback for interactions
+- ⚡ **Performance Optimized** - Built with Framer Motion
 
 ### 🎯 Interactive Features
-- 💬 **Comment System** - Support for multiple comment systems (Giscus, Gitalk, Valine, Waline)
-- 📝 **Comment Configuration** - Flexible comment system configuration with page-level control
-- 🔄 **Real-time Updates** - Dynamic content loading without page refresh
+- 💬 **Comment System** - Support for multiple comment systems
+- 🔄 **Real-time Updates** - Dynamic content loading
 - 🎨 **Theme Adaptation** - Comment system automatically adapts to website theme
 
 ### 🚀 Deployment & Development
 - 🚀 **One-Click Deploy** - Support for Vercel, Netlify, and other platforms
-- ⚙️ **Configuration Driven** - Manage all features through configuration files without code modification
+- ⚙️ **Configuration Driven** - Manage all features through configuration files
 - 🔧 **Developer Friendly** - Hot reload, ESLint, Prettier out of the box
 - 📦 **Modular Design** - Component-based architecture, easy to customize and extend
 
 ### ⚡ Performance & Technology
-- ⚡ **Lightning Fast** - Built with Next.js 13+, static generation, excellent performance
-- 🎯 **SEO Optimized** - Built-in SEO best practices, search engine friendly
+- ⚡ **Lightning Fast** - Built with Next.js 13+, static generation
+- 🎯 **SEO Optimized** - Built-in SEO best practices
 - 📱 **PWA Support** - Support for offline access, installable to desktop
-- 🔧 **TypeScript** - Complete type safety, better development experience
-- 📊 **Analytics** - Google Analytics integration for understanding traffic
+- 🔧 **TypeScript** - Complete type safety
 
 ## 🚀 Quick Start
 
