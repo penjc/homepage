@@ -9,7 +9,7 @@ import { siteConfig } from '../../site.config';
 export const dynamic = 'force-static';
 
 export const metadata = {
-  title: '博客',
+  title: `博客 | ${siteConfig.title}`,
   description: '分享技术心得与生活感悟',
 };
 

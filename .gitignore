@@ -90,3 +90,5 @@ out
 # Temporary folders
 tmp/
 temp/
+
+docs/PUBLISH.md

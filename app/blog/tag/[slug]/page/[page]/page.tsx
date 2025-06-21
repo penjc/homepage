@@ -51,6 +51,13 @@ export default function TagPageWithPagination() {
   const [tag, setTag] = useState<string>('');
   const [notFound, setNotFound] = useState(false);
 
+  // 设置页面标题
+  useEffect(() => {
+    if (!loading && !notFound && tag) {
+      document.title = `${tag} | ${siteConfig.title}`;
+    }
+  }, [loading, notFound, tag]);
+
   useEffect(() => {
     const tagParam = Array.isArray(params.slug) ? params.slug[0] : params.slug;
     const pageParam = Array.isArray(params.page) ? params.page[0] : params.page;

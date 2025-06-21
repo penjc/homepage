@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { siteConfig } from '../site.config';
 import { BlogPost } from '../lib/types';
 import { formatChineseDate } from '../lib/utils';
@@ -119,7 +120,69 @@ const blogPostVariants = {
   }
 };
 
+// 打字机效果组件
+const TypeWriter = ({ text, delay = 0, speed = 18 }: { text: string; delay?: number; speed?: number }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    // 如果还没开始，先等待delay时间
+    if (!hasStarted) {
+      const startTimer = setTimeout(() => {
+        setHasStarted(true);
+      }, delay);
+      return () => clearTimeout(startTimer);
+    }
+
+    // 开始打字后，每个字符间隔speed时间
+    if (hasStarted && currentIndex < text.length) {
+      const timer = setTimeout(() => {
+        setDisplayText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, speed);
+      return () => clearTimeout(timer);
+    } else if (hasStarted && currentIndex >= text.length && !isComplete) {
+      setIsComplete(true);
+    }
+  }, [currentIndex, text, delay, speed, isComplete, hasStarted]);
+
+  return (
+    <span className="relative">
+      {displayText}
+      {!isComplete && (
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1, repeat: Infinity }}
+          className="inline-block w-0.5 h-[1.2em] bg-current ml-0.5 align-text-bottom"
+        />
+      )}
+    </span>
+  );
+};
+
 export default function HomePageClient({ recentPosts }: HomePageClientProps) {
+  // 鼠标跟随效果
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = (clientX - left - width / 2) / 10;
+    const y = (clientY - top - height / 2) / 10;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -128,6 +191,8 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
         initial="hidden"
         animate="visible"
         variants={containerVariants}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           {/* 垂直居中的单列布局 */}
@@ -136,17 +201,50 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
             <motion.div 
               className="relative group"
               variants={avatarVariants}
+              style={{
+                x: springX,
+                y: springY,
+              }}
             >
               <div className="w-40 h-40 relative">
-                <ClientImage
-                  src={siteConfig.profile.avatar}
-                  alt={siteConfig.name}
-                  width={160}
-                  height={160}
-                  className="w-40 h-40 rounded-full object-cover border-2 border-gray-200/50 dark:border-gray-700/50 shadow-sm transition-all duration-300 group-hover:shadow-lg group-hover:scale-105"
-                  priority
-                  style={{ objectFit: 'cover' }}
+                {/* 头像光环效果 */}
+                <motion.div
+                  className="absolute inset-0 rounded-full"
+                  animate={{
+                    boxShadow: [
+                      "0 0 0 0 rgba(59, 130, 246, 0.3)",
+                      "0 0 0 20px rgba(59, 130, 246, 0)",
+                      "0 0 0 0 rgba(59, 130, 246, 0.3)",
+                    ]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                 />
+                
+                {/* 浮动动画 */}
+                <motion.div
+                  animate={{
+                    y: [0, -8, 0],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <ClientImage
+                    src={siteConfig.profile.avatar}
+                    alt={siteConfig.name}
+                    width={160}
+                    height={160}
+                    className="w-40 h-40 rounded-full object-cover border-2 border-gray-200/50 dark:border-gray-700/50 shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3"
+                    priority
+                    style={{ objectFit: 'cover' }}
+                  />
+                </motion.div>
               </div>
             </motion.div>
 
@@ -155,12 +253,26 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
               className="space-y-6 max-w-3xl"
               variants={itemVariants}
             >
-              <h1 className="text-6xl md:text-7xl font-thin tracking-[0.2em] font-serif italic text-gray-900 dark:text-white">
+              <motion.h1 
+                className="text-6xl md:text-7xl font-thin tracking-[0.2em] font-serif italic text-gray-900 dark:text-white"
+                initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 1.2, 
+                  delay: 0.8,
+                  ease: [0.6, -0.05, 0.01, 0.99]
+                }}
+              >
                 {siteConfig.name}
-              </h1>
-              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-thin tracking-[0.1em] font-serif leading-relaxed">
-                {siteConfig.profile.bio}
-              </p>
+              </motion.h1>
+              <motion.p 
+                className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-thin tracking-[0.1em] font-serif leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.3 }}
+              >
+                <TypeWriter text={siteConfig.profile.bio} delay={1400} speed={150} />
+              </motion.p>
             </motion.div>
             
             {/* Quick Links */}
@@ -226,7 +338,7 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
                       className="group flex flex-col items-center gap-2 p-3 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-300"
                       title={link.name}
                     >
-                      <div className="w-12 h-12 flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 group-hover:border-gray-300 dark:group-hover:border-gray-600 group-hover:shadow-sm transition-all duration-300">
+                      <div className="w-12 h-12 flex items-center justify-center transition-all duration-300">
                         {getIcon(link.href)}
                       </div>
                       <span className="text-xs font-thin tracking-wide font-serif opacity-70 group-hover:opacity-100 transition-opacity">
@@ -359,19 +471,44 @@ export default function HomePageClient({ recentPosts }: HomePageClientProps) {
 
           {/* View All Posts Link */}
           {recentPosts.length > 0 && (
-            <motion.div 
-              className="text-center mt-12"
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-lg transition-colors font-thin tracking-wide font-serif"
+              <motion.div
+                  className="text-center mt-12"
+                  variants={itemVariants}
               >
-                查看所有文章 →
-              </Link>
-            </motion.div>
+                <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                      y: -3
+                    }}
+                    whileTap={{
+                      scale: 0.95,
+                      y: 1
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 17
+                    }}
+                >
+                  <Link
+                      href="/blog"
+                      className="group inline-flex items-center gap-2 bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 dark:from-gray-700 dark:to-gray-600 dark:hover:from-gray-600 dark:hover:to-gray-500 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-lg transition-all duration-300 font-thin tracking-wide font-serif shadow-sm hover:shadow-md"
+                  >
+                    <span>查看所有博客</span>
+                    <motion.span
+                        className="inline-block"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                    >
+                      →
+                    </motion.span>
+                  </Link>
+                </motion.div>
+              </motion.div>
           )}
         </div>
       </motion.section>
