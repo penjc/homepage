@@ -1,11 +1,12 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { Github, ExternalLink, Star, Code2, Zap, Clock } from 'lucide-react';
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
-import { getAssetPath } from '../../lib/utils';
+import ClientImage from '../../components/ClientImage';
 import BackToTop from '../../components/BackToTop';
 
 // 项目状态类型定义
@@ -64,8 +65,8 @@ export default function ProjectsPage() {
                     <div className="relative h-48 overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
                       {project.image ? (
-                        <Image
-                          src={getAssetPath(project.image)}
+                        <ClientImage
+                          src={project.image}
                           alt={project.title}
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useAssetPath } from '../lib/useAssetPath';
 
 interface ImageWithLoadingProps {
   src: string;
@@ -17,6 +18,7 @@ interface ImageWithLoadingProps {
   blurDataURL?: string;
   onLoad?: () => void;
   onError?: () => void;
+  autoProcessPath?: boolean;
 }
 
 const ImageWithLoading: React.FC<ImageWithLoadingProps> = ({
@@ -32,10 +34,15 @@ const ImageWithLoading: React.FC<ImageWithLoadingProps> = ({
   placeholder = 'empty',
   blurDataURL,
   onLoad,
-  onError
+  onError,
+  autoProcessPath = false
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  
+  // 使用Hook处理路径（仅当启用时）
+  const processedSrc = useAssetPath(src);
+  const finalSrc = autoProcessPath ? processedSrc : src;
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -66,7 +73,7 @@ const ImageWithLoading: React.FC<ImageWithLoadingProps> = ({
       {/* 图片 */}
       {!hasError && (
         <Image
-          src={src}
+          src={finalSrc}
           alt={alt}
           width={fill ? undefined : width}
           height={fill ? undefined : height}

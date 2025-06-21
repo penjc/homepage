@@ -14,8 +14,8 @@ try {
 }
 
 const nextConfig = {
-  // 启用静态导出
-  output: 'export',
+  // 暂时禁用静态导出以支持客户端组件
+  // output: 'export',
   
   // 禁用图片优化（静态导出不支持）
   images: {
@@ -43,6 +43,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+
+  devIndicators: false,
+
 }
 
 module.exports = nextConfig 

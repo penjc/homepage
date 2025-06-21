@@ -1,7 +1,8 @@
+'use client';
+
 import Link from 'next/link';
-import Image from 'next/image';
+import ClientImage from './ClientImage';
 import { siteConfig } from '../site.config';
-import { getAssetPath } from '../lib/utils';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,8 +37,8 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 text-xs text-gray-500 dark:text-gray-500">
             {footer.beian.police && (
               <div className="flex items-center space-x-1">
-                <Image
-                  src={getAssetPath("/images/gawb.webp")}
+                <ClientImage
+                  src="/images/gawb.webp"
                   alt="公安备案"
                   width={16}
                   height={16}

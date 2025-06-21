@@ -1,11 +1,12 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { Book, Star, ExternalLink, Eye, Clock, CheckCircle, Bookmark, Filter, Search } from 'lucide-react';
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
-import { getAssetPath } from '../../lib/utils';
+import ClientImage from '../../components/ClientImage';
 import BackToTop from '../../components/BackToTop';
 
 // 书籍状态类型定义
@@ -92,8 +93,8 @@ function BookCard({ book, index }: { book: BookItem; index: number }) {
       <div className="relative h-64 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
         {book.cover ? (
-          <Image
-            src={getAssetPath(book.cover)}
+          <ClientImage
+            src={book.cover}
             alt={book.title}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"

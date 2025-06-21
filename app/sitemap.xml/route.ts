@@ -1,6 +1,8 @@
 import { getAllPosts, getAllThoughts } from '@/lib/blog';
 import { siteConfig } from '@/site.config';
 
+export const dynamic = 'force-static';
+
 export async function GET() {
   const posts = getAllPosts();
   const thoughts = getAllThoughts();

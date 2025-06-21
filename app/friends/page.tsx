@@ -1,11 +1,12 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { ExternalLink, Heart, Sparkles, Globe, Code, Palette } from 'lucide-react';
 import { siteConfig } from '../../site.config';
 import Footer from '../../components/Footer';
 import NavigationWrapper from '../../components/NavigationWrapper';
 import Comments from '../../components/Comments';
-import { getAssetPath } from '../../lib/utils';
+import ClientImage from '../../components/ClientImage';
 import BackToTop from '../../components/BackToTop';
 
 // 友链状态类型定义
@@ -119,8 +120,8 @@ export default function FriendsPage() {
                       {/* 头像和基本信息 */}
                       <div className="flex items-center gap-4 mb-4">
                         <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
-                          <Image
-                            src={getAssetPath(friend.avatar)}
+                          <ClientImage
+                            src={friend.avatar}
                             alt={friend.name}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -212,8 +213,8 @@ export default function FriendsPage() {
                       {/* 头像和基本信息 */}
                       <div className="flex items-center gap-3 mb-3">
                         <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
-                          <Image
-                            src={getAssetPath(friend.avatar)}
+                          <ClientImage
+                            src={friend.avatar}
                             alt={friend.name}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-110"

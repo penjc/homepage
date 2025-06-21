@@ -434,12 +434,6 @@ This project is specially optimized for GitHub Pages project pages, solving stat
 - **Local Development**: All resources use relative paths (e.g., `/favicon.svg`)
 - **GitHub Pages**: Automatically adds project name prefix (e.g., `/homepage/favicon.svg`)
 
-This is achieved through:
-
-1. **Next.js Configuration** (`next.config.js`): Dynamically sets `basePath` and `assetPrefix` based on environment variables
-2. **Build Script** (`scripts/update-manifest.js`): Automatically updates icon paths in `manifest.json`
-3. **Utility Functions** (`lib/utils.ts`): `getAssetPath()` function handles static resource paths in code
-
 #### Build Commands
 
 ```bash

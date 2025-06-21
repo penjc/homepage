@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import TableOfContents from './TableOfContents';
 import Comments from './Comments';
-import { BlogPost } from '@/lib/blog';
+import { BlogPost } from '@/lib/types';
 import { trackEvent } from './GoogleAnalytics';
 
 interface BlogPostContentProps {

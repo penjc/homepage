@@ -2,6 +2,8 @@ import RSS from 'rss';
 import { getAllPosts } from '@/lib/blog';
 import { siteConfig } from '@/site.config';
 
+export const dynamic = 'force-static';
+
 export async function GET() {
   const posts = getAllPosts();
   
