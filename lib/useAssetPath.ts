@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { siteConfig } from '../site.config';
+// import { siteConfig } from '../site.config'; // GitHub Pages 支持已禁用
 
 /**
  * 客户端Hook：获取静态资源路径
@@ -20,16 +20,17 @@ export function useAssetPath(path: string): string {
     // 确保路径以 / 开头
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
-    // 检查是否在GitHub Pages环境
-    const currentPath = window.location.pathname;
-    const baseUrl = siteConfig.deployment?.baseUrl || '';
+    // GitHub Pages 支持已禁用
+    // const currentPath = window.location.pathname;
+    // const baseUrl = siteConfig.deployment?.baseUrl || '';
 
     // 如果当前路径包含baseUrl，说明在GitHub Pages环境
-    if (baseUrl && currentPath.startsWith(baseUrl)) {
-      setAssetPath(`${baseUrl}${normalizedPath}`);
-    } else {
-      setAssetPath(normalizedPath);
-    }
+    // if (baseUrl && currentPath.startsWith(baseUrl)) {
+    //   setAssetPath(`${baseUrl}${normalizedPath}`);
+    // } else {
+    //   setAssetPath(normalizedPath);
+    // }
+    setAssetPath(normalizedPath);
   }, [path]);
 
   return assetPath;
@@ -48,16 +49,16 @@ export function getClientAssetPath(path: string): string {
   // 确保路径以 / 开头
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
-  // 客户端环境检查
-  if (typeof window !== 'undefined') {
-    const currentPath = window.location.pathname;
-    const baseUrl = siteConfig.deployment?.baseUrl || '';
+  // GitHub Pages 支持已禁用
+  // if (typeof window !== 'undefined') {
+  //   const currentPath = window.location.pathname;
+  //   const baseUrl = siteConfig.deployment?.baseUrl || '';
 
-    // 如果当前路径包含baseUrl，说明在GitHub Pages环境
-    if (baseUrl && currentPath.startsWith(baseUrl)) {
-      return `${baseUrl}${normalizedPath}`;
-    }
-  }
+  //   // 如果当前路径包含baseUrl，说明在GitHub Pages环境
+  //   if (baseUrl && currentPath.startsWith(baseUrl)) {
+  //     return `${baseUrl}${normalizedPath}`;
+  //   }
+  // }
 
   return normalizedPath;
 }
@@ -78,14 +79,14 @@ export function useAssetPaths(paths: string[]): string[] {
       // 确保路径以 / 开头
       const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
-      // 检查是否在GitHub Pages环境
-      const currentPath = window.location.pathname;
-      const baseUrl = siteConfig.deployment?.baseUrl || '';
+      // GitHub Pages 支持已禁用
+      // const currentPath = window.location.pathname;
+      // const baseUrl = siteConfig.deployment?.baseUrl || '';
 
       // 如果当前路径包含baseUrl，说明在GitHub Pages环境
-      if (baseUrl && currentPath.startsWith(baseUrl)) {
-        return `${baseUrl}${normalizedPath}`;
-      }
+      // if (baseUrl && currentPath.startsWith(baseUrl)) {
+      //   return `${baseUrl}${normalizedPath}`;
+      // }
 
       return normalizedPath;
     });

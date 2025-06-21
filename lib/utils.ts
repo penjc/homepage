@@ -1,4 +1,4 @@
-import { siteConfig } from '../site.config';
+// import { siteConfig } from '../site.config'; // GitHub Pages 支持已禁用
 
 /**
  * 获取静态资源的完整路径（服务端版本）
@@ -13,14 +13,14 @@ export function getAssetPath(path: string): string {
   // 确保路径以 / 开头
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   
-  // 在生产环境且为 GitHub Pages 时添加 basePath
-  const isProd = process.env.NODE_ENV === 'production';
-  const isGithubPages = process.env.GITHUB_PAGES === 'true';
+  // GitHub Pages 支持已禁用
+  // const isProd = process.env.NODE_ENV === 'production';
+  // const isGithubPages = process.env.GITHUB_PAGES === 'true';
   
-  if (isProd && isGithubPages) {
-    const baseUrl = siteConfig.deployment?.baseUrl || '';
-    return `${baseUrl}${normalizedPath}`;
-  }
+  // if (isProd && isGithubPages) {
+  //   const baseUrl = siteConfig.deployment?.baseUrl || '';
+  //   return `${baseUrl}${normalizedPath}`;
+  // }
   
   return normalizedPath;
 }
@@ -38,16 +38,16 @@ export function getClientAssetPath(path: string): string {
   // 确保路径以 / 开头
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   
-  // 客户端环境检查
-  if (typeof window !== 'undefined') {
-    const currentPath = window.location.pathname;
-    const baseUrl = siteConfig.deployment?.baseUrl || '';
+  // GitHub Pages 支持已禁用
+  // if (typeof window !== 'undefined') {
+  //   const currentPath = window.location.pathname;
+  //   const baseUrl = siteConfig.deployment?.baseUrl || '';
     
-    // 如果当前路径包含baseUrl，说明在GitHub Pages环境
-    if (baseUrl && currentPath.startsWith(baseUrl)) {
-      return `${baseUrl}${normalizedPath}`;
-    }
-  }
+  //   // 如果当前路径包含baseUrl，说明在GitHub Pages环境
+  //   if (baseUrl && currentPath.startsWith(baseUrl)) {
+  //     return `${baseUrl}${normalizedPath}`;
+  //   }
+  // }
   
   return normalizedPath;
 }
@@ -70,13 +70,14 @@ export function getUniversalAssetPath(path: string): string {
  * 获取网站的基础 URL
  */
 export function getBaseUrl(): string {
-  const isProd = process.env.NODE_ENV === 'production';
-  const isGithubPages = process.env.GITHUB_PAGES === 'true';
+  // GitHub Pages 支持已禁用，直接返回本地开发地址
+  // const isProd = process.env.NODE_ENV === 'production';
+  // const isGithubPages = process.env.GITHUB_PAGES === 'true';
   
-  if (isProd && isGithubPages) {
-    const baseUrl = siteConfig.deployment?.baseUrl || '';
-    return `https://penjc.github.io${baseUrl}`;
-  }
+  // if (isProd && isGithubPages) {
+  //   const baseUrl = siteConfig.deployment?.baseUrl || '';
+  //   return `https://penjc.github.io${baseUrl}`;
+  // }
   
   return 'http://localhost:4000';
 }
