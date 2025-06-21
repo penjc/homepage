@@ -25,7 +25,7 @@
 
 [![Vercel](https://img.shields.io/badge/Deploy_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
 [![Netlify](https://img.shields.io/badge/Deploy_on-Netlify-00c7b7?style=flat-square&logo=netlify)](https://netlify.com)
-[![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/)
+<!-- [![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/) -->
 
 **A Modern, Responsive Personal Homepage Solution**
 
@@ -62,7 +62,7 @@ Built with TypeScript + Tailwind CSS stack, providing ultimate developer and use
 - 🎨 **Theme Adaptation** - Comment system automatically adapts to website theme
 
 ### 🚀 Deployment & Development
-- 🚀 **One-Click Deploy** - Support for Vercel, Netlify, GitHub Pages, and other platforms
+- 🚀 **One-Click Deploy** - Support for Vercel, Netlify, and other platforms
 - ⚙️ **Configuration Driven** - Manage all features through configuration files without code modification
 - 🔧 **Developer Friendly** - Hot reload, ESLint, Prettier out of the box
 - 📦 **Modular Design** - Component-based architecture, easy to customize and extend
@@ -417,7 +417,7 @@ For detailed configuration instructions, see [Comment System Configuration Guide
 3. Set build command: `npm run build`
 4. Set publish directory: `.next`
 
-### GitHub Pages Deployment
+<!-- ### GitHub Pages Deployment
 
 The project includes built-in GitHub Actions workflow that automatically deploys to GitHub Pages when pushed to the `main` branch.
 
@@ -445,7 +445,7 @@ npm run preview:github  # Preview GitHub Pages build result
 
 The following environment variables are automatically set during deployment:
 - `GITHUB_PAGES=true`: Enable GitHub Pages mode
-- `NODE_ENV=production`: Production environment identifier
+- `NODE_ENV=production`: Production environment identifier -->
 
 ## 🛠️ Tech Stack
 

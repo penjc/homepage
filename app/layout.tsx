@@ -8,16 +8,21 @@ import AnalyticsProvider from '../components/AnalyticsProvider';
 import DynamicHead from '../components/DynamicHead';
 import PageLoadingProvider from '../components/PageLoadingProvider';
 
-// 获取资源路径的服务端函数
+// GitHub Pages 支持已禁用
+// function getServerAssetPath(path: string): string {
+//   const isProd = process.env.NODE_ENV === 'production';
+//   const isGithubPages = process.env.GITHUB_PAGES === 'true';
+  
+//   if (isProd && isGithubPages) {
+//     const baseUrl = siteConfig.deployment?.baseUrl || '';
+//     return `${baseUrl}${path}`;
+//   }
+  
+//   return path;
+// }
+
+// 简化的资源路径函数
 function getServerAssetPath(path: string): string {
-  const isProd = process.env.NODE_ENV === 'production';
-  const isGithubPages = process.env.GITHUB_PAGES === 'true';
-  
-  if (isProd && isGithubPages) {
-    const baseUrl = siteConfig.deployment?.baseUrl || '';
-    return `${baseUrl}${path}`;
-  }
-  
   return path;
 }
 

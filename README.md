@@ -25,7 +25,7 @@
 
 [![Vercel](https://img.shields.io/badge/Deploy_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
 [![Netlify](https://img.shields.io/badge/Deploy_on-Netlify-00c7b7?style=flat-square&logo=netlify)](https://netlify.com)
-[![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/)
+<!-- [![GitHub Pages](https://img.shields.io/badge/Deploy_on-GitHub_Pages-222?style=flat-square&logo=github)](https://pages.github.com/) -->
 
 [//]: # ([![PRs Welcome]&#40;https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square&#41;]&#40;https://github.com/penjc/homepage/pulls&#41;)
 
@@ -69,7 +69,7 @@
 - 🎨 **主题适配** - 评论系统自动适配网站主题
 
 ### 🚀 部署与开发
-- 🚀 **一键部署** - 支持 Vercel、Netlify、GitHub Pages 等平台
+- 🚀 **一键部署** - 支持 Vercel、Netlify 等平台
 - ⚙️ **配置驱动** - 通过配置文件管理所有功能，无需修改代码
 - 🔧 **开发友好** - 热重载、ESLint、Prettier 开箱即用
 - 📦 **模块化设计** - 组件化架构，易于定制和扩展
@@ -424,7 +424,7 @@ export const siteConfig = {
 3. 设置构建命令：`npm run build`
 4. 设置发布目录：`.next`
 
-### GitHub Pages 部署
+<!-- ### GitHub Pages 部署
 
 项目内置了 GitHub Actions 工作流，推送到 `main` 分支时会自动部署到 GitHub Pages。
 
@@ -452,7 +452,7 @@ npm run preview:github  # 预览 GitHub Pages 构建结果
 
 部署过程中会自动设置以下环境变量：
 - `GITHUB_PAGES=true`: 启用 GitHub Pages 模式
-- `NODE_ENV=production`: 生产环境标识
+- `NODE_ENV=production`: 生产环境标识 -->
 
 ## 🛠️ 技术栈
 

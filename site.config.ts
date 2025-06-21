@@ -490,7 +490,7 @@ export const siteConfig = {
     },
   },
 
-  // 部署配置
+  // 部署配置 - 已禁用 GitHub Pages 支持
   deployment: {
     baseUrl: "/homepage",
     // 基础路径配置 - 总是填写你的仓库名
