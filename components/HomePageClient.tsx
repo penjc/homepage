@@ -14,8 +14,6 @@ interface HomePageClientProps {
 }
 
 export default function HomePageClient({ recentPosts }: HomePageClientProps) {
-  console.log('HomePageClient recentPosts:', recentPosts);
-  
   return (
     <>
       {/* Hero Section */}

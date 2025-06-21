@@ -121,11 +121,11 @@ export default function RootLayout({
         <DynamicHead />
         <GoogleAnalytics />
         <Suspense fallback={null}>
-          <AnalyticsProvider>
-            <PageLoadingProvider>
-              {children}
-            </PageLoadingProvider>
-          </AnalyticsProvider>
+        <AnalyticsProvider>
+          <PageLoadingProvider>
+            {children}
+          </PageLoadingProvider>
+        </AnalyticsProvider>
         </Suspense>
       </body>
     </html>

@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { siteConfig } from '../../site.config';
-import PageLayout from '../../components/PageLayout';
+import ClientPageLayout from '../../components/ClientPageLayout';
 import Comments from '../../components/Comments';
 import ClientImage from '../../components/ClientImage';
 import { 
@@ -88,7 +88,7 @@ export default function AboutPage() {
   const { about, profile, name } = siteConfig;
 
   return (
-    <PageLayout>
+    <ClientPageLayout>
       {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -873,6 +873,6 @@ export default function AboutPage() {
           />
         </section>
       </div>
-    </PageLayout>
+    </ClientPageLayout>
   );
 } 

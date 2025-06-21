@@ -1,53 +1,108 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getPaginatedPosts, getAllCategories, getAllPosts, BlogPost } from '../../../../lib/blog';
-import PageLayout from '../../../../components/PageLayout';
+import { useParams } from 'next/navigation';
+import ClientPageLayout from '../../../../components/ClientPageLayout';
+import NotFoundContent from '../../../../components/NotFoundContent';
 import Pagination from '../../../../components/Pagination';
 import { siteConfig } from '../../../../site.config';
+import { BlogPost, PaginatedPosts } from '../../../../lib/types';
 
-// 强制静态生成
-export const dynamic = 'force-static';
+export default function BlogPageWithPagination() {
+  const params = useParams();
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-interface BlogPageProps {
-  params: Promise<{
-    page: string;
-  }>;
-}
+  useEffect(() => {
+    const pageParam = Array.isArray(params.page) ? params.page[0] : params.page;
+    const page = parseInt(pageParam || '1', 10);
+    
+    // 验证页面号是否有效
+    if (isNaN(page) || page < 1) {
+      setNotFound(true);
+      setLoading(false);
+      return;
+    }
+    
+    setCurrentPage(page);
+    
+    // 从API获取博客数据
+    const fetchBlogData = async () => {
+      try {
+        const [postsRes, categoriesRes] = await Promise.all([
+          fetch('/api/posts'),
+          fetch('/api/categories')
+        ]);
 
-export async function generateStaticParams() {
-  const allPosts = getAllPosts();
-  const postsPerPage = siteConfig.blog.pagination.postsPerPage;
-  const totalPages = Math.ceil(allPosts.length / postsPerPage);
-  
-  // 生成所有分页路径
-  const pages = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pages.push({ page: i.toString() });
+        const [postsData, categoriesData] = await Promise.all([
+          postsRes.json(),
+          categoriesRes.json()
+        ]);
+
+        const allPosts = postsData.posts || [];
+        const postsPerPage = siteConfig.blog.pagination.postsPerPage;
+        const totalPagesCount = Math.ceil(allPosts.length / postsPerPage);
+        
+        // 验证页面号是否超出范围
+        if (page > totalPagesCount && totalPagesCount > 0) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+        
+        const startIndex = (page - 1) * postsPerPage;
+        const endIndex = startIndex + postsPerPage;
+        const paginatedPosts = allPosts.slice(startIndex, endIndex);
+
+        setPosts(paginatedPosts);
+        setCategories(categoriesData.categories || []);
+        setTotalPosts(allPosts.length);
+        setTotalPages(totalPagesCount);
+        setHasNextPage(page < totalPagesCount);
+        setHasPrevPage(page > 1);
+        setNotFound(false);
+      } catch (error) {
+        console.error('Error fetching blog data:', error);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogData();
+  }, [params]);
+
+  if (loading) {
+    return (
+      <ClientPageLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-400">加载中...</p>
+          </div>
+        </div>
+      </ClientPageLayout>
+    );
   }
-  
-  return pages;
-}
 
-export async function generateMetadata({ params }: BlogPageProps) {
-  const resolvedParams = await params;
-  const currentPage = parseInt(resolvedParams.page, 10);
-  
-  return {
-    title: `博客 - 第 ${currentPage} 页 | ${siteConfig.title}`,
-    description: '分享技术心得与生活感悟',
-  };
-}
-
-export default async function BlogPageWithPagination({ params }: BlogPageProps) {
-  const resolvedParams = await params;
-  const currentPage = parseInt(resolvedParams.page, 10);
-  const postsPerPage = siteConfig.blog.pagination.postsPerPage;
-  
-  const paginatedData = getPaginatedPosts(currentPage, postsPerPage);
-  const { posts, totalPages, totalPosts, hasNextPage, hasPrevPage } = paginatedData;
-  const categories = getAllCategories();
+  if (notFound) {
+    return (
+      <ClientPageLayout>
+        <NotFoundContent message="页面未找到" />
+      </ClientPageLayout>
+    );
+  }
 
   return (
-    <PageLayout>
+    <ClientPageLayout>
       {/* Hero Section */}
       <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -184,6 +239,6 @@ export default async function BlogPageWithPagination({ params }: BlogPageProps) 
           )}
         </div>
       </section>
-    </PageLayout>
+    </ClientPageLayout>
   );
-} 
+}

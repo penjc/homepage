@@ -25,7 +25,7 @@
   "scripts": {
     "dev": "next dev --port 4000",
     "build": "next build",
-    "start": "npx serve out -p 4000",
+    "start": "next start -p 4000",
     "build:github": "NODE_ENV=production GITHUB_PAGES=true npm run build",
     "preview": "npm run build && npm run start",
     "preview:github": "npm run build:github && npm run start",

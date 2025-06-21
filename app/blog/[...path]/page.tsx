@@ -1,73 +1,82 @@
-import { Metadata } from 'next';
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Suspense } from 'react';
-import { siteConfig } from '../../../site.config';
-import { getPostBySlug, getAllPosts } from '../../../lib/blog';
-import PageLayout from '../../../components/PageLayout';
+import ClientPageLayout from '../../../components/ClientPageLayout';
+import NotFoundContent from '../../../components/NotFoundContent';
 import BlogPostContent from '../../../components/BlogPostContent';
+import { BlogPost } from '../../../lib/types';
 
-interface BlogPostPageProps {
-  params: Promise<{
-    path: string[];
-  }>;
-}
+export default function BlogPostPage() {
+  const params = useParams();
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({
-    path: post.slug.split('/'),
-  }));
-}
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const slug = Array.isArray(params.path) ? params.path.join('/') : '';
+        
+        // 从API获取文章数据
+        const [postRes, allPostsRes] = await Promise.all([
+          fetch(`/api/posts/${encodeURIComponent(slug)}`),
+          fetch('/api/posts')
+        ]);
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const slug = resolvedParams.path.join('/');
-  const post = getPostBySlug(slug);
-  
-  if (!post) {
-    return {
-      title: '文章未找到',
-      description: '文章未找到'
+        const [postData, allPostsData] = await Promise.all([
+          postRes.json(),
+          allPostsRes.json()
+        ]);
+
+        if (postRes.ok && postData.post) {
+          setPost(postData.post);
+          setAllPosts(allPostsData.posts || []);
+          setNotFound(false);
+        } else {
+          setNotFound(true);
+        }
+      } catch (error) {
+        console.error('Error fetching post:', error);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+      }
     };
+
+    fetchPost();
+  }, [params]);
+
+  if (loading) {
+    return (
+      <ClientPageLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-400">加载中...</p>
+          </div>
+        </div>
+      </ClientPageLayout>
+    );
   }
 
-  return {
-    title: post.title,
-    description: post.excerpt || post.title,
-    keywords: [post.category, ...post.tags],
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      type: 'article',
-      publishedTime: post.date,
-      authors: ['作者姓名'],
-      tags: post.tags,
-    },
-    twitter: {
-      card: 'summary',
-      title: post.title,
-      description: post.excerpt,
-    },
-  };
-}
-
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const resolvedParams = await params;
-  const slug = resolvedParams.path.join('/');
-  const post = getPostBySlug(slug);
-  
-  if (!post) {
-    notFound();
+  if (notFound || !post) {
+    return (
+      <ClientPageLayout>
+        <NotFoundContent message="文章未找到" />
+      </ClientPageLayout>
+    );
   }
 
-  const allPosts = getAllPosts();
   const currentIndex = allPosts.findIndex(p => p.slug === post.slug);
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   return (
-    <PageLayout>
+    <ClientPageLayout>
       {/* Article Header */}
       <header className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -105,7 +114,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               })}
             </time>
             <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
+              {post.tags.map((tag: string) => (
                 <Link
                   key={tag}
                   href={`/blog/tag/${tag}/page/1`}
@@ -121,12 +130,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Article Content - 使用客户端组件处理主题 */}
       <Suspense fallback={<div className="text-center py-8">加载中...</div>}>
-        <BlogPostContent 
-          post={post}
-          prevPost={prevPost}
-          nextPost={nextPost}
-        />
+      <BlogPostContent 
+        post={post}
+        prevPost={prevPost}
+        nextPost={nextPost}
+      />
       </Suspense>
-    </PageLayout>
+    </ClientPageLayout>
   );
-} 
+}

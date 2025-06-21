@@ -27,6 +27,20 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
     trackEvent('open_search', 'search', 'navigation_search');
   };
 
+  // 键盘快捷键支持
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      // Ctrl+K 或 Cmd+K 打开搜索
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        handleSearchOpen();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeydown);
+    return () => document.removeEventListener('keydown', handleKeydown);
+  }, []);
+
   return (
     <>
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 z-50">
@@ -61,10 +75,15 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
               {/* Search Button */}
               <button
                 onClick={handleSearchOpen}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-                aria-label="搜索"
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors relative group"
+                aria-label="搜索 (Ctrl+K)"
+                title="搜索 (Ctrl+K)"
               >
                 <Search size={20} />
+                {/* 快捷键提示 */}
+                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Ctrl+K
+                </span>
               </button>
             </div>
 
@@ -125,4 +144,4 @@ export default function Navigation({ posts, thoughts }: NavigationProps) {
       />
     </>
   );
-} 
+}

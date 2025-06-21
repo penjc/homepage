@@ -1,121 +1,135 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { siteConfig } from '../../../../../../site.config';
-import { getAllPosts, getPaginatedPostsByTag, getAllTags, BlogPost } from '../../../../../../lib/blog';
-import PageLayout from '../../../../../../components/PageLayout';
+import { useParams } from 'next/navigation';
+import ClientPageLayout from '../../../../../../components/ClientPageLayout';
+import NotFoundContent from '../../../../../../components/NotFoundContent';
 import Pagination from '../../../../../../components/Pagination';
+import { siteConfig } from '../../../../../../site.config';
+import { BlogPost, PaginatedPosts } from '../../../../../../lib/types';
 
-// 强制静态生成
-export const dynamic = 'force-static';
+export default function TagPageWithPagination() {
+  const params = useParams();
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [tag, setTag] = useState<string>('');
+  const [notFound, setNotFound] = useState(false);
 
-interface TagPageProps {
-  params: Promise<{
-    slug: string;
-    page: string;
-  }>;
-}
-
-export async function generateStaticParams() {
-  const tags = getAllTags();
-  const postsPerPage = siteConfig.blog.pagination.postsPerPage;
-  
-  const params = [];
-  
-  for (const tag of tags) {
-    const allTagPosts = getAllPosts().filter(post => post.tags.includes(tag));
-    const totalPages = Math.ceil(allTagPosts.length / postsPerPage);
+  useEffect(() => {
+    const tagParam = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+    const pageParam = Array.isArray(params.page) ? params.page[0] : params.page;
+    const page = parseInt(pageParam || '1', 10);
     
-    for (let page = 1; page <= totalPages; page++) {
-      // 添加原始字符串参数（用于生产构建）
-      params.push({
-        slug: tag,
-        page: page.toString(),
-      });
-      
-      // 如果标签包含非ASCII字符，也添加编码版本（用于开发模式）
-      const encoded = encodeURIComponent(tag);
-      if (encoded !== tag) {
-        params.push({
-          slug: encoded,
-          page: page.toString(),
-        });
-      }
+    // 验证页面号是否有效
+    if (isNaN(page) || page < 1) {
+      setNotFound(true);
+      setLoading(false);
+      return;
     }
-  }
-  
-  return params;
-}
+    
+    setCurrentPage(page);
+    setTag(decodeURIComponent(tagParam || ''));
+    
+    // 从API获取标签数据
+    const fetchTagData = async () => {
+      try {
+        const [postsRes, tagsRes] = await Promise.all([
+          fetch('/api/posts'),
+          fetch('/api/tags')
+        ]);
 
-export async function generateMetadata({ params }: TagPageProps) {
-  const resolvedParams = await params;
-  // 更智能的参数解码处理
-  let tag: string = resolvedParams.slug;
-  
-  // 检查是否是编码的URL
-  if (resolvedParams.slug.includes('%')) {
-    try {
-      tag = decodeURIComponent(resolvedParams.slug);
-    } catch {
-      // 如果解码失败，尝试查找匹配的标签
-      const allTags = getAllTags();
-      const found = allTags.find(t => encodeURIComponent(t) === resolvedParams.slug);
-      if (found) {
-        tag = found;
+        const [postsData, tagsData] = await Promise.all([
+          postsRes.json(),
+          tagsRes.json()
+        ]);
+
+        const allPosts = postsData.posts || [];
+        const allTags = tagsData.tags || [];
+        
+        // 验证标签是否存在
+        if (!allTags.includes(decodeURIComponent(tagParam || ''))) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+        
+        const allTagPosts = allPosts.filter((post: BlogPost) => 
+          post.tags.includes(decodeURIComponent(tagParam || ''))
+        );
+        
+        // 验证该标签是否有文章
+        if (allTagPosts.length === 0) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+
+        const postsPerPage = siteConfig.blog.pagination.postsPerPage;
+        const totalPagesCount = Math.ceil(allTagPosts.length / postsPerPage);
+        
+        // 验证页面号是否超出范围
+        if (page > totalPagesCount) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+        
+        const startIndex = (page - 1) * postsPerPage;
+        const endIndex = startIndex + postsPerPage;
+        const paginatedPosts = allTagPosts.slice(startIndex, endIndex);
+
+        setPosts(paginatedPosts);
+        setTags(allTags);
+        setTotalPosts(allTagPosts.length);
+        setTotalPages(totalPagesCount);
+        setHasNextPage(page < totalPagesCount);
+        setHasPrevPage(page > 1);
+        setNotFound(false);
+      } catch (error) {
+        console.error('Error fetching tag data:', error);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
       }
-    }
-  }
-  
-  const currentPage = parseInt(resolvedParams.page, 10);
-  const allTagPosts = getAllPosts().filter(post => post.tags.includes(tag));
-  
-  if (allTagPosts.length === 0) {
-    return {
-      title: '标签未找到',
     };
+
+    fetchTagData();
+  }, [params]);
+
+  if (loading) {
+    return (
+      <ClientPageLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-400">加载中...</p>
+          </div>
+        </div>
+      </ClientPageLayout>
+    );
   }
 
-  return {
-    title: `${tag} - 第 ${currentPage} 页 | ${siteConfig.title}`,
-    description: `浏览标签为 ${tag} 的所有文章`,
-  };
-}
-
-export default async function TagPageWithPagination({ params }: TagPageProps) {
-  const resolvedParams = await params;
-  // 更智能的参数解码处理
-  let tag: string = resolvedParams.slug;
-  
-  // 检查是否是编码的URL
-  if (resolvedParams.slug.includes('%')) {
-    try {
-      tag = decodeURIComponent(resolvedParams.slug);
-    } catch {
-      // 如果解码失败，尝试查找匹配的标签
-      const allTags = getAllTags();
-      const found = allTags.find(t => encodeURIComponent(t) === resolvedParams.slug);
-      if (found) {
-        tag = found;
-      }
-    }
-  }
-  
-  const currentPage = parseInt(resolvedParams.page, 10);
-  const postsPerPage = siteConfig.blog.pagination.postsPerPage;
-  
-  const paginatedData = getPaginatedPostsByTag(tag, currentPage, postsPerPage);
-  const { posts, totalPages, totalPosts, hasNextPage, hasPrevPage } = paginatedData;
-  const allTags = getAllTags();
-
-  if (posts.length === 0 && currentPage === 1) {
-    notFound();
+  if (notFound) {
+    return (
+      <ClientPageLayout>
+        <NotFoundContent message="标签未找到" />
+      </ClientPageLayout>
+    );
   }
 
   return (
-    <PageLayout>
+    <ClientPageLayout>
       {/* Hero Section */}
       <section className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">{tag}</h1>
+          <h1 className="text-4xl md:text-5xl font-thin tracking-widest font-serif mb-4">#{tag}</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-thin tracking-widest font-serif italic">
             标签下的文章
           </p>
@@ -125,7 +139,7 @@ export default async function TagPageWithPagination({ params }: TagPageProps) {
         </div>
       </section>
 
-      {/* Tag Filter */}
+      {/* Blog Tags */}
       <section className="bg-white dark:bg-gray-800 py-8 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-3">
@@ -135,10 +149,7 @@ export default async function TagPageWithPagination({ params }: TagPageProps) {
             >
               全部
             </Link>
-            {allTags.slice(0, 10).map((t) => {
-              const allPosts = getAllPosts();
-              const count = allPosts.filter((post: BlogPost) => post.tags.includes(t)).length;
-              return (
+            {tags.map((t: string) => (
                 <Link
                   key={t}
                   href={`/blog/tag/${t}/page/1`}
@@ -148,15 +159,14 @@ export default async function TagPageWithPagination({ params }: TagPageProps) {
                       : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
                 >
-                  #{t} ({count})
+                #{t}
                 </Link>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Posts List */}
+      {/* Blog Posts */}
       <section className="bg-white dark:bg-gray-800 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
@@ -177,12 +187,11 @@ export default async function TagPageWithPagination({ params }: TagPageProps) {
                       </div>
                     </div>
 
-                    {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <Link
                           href={`/blog/category/${post.category}/page/1`}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-thin tracking-wide font-serif"
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium transition-colors font-thin tracking-wide font-serif bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                         >
                           {post.category}
                         </Link>
@@ -212,11 +221,11 @@ export default async function TagPageWithPagination({ params }: TagPageProps) {
                               <Link
                                 key={postTag}
                                 href={`/blog/tag/${postTag}/page/1`}
-                                className={`inline-flex items-center px-2.5 py-1 text-xs font-medium transition-colors font-thin tracking-wide font-serif ${
+                                className={`inline-flex items-center px-2.5 py-1 text-xs rounded-full transition-all duration-200 font-thin tracking-wide font-serif ${
                                   postTag === tag
                                     ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
-                                    : 'bg-gray-100/60 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-200/60 dark:hover:bg-gray-600/60'
-                                } rounded-full transition-all duration-200`}
+                                    : 'text-gray-600 dark:text-gray-300 bg-gray-100/60 dark:bg-gray-700/60 hover:bg-gray-200/60 dark:hover:bg-gray-600/60'
+                                }`}
                               >
                                 #{postTag}
                               </Link>
@@ -243,7 +252,13 @@ export default async function TagPageWithPagination({ params }: TagPageProps) {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">该标签下暂无文章</p>
+              <p className="text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif">暂无该标签下的文章</p>
+              <Link 
+                href="/blog"
+                className="inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+              >
+                浏览所有文章
+              </Link>
             </div>
           )}
 
@@ -261,6 +276,6 @@ export default async function TagPageWithPagination({ params }: TagPageProps) {
           )}
         </div>
       </section>
-    </PageLayout>
+    </ClientPageLayout>
   );
 } 

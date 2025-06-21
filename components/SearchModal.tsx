@@ -120,10 +120,42 @@ export default function SearchModal({ isOpen, onClose, posts, thoughts }: Search
     setIsSearching(false);
   };
 
-  // 防抖搜索
+  // API搜索函数
+  const performAPISearch = async (searchQuery: string) => {
+    if (!searchQuery.trim()) {
+      setResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setResults(data.results || []);
+      } else {
+        console.error('搜索API请求失败');
+        // 降级到客户端搜索
+        performSearch(searchQuery);
+      }
+    } catch (error) {
+      console.error('搜索请求错误:', error);
+      // 降级到客户端搜索
+      performSearch(searchQuery);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // 防抖搜索 - 优先使用API搜索
   useEffect(() => {
     const timer = setTimeout(() => {
-      performSearch(query);
+      // 如果有数据则使用API搜索，否则使用客户端搜索
+      if (posts.length > 0 || thoughts.length > 0) {
+        performAPISearch(query);
+      } else {
+        performSearch(query);
+      }
     }, 300);
 
     return () => clearTimeout(timer);
@@ -172,7 +204,7 @@ export default function SearchModal({ isOpen, onClose, posts, thoughts }: Search
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="搜索博客和随笔..."
+              placeholder="搜索博客和随笔... (Ctrl+K)"
               className="flex-1 bg-transparent outline-none text-base text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 font-thin tracking-wide"
             />
             
@@ -286,8 +318,16 @@ export default function SearchModal({ isOpen, onClose, posts, thoughts }: Search
           {/* 底部状态栏 */}
           {results.length > 0 && (
             <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-              <div className="text-center text-sm text-gray-600 dark:text-gray-400 font-thin tracking-wide">
-                找到 {results.length} 个结果
+              <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 font-thin tracking-wide">
+                <span>找到 {results.length} 个结果</span>
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">↑↓</span>
+                  <span>导航</span>
+                  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">Enter</span>
+                  <span>选择</span>
+                  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">Esc</span>
+                  <span>关闭</span>
+                </div>
               </div>
             </div>
           )}
@@ -295,4 +335,4 @@ export default function SearchModal({ isOpen, onClose, posts, thoughts }: Search
       </div>
     </div>
   );
-} 
+}
