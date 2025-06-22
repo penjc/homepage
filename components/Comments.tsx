@@ -200,12 +200,12 @@ const getCommentConfig = (): CommentConfig | null => {
         category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY || 'General',
         categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID || '',
         mapping: (process.env.NEXT_PUBLIC_GISCUS_MAPPING as any) || 'pathname',
-        theme: 'preferred_color_scheme',
-        lang: 'zh-CN',
-        loading: 'lazy',
-        reactionsEnabled: '1',
-        emitMetadata: '0',
-        inputPosition: 'bottom'
+        theme: (process.env.NEXT_PUBLIC_GISCUS_THEME as any) || 'preferred_color_scheme',
+        lang: process.env.NEXT_PUBLIC_GISCUS_LANG || 'zh-CN',
+        loading: (process.env.NEXT_PUBLIC_GISCUS_LOADING as any) || 'lazy',
+        reactionsEnabled: process.env.NEXT_PUBLIC_GISCUS_REACTIONS_ENABLED === 'true' ? '1' : '0',
+        emitMetadata: process.env.NEXT_PUBLIC_GISCUS_EMIT_METADATA === 'true' ? '1' : '0',
+        inputPosition: (process.env.NEXT_PUBLIC_GISCUS_INPUT_POSITION as any) || 'bottom'
       } as GiscusConfig
     };
   }
@@ -221,13 +221,13 @@ const getCommentConfig = (): CommentConfig | null => {
         clientSecret: process.env.NEXT_PUBLIC_GITALK_CLIENT_SECRET || '',
         repo: process.env.NEXT_PUBLIC_GITALK_REPO || '',
         owner: process.env.NEXT_PUBLIC_GITALK_OWNER || '',
-        admin: (process.env.NEXT_PUBLIC_GITALK_ADMIN || '').split(','),
-        language: 'zh-CN',
-        perPage: 10,
-        distractionFreeMode: false,
-        pagerDirection: 'last',
-        createIssueManually: false,
-        enableHotKey: true
+        admin: (process.env.NEXT_PUBLIC_GITALK_ADMIN || '').split(',').filter(Boolean),
+        language: process.env.NEXT_PUBLIC_GITALK_LANGUAGE || 'zh-CN',
+        perPage: parseInt(process.env.NEXT_PUBLIC_GITALK_PER_PAGE || '10'),
+        distractionFreeMode: process.env.NEXT_PUBLIC_GITALK_DISTRACTION_FREE_MODE === 'true',
+        pagerDirection: (process.env.NEXT_PUBLIC_GITALK_PAGER_DIRECTION as any) || 'last',
+        createIssueManually: process.env.NEXT_PUBLIC_GITALK_CREATE_ISSUE_MANUALLY === 'true',
+        enableHotKey: process.env.NEXT_PUBLIC_GITALK_ENABLE_HOT_KEY !== 'false'
       } as GitalkConfig
     };
   }
@@ -241,16 +241,16 @@ const getCommentConfig = (): CommentConfig | null => {
       config: {
         appId: valineAppId,
         appKey: process.env.NEXT_PUBLIC_VALINE_APP_KEY || '',
-        placeholder: '请输入评论内容...',
-        avatar: 'mp',
-        meta: ['nick', 'mail', 'link'],
-        pageSize: 10,
-        lang: 'zh-CN',
-        visitor: true,
-        highlight: true,
-        recordIP: false,
-        enableQQ: true,
-        requiredFields: ['nick', 'mail']
+        placeholder: process.env.NEXT_PUBLIC_VALINE_PLACEHOLDER || '请输入评论内容...',
+        avatar: (process.env.NEXT_PUBLIC_VALINE_AVATAR as any) || 'mp',
+        meta: (process.env.NEXT_PUBLIC_VALINE_META || 'nick,mail,link').split(','),
+        pageSize: parseInt(process.env.NEXT_PUBLIC_VALINE_PAGE_SIZE || '10'),
+        lang: process.env.NEXT_PUBLIC_VALINE_LANG || 'zh-CN',
+        visitor: process.env.NEXT_PUBLIC_VALINE_VISITOR === 'true',
+        highlight: process.env.NEXT_PUBLIC_VALINE_HIGHLIGHT !== 'false',
+        recordIP: process.env.NEXT_PUBLIC_VALINE_RECORD_IP === 'true',
+        enableQQ: process.env.NEXT_PUBLIC_VALINE_ENABLE_QQ === 'true',
+        requiredFields: (process.env.NEXT_PUBLIC_VALINE_REQUIRED_FIELDS || '').split(',').filter(Boolean)
       } as ValineConfig
     };
   }
@@ -263,16 +263,16 @@ const getCommentConfig = (): CommentConfig | null => {
       provider: 'waline',
       config: {
         serverURL: walineServerURL,
-        placeholder: '请输入评论内容...',
-        avatar: 'mp',
-        meta: ['nick', 'mail', 'link'],
-        pageSize: 10,
-        lang: 'zh-CN',
-        visitor: true,
-        highlight: true,
-        recordIP: false,
-        enableQQ: true,
-        requiredFields: ['nick', 'mail']
+        placeholder: process.env.NEXT_PUBLIC_WALINE_PLACEHOLDER || '请输入评论内容...',
+        avatar: (process.env.NEXT_PUBLIC_WALINE_AVATAR as any) || 'mp',
+        meta: (process.env.NEXT_PUBLIC_WALINE_META || 'nick,mail,link').split(','),
+        pageSize: parseInt(process.env.NEXT_PUBLIC_WALINE_PAGE_SIZE || '10'),
+        lang: process.env.NEXT_PUBLIC_WALINE_LANG || 'zh-CN',
+        visitor: process.env.NEXT_PUBLIC_WALINE_VISITOR === 'true',
+        highlight: process.env.NEXT_PUBLIC_WALINE_HIGHLIGHT !== 'false',
+        recordIP: process.env.NEXT_PUBLIC_WALINE_RECORD_IP === 'true',
+        enableQQ: process.env.NEXT_PUBLIC_WALINE_ENABLE_QQ === 'true',
+        requiredFields: (process.env.NEXT_PUBLIC_WALINE_REQUIRED_FIELDS || '').split(',').filter(Boolean)
       } as ValineConfig
     };
   }
@@ -287,6 +287,10 @@ const GiscusComments = ({ config, pageId }: { config: GiscusConfig; pageId: stri
   useEffect(() => {
     if (!ref.current) return;
 
+    // 清空容器
+    ref.current.innerHTML = '';
+
+    // 创建 script 标签
     const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
     script.setAttribute('data-repo', config.repo);
@@ -305,12 +309,6 @@ const GiscusComments = ({ config, pageId }: { config: GiscusConfig; pageId: stri
     script.async = true;
 
     ref.current.appendChild(script);
-
-    return () => {
-      if (ref.current) {
-        ref.current.innerHTML = '';
-      }
-    };
   }, [config, pageId]);
 
   return <div ref={ref} className="giscus-container" />;
@@ -369,8 +367,7 @@ const ValineComments = ({ config, pageId }: { config: ValineConfig; pageId: stri
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!ref.current) return;
-
+    // 动态加载 Valine
     const loadValine = async () => {
       if (typeof window === 'undefined') return;
 
@@ -405,8 +402,7 @@ const WalineComments = ({ config, pageId }: { config: ValineConfig; pageId: stri
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!ref.current) return;
-
+    // 动态加载 Waline
     const loadWaline = async () => {
       if (typeof window === 'undefined') return;
 
@@ -472,36 +468,38 @@ export default function Comments({ pageId, pageTitle, pageUrl, className = '' }:
   // 如果评论功能启用但配置不正确，显示配置提示
   if (!commentConfig) {
     return (
-      <div className={`text-center py-8 ${className}`}>
-        <div className="flex flex-col items-center gap-4">
+      <div className={`text-center py-12 ${className}`}>
+        <div className="flex flex-col items-center gap-6">
+          {/* 注释掉图标和标题
           <div className="flex items-center gap-3 mb-4">
             <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
             <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
               评论
             </h3>
           </div>
-          <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-            <Settings size={32} className="text-gray-400 dark:text-gray-500" />
+          */}
+          <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center shadow-sm">
+            <Settings size={28} className="text-gray-400 dark:text-gray-500" strokeWidth={1.5} />
           </div>
-          <div>
-            <p className="text-gray-600 dark:text-gray-400 text-sm font-thin tracking-wide">
+          <div className="max-w-md">
+            <p className="text-gray-500 dark:text-gray-400 text-sm font-light tracking-wide leading-relaxed">
               评论功能配置不完整，请在 site.config.ts 中完善评论系统配置
             </p>
           </div>
-          <details className="mt-4 w-full max-w-md">
-            <summary className="cursor-pointer text-blue-600 dark:text-blue-400 text-sm hover:underline">
+          <details className="mt-6 w-full max-w-lg">
+            <summary className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm hover:text-gray-800 dark:hover:text-gray-200 transition-colors font-light tracking-wide">
               查看配置说明
             </summary>
-            <div className="mt-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-xs text-gray-600 dark:text-gray-300 font-mono">
-              <p className="mb-2 font-semibold">支持的评论系统：</p>
-              <ul className="space-y-1 list-disc list-inside">
+            <div className="mt-4 p-5 bg-gray-50 dark:bg-gray-800 rounded-xl text-xs text-gray-600 dark:text-gray-300 font-mono border border-gray-200 dark:border-gray-700">
+              <p className="mb-3 font-medium text-gray-700 dark:text-gray-200">支持的评论系统：</p>
+              <ul className="space-y-1.5 list-disc list-inside mb-4">
                 <li>Giscus (GitHub Discussions)</li>
                 <li>Gitalk (GitHub Issues)</li>
                 <li>Valine (LeanCloud)</li>
                 <li>Waline (增强版 Valine)</li>
               </ul>
-              <p className="mt-3 mb-2 font-semibold">配置示例：</p>
-              <pre className="text-xs">
+              <p className="mb-3 font-medium text-gray-700 dark:text-gray-200">配置示例：</p>
+              <pre className="text-xs bg-gray-100 dark:bg-gray-900 p-3 rounded-lg border border-gray-200 dark:border-gray-600 overflow-x-auto">
 {`// 在 site.config.ts 中配置
 comments: {
   enabled: true,
@@ -517,7 +515,7 @@ comments: {
   }
 }`}
               </pre>
-              <p className="mt-2 text-blue-600 dark:text-blue-400">
+              <p className="mt-3 text-gray-600 dark:text-gray-400 font-light">
                 详细配置请查看 docs/COMMENTS.md 文档
               </p>
             </div>
@@ -527,41 +525,27 @@ comments: {
     );
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <div className={`py-8 ${className}`}>
-  //       <div className="flex items-center gap-3 mb-6">
-  //         <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
-  //         <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
-  //           评论
-  //         </h3>
-  //       </div>
-  //       <div className="flex justify-center py-8">
-  //         <div className="w-5 h-5 border border-gray-300 dark:border-gray-600 border-t-transparent rounded-full animate-spin"></div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   if (error) {
     return (
-      <div className={`py-8 ${className}`}>
+      <div className={`py-12 ${className}`}>
+        {/* 注释掉图标和标题
         <div className="flex items-center gap-3 mb-6">
           <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
           <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
             评论
           </h3>
         </div>
+        */}
         <div className="text-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 bg-red-200 dark:bg-red-800 rounded-full flex items-center justify-center">
-              <Settings size={32} className="text-red-500 dark:text-red-400" />
+          <div className="flex flex-col items-center gap-6">
+            <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center shadow-sm">
+              <Settings size={28} className="text-red-400 dark:text-red-500" strokeWidth={1.5} />
             </div>
-            <div>
-              <h4 className="text-lg font-medium text-red-900 dark:text-red-200 mb-2 font-thin tracking-wide">
+            <div className="max-w-md">
+              <h4 className="text-lg font-light text-red-700 dark:text-red-300 mb-3 tracking-wide">
                 评论加载失败
               </h4>
-              <p className="text-red-700 dark:text-red-300 text-sm font-thin tracking-wide">
+              <p className="text-red-600 dark:text-red-400 text-sm font-light tracking-wide leading-relaxed">
                 {error}
               </p>
             </div>
@@ -593,17 +577,26 @@ comments: {
 
   return (
     <div className={`${className}`}>
-      {/* 简化的评论标题 */}
+      {/* 注释掉简化的评论标题
       <div className="flex items-center gap-3 mb-6">
         <MessageCircle size={18} className="text-gray-500 dark:text-gray-400" strokeWidth={1.5} />
         <h3 className="text-xl font-light text-gray-800 dark:text-gray-200 tracking-wide font-serif">
           评论
         </h3>
       </div>
+      */}
 
-      {/* 评论系统 */}
-      <div>
-        {renderCommentSystem()}
+      {/* 评论系统容器 - 采用优雅的样式 */}
+      <div className="mt-16 pt-8 border-t border-gray-200/60 dark:border-gray-700/60 relative">
+        {/* 顶部装饰线 */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent opacity-50"></div>
+        </div>
+        
+        {/* 评论系统主体 */}
+        <div className="prose prose-gray dark:prose-invert max-w-none">
+          {renderCommentSystem()}
+        </div>
       </div>
     </div>
   );

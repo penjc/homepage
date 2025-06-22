@@ -135,6 +135,272 @@
   .card-hover {
     @apply card hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700;
   }
+
+  /* Giscus 评论系统优雅样式 */
+  .giscus-container {
+    @apply w-full;
+    /* 添加淡入动画 */
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  /* Giscus iframe 样式优化 */
+  .giscus-container iframe {
+    border: none !important;
+    border-radius: 0.75rem !important;
+    background: transparent !important;
+    transition: all 0.3s ease !important;
+    /* 移除默认阴影 */
+    box-shadow: none !important;
+    /* 确保iframe完全透明 */
+    opacity: 1 !important;
+  }
+
+  /* Giscus 主题自定义 - 通过CSS变量覆盖 */
+  .giscus-container .giscus-frame {
+    /* 字体设置 */
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  /* 针对特定Giscus元素的样式覆盖 */
+  .giscus .gsc-comment-box-textarea,
+  .giscus .gsc-comment-box-tabs,
+  .giscus .gsc-comment-box-preview {
+    font-family: inherit !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  /* 评论框样式优化 */
+  .giscus .gsc-comment-box-textarea {
+    border-radius: 0.5rem !important;
+    border: 1px solid #e5e7eb !important;
+    transition: all 0.2s ease !important;
+    background-color: #ffffff !important;
+  }
+
+  .dark .giscus .gsc-comment-box-textarea {
+    border-color: #374151 !important;
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+  }
+
+  /* 按钮样式优化 */
+  .giscus .gsc-comment-box-btn-primary {
+    background-color: #374151 !important;
+    border-color: #374151 !important;
+    border-radius: 0.375rem !important;
+    font-weight: 400 !important;
+    transition: all 0.2s ease !important;
+    padding: 0.5rem 1rem !important;
+  }
+
+  .giscus .gsc-comment-box-btn-primary:hover {
+    background-color: #4b5563 !important;
+    border-color: #4b5563 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* 评论卡片样式 */
+  .giscus .gsc-comment {
+    border: 1px solid #f3f4f6 !important;
+    border-radius: 0.75rem !important;
+    background-color: #fefefe !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.2s ease !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .dark .giscus .gsc-comment {
+    border-color: #374151 !important;
+    background-color: #1f2937 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .giscus .gsc-comment:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .dark .giscus .gsc-comment:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 头像样式优化 */
+  .giscus .gsc-comment-author-avatar img {
+    border-radius: 50% !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .giscus .gsc-comment-author-avatar:hover img {
+    transform: scale(1.05) !important;
+  }
+
+  /* 作者名称样式 */
+  .giscus .gsc-comment-author-name {
+    font-weight: 500 !important;
+    color: #374151 !important;
+  }
+
+  .dark .giscus .gsc-comment-author-name {
+    color: #f9fafb !important;
+  }
+
+  /* 时间戳样式 */
+  .giscus .gsc-comment-created-at {
+    color: #6b7280 !important;
+    font-size: 0.875rem !important;
+    font-weight: 300 !important;
+  }
+
+  .dark .giscus .gsc-comment-created-at {
+    color: #9ca3af !important;
+  }
+
+  /* 评论内容样式 */
+  .giscus .gsc-comment-content {
+    font-family: inherit !important;
+    font-weight: 300 !important;
+    line-height: 1.6 !important;
+    color: #374151 !important;
+  }
+
+  .dark .giscus .gsc-comment-content {
+    color: #e5e7eb !important;
+  }
+
+  /* 反应按钮样式 */
+  .giscus .gsc-reactions-menu {
+    border: 1px solid #e5e7eb !important;
+    border-radius: 0.5rem !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .dark .giscus .gsc-reactions-menu {
+    border-color: #374151 !important;
+    background-color: #1f2937 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 分页按钮样式 */
+  .giscus .gsc-pagination button {
+    border-radius: 0.375rem !important;
+    font-weight: 400 !important;
+    transition: all 0.2s ease !important;
+    border: 1px solid #e5e7eb !important;
+    background-color: #ffffff !important;
+    color: #374151 !important;
+  }
+
+  .dark .giscus .gsc-pagination button {
+    border-color: #374151 !important;
+    background-color: #1f2937 !important;
+    color: #e5e7eb !important;
+  }
+
+  .giscus .gsc-pagination button:hover {
+    background-color: #f9fafb !important;
+    border-color: #d1d5db !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .dark .giscus .gsc-pagination button:hover {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+  }
+
+  /* 加载状态样式 */
+  .giscus .gsc-loading {
+    color: #6b7280 !important;
+    font-weight: 300 !important;
+  }
+
+  .dark .giscus .gsc-loading {
+    color: #9ca3af !important;
+  }
+
+  /* 其他评论系统容器样式 */
+  .gitalk-container,
+  .valine-container,
+  .waline-container {
+    @apply w-full;
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif !important;
+  }
+
+  /* Gitalk 样式优化 */
+  .gitalk-container .gt-container {
+    font-family: inherit !important;
+  }
+
+  .gitalk-container .gt-header-textarea {
+    border-radius: 0.5rem !important;
+    border: 1px solid #e5e7eb !important;
+    font-family: inherit !important;
+    font-weight: 300 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .dark .gitalk-container .gt-header-textarea {
+    border-color: #374151 !important;
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+  }
+
+  .gitalk-container .gt-btn {
+    border-radius: 0.375rem !important;
+    font-weight: 400 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .gitalk-container .gt-btn-public {
+    background-color: #374151 !important;
+    border-color: #374151 !important;
+  }
+
+  .gitalk-container .gt-btn-public:hover {
+    background-color: #4b5563 !important;
+    border-color: #4b5563 !important;
+  }
+
+  /* Valine/Waline 样式优化 */
+  .valine-container .vwrap,
+  .waline-container .wl-container {
+    font-family: inherit !important;
+  }
+
+  .valine-container .vedit,
+  .waline-container .wl-editor {
+    border-radius: 0.5rem !important;
+    border: 1px solid #e5e7eb !important;
+    font-family: inherit !important;
+    font-weight: 300 !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .dark .valine-container .vedit,
+  .dark .waline-container .wl-editor {
+    border-color: #374151 !important;
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+  }
+
+  .valine-container .vbtn,
+  .waline-container .wl-btn {
+    border-radius: 0.375rem !important;
+    font-weight: 400 !important;
+    background-color: #374151 !important;
+    border-color: #374151 !important;
+    color: #ffffff !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .valine-container .vbtn:hover,
+  .waline-container .wl-btn:hover {
+    background-color: #4b5563 !important;
+    border-color: #4b5563 !important;
+  }
 }
 
 @layer utilities {

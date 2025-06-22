@@ -397,7 +397,7 @@ export const siteConfig = {
       category: "Announcements", // GitHub Discussions 分类
       categoryId: "DIC_kwDOO3TEj84Crqrf", // GitHub Discussions 分类 ID
       mapping: "pathname", // 页面映射方式: pathname | url | title
-      theme: "preferred_color_scheme", // 主题: light | dark | preferred_color_scheme
+      theme: "noborder_light", // 主题: light | dark | preferred_color_scheme
       lang: "zh-CN", // 语言
       loading: "eager", // 加载方式: lazy | eager
       reactionsEnabled: true, // 是否启用表情回应
