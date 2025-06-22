@@ -163,73 +163,89 @@ export default function ProjectsPage() {
                       {/* 技术标签 */}
                       <div className="flex flex-wrap gap-2 mb-6">
                         {project.tags.map((tag, tagIndex) => (
-                          <motion.span
-                            key={tag}
-                            className="inline-flex items-center px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif transition-all duration-200"
-                            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                            animate={{ 
-                              opacity: 1, 
-                              scale: 1,
-                              y: 0,
-                              transition: { 
-                                delay: 0.5 + (0.1 * tagIndex),
-                                duration: 0.6,
-                                ease: [0.22, 1, 0.36, 1]
-                              }
-                            }}
-                            whileHover={{ 
-                              scale: 1.05,
-                              backgroundColor: "rgba(59, 130, 246, 0.1)",
-                              transition: { duration: 0.3 }
-                            }}
-                          >
-                            {tag}
-                          </motion.span>
+                            <motion.span
+                                key={tag}
+                                className="inline-flex items-center px-2 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
+                                initial={{opacity: 0, x: -15, y: 5}}
+                                animate={{
+                                  opacity: 1,
+                                  x: 0,
+                                  y: 0,
+                                  transition: {
+                                    delay: 0.4 + (0.08 * tagIndex),
+                                    duration: 0.8,
+                                    ease: [0.22, 1, 0.36, 1]
+                                  }
+                                }}
+                            >
+                              {tag}
+                            </motion.span>
                         ))}
                       </div>
 
                       {/* 链接按钮 */}
                       <div className="flex items-center gap-3">
                         {project.github && (
-                          <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Link
-                              href={project.github}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-lg hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
+                            <motion.div
+                                initial={{opacity: 0, x: -15, y: 5}}
+                                animate={{
+                                  opacity: 1,
+                                  x: 0,
+                                  y: 0,
+                                  transition: {
+                                    delay: 0.4,
+                                    duration: 0.8,
+                                    ease: [0.22, 1, 0.36, 1]
+                                  }
+                                }}
                             >
-                              <Github size={16} />
-                              <span>代码</span>
-                            </Link>
-                          </motion.div>
+                              <Link
+                                  href={project.github}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-lg hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
+                              >
+                                <Github size={16}/>
+                                <span>代码</span>
+                              </Link>
+                            </motion.div>
                         )}
-                        
+
                         {project.demo && (
-                          <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Link
-                              href={project.demo}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif"
+                            <motion.div
+                                initial={{opacity: 0, x: -15, y: 5}}
+                                animate={{
+                                  opacity: 1,
+                                  x: 0,
+                                  y: 0,
+                                  transition: {
+                                    delay: 0.4,
+                                    duration: 0.8,
+                                    ease: [0.22, 1, 0.36, 1]
+                                  }
+                                }}
                             >
-                              <ExternalLink size={16} />
-                              <span>演示</span>
-                            </Link>
-                          </motion.div>
+                              <Link
+                                  href={project.demo}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif"
+                              >
+                                <ExternalLink size={16}/>
+                                <span>演示</span>
+                              </Link>
+                            </motion.div>
                         )}
                       </div>
                     </div>
 
                     {/* 扫描线动画 */}
-                    <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent animate-scan-horizontal"></div>
-                      <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
+                    <div
+                        className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div
+                          className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent animate-scan-horizontal"></div>
+                      <div
+                          className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
                     </div>
                   </motion.div>
                 ))}
@@ -307,32 +323,41 @@ export default function ProjectsPage() {
                       {/* 链接按钮 */}
                       <div className="flex items-center gap-2">
                         {project.github && (
-                          <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Link
-                              href={project.github}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-md hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
+                            <motion.div
+                                initial={{opacity: 0, x: -15, y: 5}}
+                                animate={{
+                                  opacity: 1,
+                                  x: 0,
+                                  y: 0,
+                                  transition: {
+                                    delay: 0.4,
+                                    duration: 0.8,
+                                    ease: [0.22, 1, 0.36, 1]
+                                  }
+                                }}
                             >
-                              <Github size={14} />
-                              <span>代码</span>
-                            </Link>
-                          </motion.div>
+                              <Link
+                                  href={project.github}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-md hover:bg-gray-200/80 dark:hover:bg-gray-600/80 transition-all duration-200 font-thin tracking-wide font-serif"
+                              >
+                                <Github size={14}/>
+                                <span>代码</span>
+                              </Link>
+                            </motion.div>
                         )}
-                        
+
                         {project.demo && (
-                          <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Link
-                              href={project.demo}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md transition-all duration-200 font-thin tracking-wide font-serif"
+                            <motion.div
+                                whileHover={{scale: 1.05}}
+                                whileTap={{scale: 0.95}}
+                            >
+                              <Link
+                                  href={project.demo}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md transition-all duration-200 font-thin tracking-wide font-serif"
                             >
                               <ExternalLink size={14} />
                               <span>演示</span>

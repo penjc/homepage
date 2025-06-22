@@ -49,7 +49,7 @@ export const siteConfig = {
   blog: {
     // 分页配置
     pagination: {
-      postsPerPage: 6, // 每页显示的博客文章数量
+      postsPerPage: 10, // 每页显示的博客文章数量
       maxVisiblePages: 5, // 分页组件中最多显示的页码数量
     },
 
