@@ -1,6 +1,6 @@
 {
   "name": "@penjc/homepage",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "个人主页模板，支持博客、随笔等功能",
   "bin": {
     "create-homepage": "./bin/create-homepage.js"
@@ -43,10 +43,10 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.294.0",
     "marked": "^4.3.0",
-    "next": ">=13.0.0",
+    "next": "^14.2.0",
     "prismjs": "^1.30.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
     "react-markdown": "^8.0.7",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.0",
@@ -61,15 +61,15 @@
     "@types/rss": "^0.0.32",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.52.0",
-    "eslint-config-next": "^13.5.0",
+    "eslint-config-next": "^14.2.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.2.0"
   },
   "peerDependencies": {
-    "next": ">=13.0.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "keywords": [
     "personal-website",

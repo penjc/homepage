@@ -155,7 +155,7 @@ function installDependenciesWithProgress() {
     showProgress(0, 100, '正在初始化安装...');
     
     // 使用 spawn 来实时显示安装进度
-    const npmProcess = spawn('npm', ['install'], {
+    const npmProcess = spawn('npm', ['install', '--legacy-peer-deps'], {
       stdio: ['inherit', 'pipe', 'inherit'], // 让stderr直接输出到终端
       env: { ...process.env }
     });
