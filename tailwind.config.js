@@ -35,8 +35,33 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: [
+          'Inter', 
+          'Noto Sans SC', 
+          '-apple-system', 
+          'BlinkMacSystemFont', 
+          'Segoe UI', 
+          'Roboto', 
+          'Helvetica Neue', 
+          'Arial', 
+          'PingFang SC', 
+          'Hiragino Sans GB', 
+          'Microsoft YaHei', 
+          '微软雅黑', 
+          'sans-serif'
+        ],
+        mono: [
+          'JetBrains Mono', 
+          'SF Mono', 
+          'Monaco', 
+          'Inconsolata', 
+          'Roboto Mono', 
+          'Source Code Pro', 
+          'Consolas', 
+          'Liberation Mono', 
+          'Menlo', 
+          'monospace'
+        ],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

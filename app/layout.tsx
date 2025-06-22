@@ -98,6 +98,47 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
+        {/* 字体预连接和预加载优化 */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* 强制加载Inter字体的所有字重 */}
+        <link 
+          rel="preload" 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" 
+          as="style" 
+        />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" 
+          rel="stylesheet" 
+          media="all"
+        />
+        
+        {/* 预加载JetBrains Mono字体 */}
+        <link 
+          rel="preload" 
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" 
+          as="style"
+        />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" 
+          rel="stylesheet"  
+          media="all"
+        />
+        
+        {/* 添加内联样式确保字体立即可用 */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+            
+            /* 确保字体立即可用 */
+            html, body {
+              font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif !important;
+            }
+          `
+        }} />
+        
         {/* Favicon and icons */}
         <link rel="icon" href={getServerAssetPath('/favicon.svg')} type="image/svg+xml" />
         

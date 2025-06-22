@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,22 +5,96 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* 强制使用指定字体 */
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
   }
   
   body {
-    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #ffffff;
+    /* 确保字体加载期间有合适的回退 */
+    font-display: swap;
+    font-weight: 400;
   }
   
   .dark body {
     background-color: #0f172a;
   }
   
+  /* 强制所有文本元素使用正确的字体 */
+  *, *::before, *::after {
+    font-family: inherit;
+  }
+  
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
+    /* 确保标题也有完整的字体堆叠 */
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
+  }
+
+  /* 为代码字体添加更完整的回退方案 */
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+  }
+
+  /* 添加字体加载优化 */
+  @font-face {
+    font-family: 'Inter';
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans SC';
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-display: swap;
+  }
+
+  /* 移动设备字体优化 */
+  @media (max-width: 768px) {
+    html {
+      /* 移动端也使用相同的字体 */
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
+    }
+    
+    body {
+      /* 确保移动端也使用相同的字体堆叠，与桌面端保持一致 */
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      /* 确保字重与桌面端一致 */
+      font-weight: 400;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
+      /* 确保标题字重与桌面端一致 */
+      font-weight: 600;
+    }
+    
+    code, pre, .font-mono {
+      font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+    }
+    
+    /* 确保字体渲染清晰 */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* 强制字体加载和渲染 */
+    body, h1, h2, h3, h4, h5, h6, p, div, span {
+      font-synthesis: weight style;
+      -webkit-font-feature-settings: "kern" 1;
+      font-feature-settings: "kern" 1;
+    }
   }
   
   /* 滚动条样式 */
