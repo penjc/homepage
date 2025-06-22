@@ -229,7 +229,7 @@ export default function SearchModal({ isOpen, onClose, posts, thoughts }: Search
             ) : query.trim() === '' ? (
               <div className="p-8 text-center">
                 <Search className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
-                <p className="text-gray-500 dark:text-gray-400 font-thin tracking-wide">输入关键词开始搜索</p>
+                <p className="text-gray-500 dark:text-gray-400 font-thin tracking-wide">请输入开始搜索</p>
               </div>
             ) : results.length === 0 ? (
               <div className="p-8 text-center">
@@ -320,14 +320,14 @@ export default function SearchModal({ isOpen, onClose, posts, thoughts }: Search
             <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 font-thin tracking-wide">
                 <span>找到 {results.length} 个结果</span>
-                <div className="flex items-center gap-2 text-xs">
-                  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">↑↓</span>
-                  <span>导航</span>
-                  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">Enter</span>
-                  <span>选择</span>
-                  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">Esc</span>
-                  <span>关闭</span>
-                </div>
+                {/*<div className="flex items-center gap-2 text-xs">*/}
+                {/*  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">↑↓</span>*/}
+                {/*  <span>导航</span>*/}
+                {/*  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">Enter</span>*/}
+                {/*  <span>选择</span>*/}
+                {/*  <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded">Esc</span>*/}
+                {/*  <span>关闭</span>*/}
+                {/*</div>*/}
               </div>
             </div>
           )}

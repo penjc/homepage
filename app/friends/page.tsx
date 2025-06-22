@@ -148,30 +148,33 @@ export default function FriendsPage() {
                     <div className="relative z-10 p-6">
                       {/* 头像和基本信息 */}
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
+                        <div
+                            className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
                           <ClientImage
-                            src={friend.avatar}
-                            alt={friend.name}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                              src={friend.avatar}
+                              alt={friend.name}
+                              fill
+                              className="object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                           {/* 头像扫描效果 */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-100 group-hover:animate-scan-horizontal"></div>
+                          <div
+                              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-100 group-hover:animate-scan-horizontal"></div>
                         </div>
-                        
+
                         <div className="flex-1">
                           <h3 className="text-lg font-thin tracking-wide font-serif text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             {friend.name}
                           </h3>
                           <div className="flex items-center gap-2 mt-1">
-                            <Globe className="w-4 h-4 text-gray-400" />
-                            <span className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif truncate">
+                            <Globe className="w-4 h-4 text-gray-400"/>
+                            <span
+                                className="text-sm text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif truncate">
                               {friend.url.replace(/^https?:\/\//, '')}
                             </span>
                           </div>
                         </div>
                       </div>
-                      
+
                       <p className="text-gray-600 dark:text-gray-300 mb-4 font-thin tracking-wide font-serif leading-relaxed text-sm">
                         {friend.description}
                       </p>
@@ -181,61 +184,69 @@ export default function FriendsPage() {
                         {friend.tags.map((tag, tagIndex) => {
                           const IconComponent = tagIcons[tag] || Globe;
                           return (
-                            <motion.span
-                              key={tag}
-                              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif transition-all duration-200"
-                              initial={{ opacity: 0, scale: 0.8, y: 15 }}
-                              animate={{ 
-                                opacity: 1, 
-                                scale: 1,
-                                y: 0,
-                                transition: { 
-                                  delay: 0.3 + (0.1 * tagIndex),
-                                  duration: 0.5,
-                                  ease: [0.25, 0.46, 0.45, 0.94]
-                                }
-                              }}
-                              whileHover={{ 
-                                scale: 1.05,
-                                backgroundColor: "rgba(59, 130, 246, 0.1)",
-                                transition: { duration: 0.3 }
-                              }}
-                            >
-                              <IconComponent size={12} />
-                              {tag}
-                            </motion.span>
+                              <motion.span
+                                  key={tag}
+                                  className="inline-flex items-center px-2 py-1 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
+                                  initial={{opacity: 0, x: -15, y: 5}}
+                                  animate={{
+                                    opacity: 1,
+                                    x: 0,
+                                    y: 0,
+                                    transition: {
+                                      delay: 0.4 + (0.08 * tagIndex),
+                                      duration: 0.8,
+                                      ease: [0.22, 1, 0.36, 1]
+                                    }
+                                  }}
+                              >
+                                <IconComponent size={12}/>
+                                {tag}
+                              </motion.span>
                           );
                         })}
                       </div>
 
                       {/* 访问按钮 */}
                       <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                          initial={{opacity: 0, x: -15, y: 5}}
+                          animate={{
+                            opacity: 1,
+                            x: 0,
+                            y: 0,
+                            transition: {
+                              delay: 0.4,
+                              duration: 0.8,
+                              ease: [0.22, 1, 0.36, 1]
+                            }
+                          }}
                       >
                         <Link
-                          href={friend.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 w-full justify-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                            href={friend.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 w-full justify-center px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
                         >
                           <span>访问网站</span>
-                          <ExternalLink size={16} className="group-hover/btn:translate-x-1 transition-transform duration-200" />
+                          <ExternalLink size={16}
+                                        className="group-hover/btn:translate-x-1 transition-transform duration-200"/>
                         </Link>
-                      </motion.div>
-                    </div>
-
-                    {/* 扫描线动画 */}
-                    <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent animate-scan-horizontal"></div>
-                      <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
-                    </div>
                   </motion.div>
-                ))}
-              </div>
+                  </div>
+
+                {/* 扫描线动画 */}
+                <div
+                    className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div
+                      className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/60 dark:via-blue-500/60 to-transparent animate-scan-horizontal"></div>
+                  <div
+                      className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-purple-400/60 dark:via-purple-500/60 to-transparent animate-scan-vertical"></div>
+                </div>
+              </motion.div>
+              ))}
             </div>
+          </div>
           </AnimatedSection>
-        )}
+          )}
 
         {/* Other Friends */}
         {otherFriends.length > 0 && (
@@ -267,28 +278,30 @@ export default function FriendsPage() {
                     <div className="relative z-10 p-4">
                       {/* 头像和基本信息 */}
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
+                        <div
+                            className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-blue-300 dark:group-hover:ring-blue-600 transition-all duration-300">
                           <ClientImage
-                            src={friend.avatar}
-                            alt={friend.name}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                              src={friend.avatar}
+                              alt={friend.name}
+                              fill
+                              className="object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                         </div>
-                        
+
                         <div className="flex-1 min-w-0">
                           <h3 className="text-base font-thin tracking-wide font-serif text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                             {friend.name}
                           </h3>
                           <div className="flex items-center gap-1 mt-0.5">
-                            <Globe className="w-3 h-3 text-gray-400 flex-shrink-0" />
-                            <span className="text-xs text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif truncate">
+                            <Globe className="w-3 h-3 text-gray-400 flex-shrink-0"/>
+                            <span
+                                className="text-xs text-gray-500 dark:text-gray-400 font-thin tracking-wide font-serif truncate">
                               {friend.url.replace(/^https?:\/\//, '')}
                             </span>
                           </div>
                         </div>
                       </div>
-                      
+
                       <p className="text-gray-600 dark:text-gray-300 mb-3 font-thin tracking-wide font-serif leading-relaxed text-xs line-clamp-2">
                         {friend.description}
                       </p>
@@ -296,26 +309,26 @@ export default function FriendsPage() {
                       {/* 技术标签 */}
                       <div className="flex flex-wrap gap-1 mb-3">
                         {friend.tags.slice(0, 2).map((tag, tagIndex) => (
-                          <motion.span
-                            key={tag}
-                            className="inline-flex items-center px-2 py-0.5 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
-                            initial={{ opacity: 0, x: -15, scale: 0.9 }}
-                            animate={{ 
-                              opacity: 1, 
-                              x: 0,
-                              scale: 1,
-                              transition: { 
-                                delay: 0.3 + (0.1 * tagIndex),
-                                duration: 0.5,
-                                ease: [0.25, 0.46, 0.45, 0.94]
-                              }
-                            }}
-                          >
-                            {tag}
-                          </motion.span>
+                            <motion.span
+                                key={tag}
+                                className="inline-flex items-center px-2 py-0.5 text-xs text-gray-600 dark:text-gray-300 bg-gray-100/80 dark:bg-gray-700/60 rounded-full font-thin tracking-wide font-serif"
+                                initial={{opacity: 0, x: -15, scale: 0.9}}
+                                animate={{
+                                  opacity: 1,
+                                  x: 0,
+                                  scale: 1,
+                                  transition: {
+                                    delay: 0.3 + (0.1 * tagIndex),
+                                    duration: 0.5,
+                                    ease: [0.25, 0.46, 0.45, 0.94]
+                                  }
+                                }}
+                            >
+                              {tag}
+                            </motion.span>
                         ))}
                         {friend.tags.length > 2 && (
-                          <span className="text-xs text-gray-500 dark:text-gray-400 font-thin">
+                            <span className="text-xs text-gray-500 dark:text-gray-400 font-thin">
                             +{friend.tags.length - 2}
                           </span>
                         )}
@@ -323,22 +336,32 @@ export default function FriendsPage() {
 
                       {/* 访问按钮 */}
                       <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                          initial={{opacity: 0, x: -15, y: 5}}
+                          animate={{
+                            opacity: 1,
+                            x: 0,
+                            y: 0,
+                            transition: {
+                              delay: 0.4,
+                              duration: 0.8,
+                              ease: [0.22, 1, 0.36, 1]
+                            }
+                          }}
                       >
                         <Link
-                          href={friend.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 w-full justify-center px-3 py-2 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
+                            href={friend.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 w-full justify-center px-3 py-2 text-xs text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 font-thin tracking-wide font-serif group/btn"
                         >
                           <span>访问</span>
-                          <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform duration-200" />
+                          <ExternalLink size={12}
+                                        className="group-hover/btn:translate-x-0.5 transition-transform duration-200"/>
                         </Link>
-                      </motion.div>
-                    </div>
                   </motion.div>
-                ))}
+                  </div>
+                  </motion.div>
+                  ))}
               </div>
             </div>
           </AnimatedSection>
@@ -348,17 +371,17 @@ export default function FriendsPage() {
         <AnimatedSection className="py-16 bg-gray-50/50 dark:bg-gray-800/20 relative overflow-hidden">
           {/* 背景动画装饰 */}
           <div className="absolute inset-0 pointer-events-none">
-            <motion.div 
-              className="absolute top-20 left-10 w-2 h-2 bg-blue-300/40 dark:bg-blue-500/20 rounded-full"
-              animate={{ 
-                y: [0, -10, 0],
-                opacity: [0.4, 0.8, 0.4]
-              }}
-              transition={{ 
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
+            <motion.div
+                className="absolute top-20 left-10 w-2 h-2 bg-blue-300/40 dark:bg-blue-500/20 rounded-full"
+                animate={{
+                  y: [0, -10, 0],
+                  opacity: [0.4, 0.8, 0.4]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
             />
             <motion.div 
               className="absolute top-40 right-20 w-1.5 h-1.5 bg-purple-300/40 dark:bg-purple-500/20 rounded-full"

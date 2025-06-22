@@ -5,7 +5,9 @@
 </div>
 
 <div align="center">
-<img src="https://github.com/penjc/homepage/blob/main/assets/homepage.svg?raw=true" width="200">
+  <a href="https://pengjiancheng.com" target="_blank">
+    <img src="https://github.com/penjc/homepage/blob/main/assets/homepage.svg?raw=true" width="200">
+  </a>
 
 [![npm version](https://img.shields.io/npm/v/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
 [![npm downloads](https://img.shields.io/npm/dm/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
@@ -242,11 +244,6 @@ books: {
   enabled: true,
   title: "Books",
   description: "Share good books worth reading and record reading insights",
-  categories: [
-    { id: "tech", name: "Technical", description: "Professional books to improve technical skills" },
-    { id: "philosophy", name: "Philosophy", description: "Philosophical works that inspire thinking" }
-    // More categories...
-  ],
   items: [
     {
       id: "clean-code",

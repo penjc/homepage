@@ -6,7 +6,7 @@ pre[class*="language-"] {
   color: #e2e8f0;
   background: none;
   text-shadow: none;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
   font-size: 14px;
   text-align: left;
   white-space: pre;
@@ -325,7 +325,7 @@ pre[class*="language-"] {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   outline: none !important;
   margin: 0 !important;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', 'Consolas', 'Liberation Mono', 'Menlo', monospace !important;
 }
 
 .custom-code-block-collapsed {

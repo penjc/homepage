@@ -304,12 +304,12 @@ export default function TagPageWithPagination() {
                           </div>
                         )}
 
-                        <Link 
-                          href={`/blog/${post.slug}`}
-                          className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-2 px-4 rounded-md transition-colors text-sm font-thin tracking-wide font-serif"
-                        >
-                          阅读全文 →
-                        </Link>
+                        {/*<Link */}
+                        {/*  href={`/blog/${post.slug}`}*/}
+                        {/*  className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-2 px-4 rounded-md transition-colors text-sm font-thin tracking-wide font-serif"*/}
+                        {/*>*/}
+                        {/*  阅读全文 →*/}
+                        {/*</Link>*/}
                       </div>
                     </div>
                   </div>

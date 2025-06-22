@@ -186,11 +186,11 @@ export default function ThoughtsClient({
       <AnimatedSection className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* 筛选器标题 */}
-          <motion.div 
-            className="flex items-center justify-between mb-6"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+          <motion.div
+              className="flex items-center justify-between mb-6"
+              initial={{opacity: 0, x: -20}}
+              animate={{opacity: 1, x: 0}}
+              transition={{duration: 0.6, delay: 0.1}}
           >
             <div className="flex items-center gap-4">
               <h2 className="text-lg font-thin tracking-wide font-serif text-gray-900 dark:text-white">筛选随笔</h2>
@@ -199,23 +199,23 @@ export default function ThoughtsClient({
               </div>
             </div>
             {(selectedMood || selectedTags.length > 0) && (
-              <motion.button
-                onClick={resetFilters}
-                className="text-sm text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors font-thin tracking-wide font-serif"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                清除筛选
-              </motion.button>
+                <motion.button
+                    onClick={resetFilters}
+                    className="text-sm text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors font-thin tracking-wide font-serif"
+                    whileHover={{scale: 1.05}}
+                    whileTap={{scale: 0.95}}
+                >
+                  清除筛选
+                </motion.button>
             )}
           </motion.div>
 
           {/* 心情筛选 - 直接使用emoji */}
-          <motion.div 
-            className="mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          <motion.div
+              className="mb-6"
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.6, delay: 0.2}}
           >
             <h3 className="text-sm font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 mb-3">按心情筛选</h3>
             <div className="flex flex-wrap gap-3">
@@ -223,34 +223,23 @@ export default function ThoughtsClient({
                 const count = initialThoughts.filter(t => t.mood === mood).length;
                 const isSelected = selectedMood === mood;
                 return (
-                  <motion.button
-                    key={mood}
-                    onClick={() => toggleMood(mood)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 font-thin tracking-wide font-serif ${
-                      isSelected
-                        ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-2 ring-gray-400 dark:ring-gray-500'
-                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
-                    }`}
-                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                    animate={{ 
-                      opacity: 1, 
-                      scale: 1,
-                      y: 0,
-                      transition: { 
-                        delay: 0.3 + (index * 0.1),
-                        duration: 0.5,
-                        ease: "easeOut"
-                      }
-                    }}
-                    whileHover={{ 
-                      scale: 1.05,
-                      transition: { duration: 0.2 }
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <span className="text-lg">{mood}</span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">({count})</span>
-                  </motion.button>
+                    <motion.button
+                        key={mood}
+                        onClick={() => toggleMood(mood)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 font-thin tracking-wide font-serif ${
+                            isSelected
+                                ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-2 ring-gray-400 dark:ring-gray-500'
+                                : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
+                        }`}
+                        whileHover={{
+                          scale: 1.05,
+                          transition: {duration: 0.2}
+                        }}
+                        whileTap={{scale: 0.95}}
+                    >
+                      <span className="text-lg">{mood}</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">({count})</span>
+                    </motion.button>
                 );
               })}
             </div>
@@ -258,9 +247,9 @@ export default function ThoughtsClient({
 
           {/* 标签筛选 - 文字按钮样式 */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.6, delay: 0.4}}
           >
             <h3 className="text-sm font-thin tracking-wide font-serif text-gray-700 dark:text-gray-300 mb-3">按标签筛选（可多选）</h3>
             <div className="flex flex-wrap gap-2">
@@ -268,96 +257,88 @@ export default function ThoughtsClient({
                 const count = initialThoughts.filter(t => t.tags.includes(tag)).length;
                 const isSelected = selectedTags.includes(tag);
                 return (
-                  <motion.button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 font-thin tracking-wide font-serif ${
-                      isSelected
-                        ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-1 ring-gray-400 dark:ring-gray-500'
-                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
-                    }`}
-                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                    animate={{ 
-                      opacity: 1, 
-                      scale: 1,
-                      y: 0,
-                      transition: { 
-                        delay: 0.5 + (index * 0.05),
-                        duration: 0.4,
-                        ease: "easeOut"
-                      }
-                    }}
-                    whileHover={{ 
-                      scale: 1.05,
-                      transition: { duration: 0.2 }
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    #{tag} ({count})
-                  </motion.button>
+                    <motion.button
+                        key={tag}
+                        onClick={() => toggleTag(tag)}
+                        className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 font-thin tracking-wide font-serif ${
+                            isSelected
+                                ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 ring-1 ring-gray-400 dark:ring-gray-500'
+                                : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
+                        }`}
+                        whileHover={{
+                          scale: 1.05,
+                          transition: {duration: 0.2}
+                        }}
+                        whileTap={{scale: 0.95}}
+                    >
+                      #{tag} ({count})
+                    </motion.button>
                 );
               })}
             </div>
           </motion.div>
 
-          {/* 当前筛选状态提示 */}
-          {(selectedMood || selectedTags.length > 0) && (
-            <motion.div 
-              className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+        {/* 当前筛选状态提示 */}
+        {(selectedMood || selectedTags.length > 0) && (
+            <motion.div
+                className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+                initial={{opacity: 0, height: 0}}
+                animate={{opacity: 1, height: 'auto'}}
+                exit={{opacity: 0, height: 0}}
+                transition={{duration: 0.3}}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="text-sm text-gray-700 dark:text-gray-300 mb-2 font-thin tracking-wide font-serif">当前筛选条件：</div>
+                  <div
+                      className="text-sm text-gray-700 dark:text-gray-300 mb-2 font-thin tracking-wide font-serif">当前筛选条件：
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {selectedMood && (
-                      <motion.span 
-                        className="inline-flex items-center gap-1 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-thin tracking-wide font-serif"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {selectedMood}
-                        <button
-                          onClick={() => setSelectedMood('')}
-                          className="ml-1 hover:text-gray-900 dark:hover:text-gray-100"
+                        <motion.span
+                            className="inline-flex items-center gap-1 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-thin tracking-wide font-serif"
+                            initial={{opacity: 0, scale: 0.8}}
+                            animate={{opacity: 1, scale: 1}}
+                            transition={{duration: 0.3}}
                         >
-                          ×
-                        </button>
-                      </motion.span>
+                          {selectedMood}
+                          <button
+                              onClick={() => setSelectedMood('')}
+                              className="ml-1 hover:text-gray-900 dark:hover:text-gray-100"
+                          >
+                            ×
+                          </button>
+                        </motion.span>
                     )}
                     {selectedTags.map((tag) => (
-                      <motion.span
-                        key={tag}
-                        className="inline-flex items-center gap-1 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-thin tracking-wide font-serif"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        #{tag}
-                        <button
-                          onClick={() => toggleTag(tag)}
-                          className="ml-1 hover:text-gray-900 dark:hover:text-gray-100"
+                        <motion.span
+                            key={tag}
+                            className="inline-flex items-center gap-1 px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-thin tracking-wide font-serif"
+                            initial={{opacity: 0, scale: 0.8}}
+                            animate={{opacity: 1, scale: 1}}
+                            transition={{duration: 0.3}}
                         >
-                          ×
-                        </button>
-                      </motion.span>
+                          #{tag}
+                          <button
+                              onClick={() => toggleTag(tag)}
+                              className="ml-1 hover:text-gray-900 dark:hover:text-gray-100"
+                          >
+                            ×
+                          </button>
+                        </motion.span>
                     ))}
                   </div>
                 </div>
               </div>
             </motion.div>
-          )}
-        </div>
-      </AnimatedSection>
+        )}
+      </div>
+    </AnimatedSection>
 
-      {/* 随笔内容区域 - 居中显示 */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {filteredThoughts.length === 0 ? (
-          <AnimatedSection className="text-center py-16" delay={0.2}>
+{/* 随笔内容区域 - 居中显示 */
+}
+  <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {filteredThoughts.length === 0 ? (
+        <AnimatedSection className="text-center py-16" delay={0.2}>
             <motion.div 
               className="text-gray-400 dark:text-gray-500 mb-6"
               initial={{ opacity: 0, scale: 0.8 }}

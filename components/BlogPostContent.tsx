@@ -9,6 +9,7 @@ import Comments from './Comments';
 import ClientImage from './ClientImage';
 import { BlogPost } from '@/lib/types';
 import { trackEvent } from './GoogleAnalytics';
+import {motion} from "framer-motion";
 
 interface BlogPostContentProps {
   post: BlogPost;
@@ -310,11 +311,22 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
 
               {/* Back to Blog List */}
               <div className="mt-12 text-center">
-                <Link 
+                <Link
                   href="/blog"
                   className="inline-flex items-center gap-2 font-medium py-3 px-6 rounded-md transition-colors duration-200 shadow-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 font-thin tracking-wide font-serif no-underline"
                 >
-                  返回博客列表
+                    <motion.span
+                        className="inline-block"
+                        animate={{x: [0, 5, 0]}}
+                        transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        ←
+                    </motion.span>
+                    <span>返回博客列表</span>
                 </Link>
               </div>
 

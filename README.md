@@ -5,7 +5,9 @@
 </div>
 
 <div align="center">
-<img src="https://github.com/penjc/homepage/blob/main/assets/homepage.svg?raw=true" width="200">
+  <a href="https://pengjiancheng.com" target="_blank">
+    <img src="https://github.com/penjc/homepage/blob/main/assets/homepage.svg?raw=true" width="200">
+  </a>
 
 [![npm version](https://img.shields.io/npm/v/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
 [![npm downloads](https://img.shields.io/npm/dm/@penjc/homepage?style=flat-square)](https://www.npmjs.com/package/@penjc/homepage)
@@ -250,11 +252,6 @@ books: {
   enabled: true,
   title: "书籍",
   description: "分享值得阅读的好书，记录阅读心得",
-  categories: [
-    { id: "tech", name: "技术类", description: "提升技术能力的专业书籍" },
-    { id: "philosophy", name: "哲学思辨", description: "启发思维的哲学著作" }
-    // 更多分类...
-  ],
   items: [
     {
       id: "clean-code",
