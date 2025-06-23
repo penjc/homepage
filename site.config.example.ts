@@ -387,17 +387,17 @@ export const siteConfig = {
 
   // 评论系统配置
   comments: {
-    enabled: true, // 是否启用评论功能
+    enabled: false, // 是否启用评论功能
     provider: "giscus", // 评论系统提供商: giscus | gitalk | valine | waline
 
     // Giscus 配置 (推荐)
     giscus: { // 通过 https://giscus.app/zh-CN 生成以下参数
-      repo: "penjc/homepage", // GitHub 仓库地址，格式: owner/repo
-      repoId: "R_kgDOO3TEjw", // GitHub 仓库 ID
-      category: "Announcements", // GitHub Discussions 分类
-      categoryId: "DIC_kwDOO3TEj84Crqrf", // GitHub Discussions 分类 ID
+      repo: "", // GitHub 仓库地址，格式: owner/repo
+      repoId: "", // GitHub 仓库 ID
+      category: "", // GitHub Discussions 分类
+      categoryId: "", // GitHub Discussions 分类 ID
       mapping: "pathname", // 页面映射方式: pathname | url | title
-      theme: "preferred_color_scheme", // 主题: light | dark | preferred_color_scheme
+      theme: "noborder_light", // 主题: light | dark | preferred_color_scheme
       lang: "zh-CN", // 语言
       loading: "eager", // 加载方式: lazy | eager
       reactionsEnabled: true, // 是否启用表情回应
