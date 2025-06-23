@@ -256,7 +256,7 @@ export default function ProjectsPage() {
 
         {/* Other Projects */}
         {otherProjects.length > 0 && (
-          <AnimatedSection className="py-16 bg-gray-50/50 dark:bg-gray-800/20">
+          <AnimatedSection className="py-16">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-3xl md:text-4xl font-thin tracking-[0.1em] font-serif mb-12 text-center text-gray-900 dark:text-white">
                 更多项目
@@ -374,7 +374,7 @@ export default function ProjectsPage() {
         )}
 
         {/* Comments Section */}
-        <AnimatedSection className="py-16">
+        <AnimatedSection className="py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Comments 
               pageId="projects"
