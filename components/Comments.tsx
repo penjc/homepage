@@ -587,7 +587,7 @@ comments: {
       */}
 
       {/* 评论系统容器 - 采用优雅的样式 */}
-      <div className="mt-16 pt-8 border-t border-gray-200/60 dark:border-gray-700/60 relative">
+      <div className="mt-1 pt-8 border-t border-gray-200/60 dark:border-gray-700/60 relative">
         {/* 顶部装饰线 */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent opacity-50"></div>

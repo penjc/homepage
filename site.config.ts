@@ -36,7 +36,6 @@ export const siteConfig = {
 
   // 首页配置
   hero: {
-    backgroundImage: "/images/hero-bg.jpg",
     quickLinks: [
       { name: "博客", href: "/blog", icon: "BookOpen" },
       { name: "随笔", href: "/thoughts", icon: "PenTool" },

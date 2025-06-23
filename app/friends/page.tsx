@@ -368,7 +368,7 @@ export default function FriendsPage() {
         )}
 
         {/* 申请友链说明 */}
-        <AnimatedSection className="py-16 bg-gray-50/50 dark:bg-gray-800/20 relative overflow-hidden">
+        <AnimatedSection className="pt-16 pb-0 bg-gray-50/50 dark:bg-gray-800/20 relative overflow-hidden">
           {/* 背景动画装饰 */}
           <div className="absolute inset-0 pointer-events-none">
             <motion.div
@@ -579,7 +579,7 @@ export default function FriendsPage() {
         </AnimatedSection>
 
         {/* Comments Section */}
-        <AnimatedSection className="py-16">
+        <AnimatedSection className="py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Comments 
               pageId="friends"

@@ -93,7 +93,7 @@ export default function BooksPage() {
         </motion.section>
 
         {/* Books Grid */}
-        <AnimatedSection className="py-16">
+        <AnimatedSection className="pt-16, pb-0">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {books.items.map((book, index) => (
@@ -282,7 +282,7 @@ export default function BooksPage() {
         </AnimatedSection>
 
         {/* Comments Section */}
-        <AnimatedSection className="py-16">
+        <AnimatedSection className="py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Comments 
               pageId="books"
