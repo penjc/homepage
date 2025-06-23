@@ -281,11 +281,11 @@ export default function ThoughtsClient({
         {/* 当前筛选状态提示 */}
         {(selectedMood || selectedTags.length > 0) && (
             <motion.div
-                className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
-                initial={{opacity: 0, height: 0}}
-                animate={{opacity: 1, height: 'auto'}}
-                exit={{opacity: 0, height: 0}}
-                transition={{duration: 0.3}}
+                className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+                initial={{opacity: 0, y: -20, scale: 0.95}}
+                animate={{opacity: 1, y: 0, scale: 1}}
+                exit={{opacity: 0, y: -20, scale: 0.95}}
+                transition={{duration: 0.4, ease: "easeOut"}}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
