@@ -46,7 +46,10 @@ const nextConfig = {
     ignoreDuringBuilds: false,
   },
 
-  devIndicators: false,
+  devIndicators: {
+    buildActivity: false,
+    buildActivityPosition: 'bottom-right',
+  },
 
 }
 
