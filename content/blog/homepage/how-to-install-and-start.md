@@ -1,8 +1,8 @@
 ---
-title: "项目教程"
+title: "个人主页安装教程"
 date: "2025-06-20"
 category: "个人主页"
-tags: ["Next.js", "个人主页", "安装教程"]
+tags: ["个人主页", "安装教程"]
 excerpt: "详细介绍如何从零开始安装、配置和启动这个基于 Next.js 的个人主页项目，包括环境要求、安装步骤和配置说明。"
 ---
 
@@ -208,25 +208,6 @@ homepage/
 
 ## 🎨 个性化配置
 
-### 修改主题色
-编辑 `tailwind.config.js` 文件来自定义主题色：
-
-```javascript
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#eff6ff',
-          500: '#3b82f6',
-          900: '#1e3a8a',
-        }
-      }
-    }
-  }
-}
-```
-
 ### 添加项目展示
 在 `site.config.ts` 中配置你的项目：
 
@@ -276,11 +257,6 @@ comments: {
 3. 导入你的 GitHub 仓库
 4. 自动部署完成
 
-### GitHub Pages 部署
-1. 在仓库设置中启用 GitHub Pages
-2. 选择 GitHub Actions 作为部署源
-3. 推送代码，自动触发部署
-
 ### 其他平台
 项目也支持部署到 Netlify、AWS、阿里云等平台。
 
@@ -295,7 +271,7 @@ npm config set prefix ~/.npm-global
 ### Q: 开发服务器启动失败
 **A:** 检查端口是否被占用，或使用其他端口：
 ```bash
-npm run dev -- --port 3001
+npm run dev -- --port 3000
 ```
 
 ### Q: 图片不显示
