@@ -200,6 +200,17 @@ export const siteConfig = {
         featured: true
       },
       {
+        id: "gitgenius",
+        title: "GitGenius",
+        description: ".gitignore 文件生成器",
+        image: "https://www.helloimg.com/i/2025/06/29/68615d3fedfc2.png",
+        tags: ["gitignore", "HTML", "Javascript"],
+        github: "https://github.com/penjc/gitgenius",
+        demo: "https://gitgenius.pengjiancheng.com",
+        status: "completed", // active | completed | archived
+        featured: true
+      },
+      {
         id: "rent",
         title: "Causal Rent",
         description: "前后端分离二手租赁平台",
@@ -230,14 +241,14 @@ export const siteConfig = {
       {
         id: "CityU",
         title: "CityU 手册",
-        description: "香港城市大学学生手册，提供校园信息、课程指南等",
-        tags: ["JavaScript", "Markdown"],
+        description: "香港城市大学学生手册",
+        image: "https://www.helloimg.com/i/2025/06/29/68615f12a7e2e.png",
+        tags: ["Docusaurus", "JavaScript", "Markdown"],
         github: "https://github.com/penjc/CityU",
         demo: "https://cityuhk.cn",
         status: "completed",
-        featured: false
+        featured: true
       }
-
     ]
   },
 
@@ -375,6 +386,7 @@ export const siteConfig = {
         "PENG Jiancheng",
         "Jiancheng Peng",
         "pengjiancheng",
+        "jianchengpeng"
     ],
     openGraph: {
       type: "website",
