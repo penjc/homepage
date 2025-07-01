@@ -1,6 +1,6 @@
 {
   "name": "@penjc/homepage",
-  "version": "1.7.3",
+  "version": "1.8.0",
   "description": "个人主页模板，支持博客、随笔等功能",
   "bin": {
     "create-homepage": "./bin/create-homepage.js"
@@ -43,13 +43,13 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.294.0",
     "marked": "^4.3.0",
-    "next": "^14.2.0",
+    "next": "^14.0.0",
     "prismjs": "^1.30.0",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-markdown": "^8.0.7",
     "remark": "^15.0.1",
-    "remark-gfm": "^4.0.0",
+    "remark-gfm": "^3.0.1",
     "remark-html": "^16.0.1",
     "rss": "^1.2.2",
     "serve": "^14.2.1"

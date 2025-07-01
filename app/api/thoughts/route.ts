@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getAllThoughts, getAllThoughtTags, getAllMoods } from '../../../lib/blog';
 
+// 强制动态渲染，因为需要处理查询参数
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
