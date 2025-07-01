@@ -112,7 +112,7 @@ RESTful API的核心在于通过标准化的操作实现资源状态的转移。
 - **已提交 → 已取消**：`DELETE /api/orders/123` - 取消订单
 - **已支付 → 退款中**：`POST /api/orders/123/refund` - 申请退款
 - **退款中 → 已退款**：`PUT /api/orders/123/refund/status` - 退款完成
-```
+
 
 ### RESTful vs 其他架构风格的对比分析
 
