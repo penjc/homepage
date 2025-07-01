@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import CodeBlock from './CodeBlock';
 import TableOfContents from './TableOfContents';
 import Comments from './Comments';
@@ -85,6 +86,7 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
             <div className="prose prose-lg dark:prose-invert max-w-none">
               {/* Article Content */}
               <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
                 components={{
                   // 自定义标题组件，确保可以被TOC识别
                   h1: ({ children }) => {
@@ -197,8 +199,8 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                   },
                   // 表格
                   table: ({ children }) => (
-                    <div className="overflow-x-auto">
-                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <div className="overflow-x-auto my-8">
+                      <table className="min-w-full border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
                         {children}
                       </table>
                     </div>
@@ -208,13 +210,31 @@ export default function BlogPostContent({ post, prevPost, nextPost }: BlogPostCo
                       {children}
                     </thead>
                   ),
-                  th: ({ children }) => (
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider font-thin font-serif">
+                  tbody: ({ children }) => (
+                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                      {children}
+                    </tbody>
+                  ),
+                  tr: ({ children }) => (
+                    <tr className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150">
+                      {children}
+                    </tr>
+                  ),
+                  th: ({ children, style, ...props }) => (
+                    <th 
+                      className="px-6 py-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 font-thin tracking-wide font-serif border-b border-gray-200 dark:border-gray-700"
+                      style={{ textAlign: style?.textAlign || 'left', ...style }}
+                      {...props}
+                    >
                       {children}
                     </th>
                   ),
-                  td: ({ children }) => (
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-thin tracking-wide font-serif">
+                  td: ({ children, style, ...props }) => (
+                    <td 
+                      className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300 font-thin tracking-wide font-serif border-b border-gray-200 dark:border-gray-700 last:border-b-0"
+                      style={{ textAlign: style?.textAlign || 'left', ...style }}
+                      {...props}
+                    >
                       {children}
                     </td>
                   ),
