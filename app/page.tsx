@@ -38,23 +38,8 @@ export default function HomePage() {
         transition={{ duration: 0.3 }}
       >
         <div className="text-center">
-          <motion.div 
-            className="rounded-full h-12 w-12 border-2 border-gray-900 dark:border-white border-t-transparent mx-auto mb-4"
-            animate={{ rotate: 360 }}
-            transition={{ 
-              duration: 1, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
-          />
-          <motion.p 
-            className="text-gray-600 dark:text-gray-400 font-thin tracking-wide font-serif"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-          >
-            加载中...
-          </motion.p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">加载中...</p>
         </div>
       </motion.div>
     );
