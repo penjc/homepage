@@ -189,6 +189,17 @@ export const siteConfig = {
     description: "探索技术作品与创新项目",
     items: [
       {
+        id: "tool-forge",
+        title: "Tool Forge",
+        description: "专业的在线工具平台",
+        image: "https://www.helloimg.com/i/2025/08/04/688f9aa526322.png",
+        tags: ["React", "TypeScript", "Vite"],
+        // github: "https://github.com/penjc/tool-forge",
+        demo: "https://tool.pengjiancheng.com",
+        status: "active", // active | completed | archived
+        featured: true
+      },
+      {
         id: "homepage",
         title: "个人主页",
         description: "优雅简约的个人主页模版",
