@@ -497,7 +497,7 @@ export const siteConfig = {
       showCurrentYear: true, // 是否显示当前年份
     },
     beian: { // 没有可不填
-      police: "", // 公安备案号
+      police: "沪公网安备31011502403067号", // 公安备案号
       icp: "沪ICP备2025112622号", // ICP备案号
     },
   },
